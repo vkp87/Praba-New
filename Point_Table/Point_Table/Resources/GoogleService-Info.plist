@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>361589307853-dbvhk6j4rs4vrq9qe8t1f4ju81v1fqjm.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.361589307853-dbvhk6j4rs4vrq9qe8t1f4ju81v1fqjm</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>361589307853-tk98h18k1mffvi2b26t2lnvn0bmdu3hr.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCtfzBYm86_zgoW0xZNcB_LwvGbYXrPWl8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>361589307853</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.clickfordrop.clickfordrop</string>
+	<key>PROJECT_ID</key>
+	<string>avian-mile-272211</string>
+	<key>STORAGE_BUCKET</key>
+	<string>avian-mile-272211.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:361589307853:ios:19d6a7f2638f9712206c84</string>
+	<key>DATABASE_URL</key>
+	<string>https://avian-mile-272211.firebaseio.com</string>
+</dict>
+</plist>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="OrderAmountCell" rowHeight="-66" id="KGk-i7-Jjw" customClass="OrderAmountCell" customModule="Click_for_Drop" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="139.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O06-Oy-Ga4">
+                        <rect key="frame" x="10" y="7" width="300" height="125.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jPU-bW-4ZD">
+                                <rect key="frame" x="10" y="5" width="150" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="4Hz-Id-uT2"/>
+                                    <constraint firstAttribute="height" constant="20" id="u3e-W6-D05"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saving" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fx8-aS-Mp3">
+                                <rect key="frame" x="10" y="30" width="150" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="Wa8-Jx-o7d"/>
+                                    <constraint firstAttribute="height" constant="20" id="d5g-CM-K2W"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tax" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lYv-SN-0UY">
+                                <rect key="frame" x="10" y="55" width="150" height="0.0"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="DBm-Gx-uDi"/>
+                                    <constraint firstAttribute="height" id="cVt-JL-LtQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery Charges" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zcx-St-HEh">
+                                <rect key="frame" x="10" y="60" width="150" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="BFk-QL-RLI"/>
+                                    <constraint firstAttribute="height" constant="20" id="PlG-qI-ThV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bqY-ZO-9e7">
+                                <rect key="frame" x="10" y="100.5" width="150" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="Hch-8y-v0A"/>
+                                    <constraint firstAttribute="height" constant="20" id="wOh-dZ-VSw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FB9-u7-sHH">
+                                <rect key="frame" x="170" y="5" width="120" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="55o-IF-ZMU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C3t-NO-jgk">
+                                <rect key="frame" x="170" y="30" width="120" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="B9l-bW-9c4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="df1-xU-OW1">
+                                <rect key="frame" x="170" y="55" width="100" height="0.0"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="C13-iy-ZXH"/>
+                                    <constraint firstAttribute="height" id="i11-iH-6Ps"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eXS-qq-BzJ">
+                                <rect key="frame" x="170" y="60" width="120" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="0FE-Up-Vda"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W1q-et-ugz">
+                                <rect key="frame" x="170" y="100.5" width="120" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="zP2-d1-VFv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xub-ZE-bVv">
+                                <rect key="frame" x="0.0" y="90" width="300" height="1"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="Qck-5a-zXa"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="FB9-u7-sHH" firstAttribute="leading" secondItem="jPU-bW-4ZD" secondAttribute="trailing" constant="10" id="1SL-22-0hd"/>
+                            <constraint firstAttribute="bottom" secondItem="W1q-et-ugz" secondAttribute="bottom" constant="5" id="3WQ-0T-6Ki"/>
+                            <constraint firstItem="C3t-NO-jgk" firstAttribute="leading" secondItem="fx8-aS-Mp3" secondAttribute="trailing" constant="10" id="40P-0H-noh"/>
+                            <constraint firstItem="fx8-aS-Mp3" firstAttribute="top" secondItem="jPU-bW-4ZD" secondAttribute="bottom" constant="5" id="59j-5N-D7T"/>
+                            <constraint firstItem="jPU-bW-4ZD" firstAttribute="leading" secondItem="O06-Oy-Ga4" secondAttribute="leading" constant="10" id="68G-uN-Qod"/>
+                            <constraint firstItem="eXS-qq-BzJ" firstAttribute="top" secondItem="df1-xU-OW1" secondAttribute="bottom" constant="5" id="6d2-RE-SWo"/>
+                            <constraint firstItem="W1q-et-ugz" firstAttribute="leading" secondItem="bqY-ZO-9e7" secondAttribute="trailing" constant="10" id="AsU-BA-chD"/>
+                            <constraint firstItem="FB9-u7-sHH" firstAttribute="top" secondItem="O06-Oy-Ga4" secondAttribute="top" constant="5" id="ImI-ts-ubb"/>
+                            <constraint firstItem="df1-xU-OW1" firstAttribute="top" secondItem="C3t-NO-jgk" secondAttribute="bottom" constant="5" id="N7i-MC-Rxe"/>
+                            <constraint firstAttribute="trailing" secondItem="eXS-qq-BzJ" secondAttribute="trailing" constant="10" id="NV8-wc-CQw"/>
+                            <constraint firstItem="jPU-bW-4ZD" firstAttribute="top" secondItem="O06-Oy-Ga4" secondAttribute="top" constant="5" id="Oqn-KH-mjf"/>
+                            <constraint firstItem="xub-ZE-bVv" firstAttribute="top" secondItem="Zcx-St-HEh" secondAttribute="bottom" constant="10" id="RP7-A5-p96"/>
+                            <constraint firstItem="eXS-qq-BzJ" firstAttribute="leading" secondItem="Zcx-St-HEh" secondAttribute="trailing" constant="10" id="U99-bo-e8J"/>
+                            <constraint firstItem="Zcx-St-HEh" firstAttribute="leading" secondItem="O06-Oy-Ga4" secondAttribute="leading" constant="10" id="UyF-vc-gcg"/>
+                            <constraint firstItem="fx8-aS-Mp3" firstAttribute="leading" secondItem="O06-Oy-Ga4" secondAttribute="leading" constant="10" id="Z58-3c-TPa"/>
+                            <constraint firstItem="Zcx-St-HEh" firstAttribute="top" secondItem="lYv-SN-0UY" secondAttribute="bottom" constant="5" id="ZXB-tJ-CsC"/>
+                            <constraint firstItem="bqY-ZO-9e7" firstAttribute="leading" secondItem="O06-Oy-Ga4" secondAttribute="leading" constant="10" id="ajj-xT-1h3"/>
+                            <constraint firstAttribute="bottom" secondItem="bqY-ZO-9e7" secondAttribute="bottom" constant="5" id="bfa-1U-Seb"/>
+                            <constraint firstAttribute="trailing" secondItem="C3t-NO-jgk" secondAttribute="trailing" constant="10" id="cAi-kj-si5"/>
+                            <constraint firstAttribute="trailing" secondItem="FB9-u7-sHH" secondAttribute="trailing" constant="10" id="e7y-We-n7P"/>
+                            <constraint firstItem="lYv-SN-0UY" firstAttribute="top" secondItem="fx8-aS-Mp3" secondAttribute="bottom" constant="5" id="fqT-Kd-9Yw"/>
+                            <constraint firstAttribute="trailing" secondItem="xub-ZE-bVv" secondAttribute="trailing" id="gA3-QP-o2F"/>
+                            <constraint firstItem="lYv-SN-0UY" firstAttribute="leading" secondItem="O06-Oy-Ga4" secondAttribute="leading" constant="10" id="mkg-ST-OCl"/>
+                            <constraint firstItem="C3t-NO-jgk" firstAttribute="top" secondItem="FB9-u7-sHH" secondAttribute="bottom" constant="5" id="nMK-Rf-2bx"/>
+                            <constraint firstAttribute="trailing" secondItem="W1q-et-ugz" secondAttribute="trailing" constant="10" id="qwm-sY-2JZ"/>
+                            <constraint firstItem="xub-ZE-bVv" firstAttribute="leading" secondItem="O06-Oy-Ga4" secondAttribute="leading" id="sN9-04-Iq6"/>
+                            <constraint firstItem="df1-xU-OW1" firstAttribute="leading" secondItem="lYv-SN-0UY" secondAttribute="trailing" constant="10" id="x0x-lm-yxW"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="O06-Oy-Ga4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="7" id="6px-6I-gUE"/>
+                    <constraint firstAttribute="bottom" secondItem="O06-Oy-Ga4" secondAttribute="bottom" constant="7" id="RaX-rN-ato"/>
+                    <constraint firstItem="O06-Oy-Ga4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="f9N-w8-v0k"/>
+                    <constraint firstAttribute="trailing" secondItem="O06-Oy-Ga4" secondAttribute="trailing" constant="10" id="wQL-xo-fsO"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="constTitle" destination="PlG-qI-ThV" id="Kay-8H-Xg1"/>
+                <outlet property="constTitleTop" destination="RP7-A5-p96" id="zKy-EC-erw"/>
+                <outlet property="constValue" destination="0FE-Up-Vda" id="4ia-5Y-b4O"/>
+                <outlet property="lblDeliveryCharges" destination="eXS-qq-BzJ" id="HEt-4k-gzJ"/>
+                <outlet property="lblDiscount" destination="C3t-NO-jgk" id="BHN-7d-ewr"/>
+                <outlet property="lblSubTotal" destination="FB9-u7-sHH" id="3ba-lp-qPM"/>
+                <outlet property="lblTax" destination="df1-xU-OW1" id="kTm-PH-vtb"/>
+                <outlet property="lblTitleDelivery" destination="Zcx-St-HEh" id="xN9-8E-v7P"/>
+                <outlet property="lblTotal" destination="W1q-et-ugz" id="xcl-Mi-c6l"/>
+                <outlet property="viewBack" destination="O06-Oy-Ga4" id="FXQ-Te-pOf"/>
+            </connections>
+            <point key="canvasLocation" x="-44.799999999999997" y="-20.689655172413794"/>
+        </tableViewCell>
+    </objects>
+</document>
