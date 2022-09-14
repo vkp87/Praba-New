@@ -554,7 +554,7 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: ScreenSize.width - 20, height: 210)
+        return CGSize(width: ScreenSize.width - 20, height: 280)
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {

@@ -1248,7 +1248,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-                        return CGSize(width: ScreenSize.width - 20, height: 210)
+                        return CGSize(width: ScreenSize.width - 20, height: 280)
 
                  }
     

@@ -1,0 +1,136 @@
+PODS:
+  - Alamofire (4.8.1)
+  - CCBottomRefreshControl (0.5.2)
+  - Crashlytics (3.14.0):
+    - Fabric (~> 1.10.2)
+  - EMAlertController (1.0.2)
+  - Fabric (1.10.2)
+  - Firebase/CoreOnly (6.21.0):
+    - FirebaseCore (= 6.6.5)
+  - Firebase/Crashlytics (6.21.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 4.0.0-beta.6)
+  - FirebaseAnalyticsInterop (1.5.0)
+  - FirebaseCore (6.6.5):
+    - FirebaseCoreDiagnostics (~> 1.2)
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+  - FirebaseCoreDiagnostics (1.2.2):
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleDataTransportCCTSupport (~> 2.0)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+    - nanopb (~> 0.3.901)
+  - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - FirebaseCrashlytics (4.0.0-beta.6):
+    - FirebaseAnalyticsInterop (~> 1.2)
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstallations (~> 1.1)
+    - GoogleDataTransport (~> 5.1)
+    - GoogleDataTransportCCTSupport (>= 2.0.1, ~> 2.0)
+    - nanopb (~> 0.3.901)
+    - PromisesObjC (~> 1.2)
+  - FirebaseInstallations (1.1.1):
+    - FirebaseCore (~> 6.6)
+    - GoogleUtilities/UserDefaults (~> 6.5)
+    - PromisesObjC (~> 1.2)
+  - GoogleDataTransport (5.1.0)
+  - GoogleDataTransportCCTSupport (2.0.1):
+    - GoogleDataTransport (~> 5.1)
+    - nanopb (~> 0.3.901)
+  - GoogleMaps (3.8.0):
+    - GoogleMaps/Maps (= 3.8.0)
+  - GoogleMaps/Base (3.8.0)
+  - GoogleMaps/Maps (3.8.0):
+    - GoogleMaps/Base
+  - GooglePlaces (3.8.0):
+    - GoogleMaps/Base (= 3.8.0)
+  - GoogleUtilities/Environment (6.5.2)
+  - GoogleUtilities/Logger (6.5.2):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/UserDefaults (6.5.2):
+    - GoogleUtilities/Logger
+  - IQKeyboardManagerSwift (6.2.0)
+  - Kingfisher (5.1.1)
+  - MBProgressHUD (1.1.0)
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
+  - PromisesObjC (1.2.8)
+  - SkyFloatingLabelTextField (3.6.0)
+  - Stripe (19.4.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - CCBottomRefreshControl
+  - Crashlytics (~> 3.14.0)
+  - EMAlertController
+  - Fabric (~> 1.10.2)
+  - Firebase/Crashlytics
+  - GoogleMaps
+  - GooglePlaces
+  - IQKeyboardManagerSwift
+  - Kingfisher (~> 5.0)
+  - MBProgressHUD (~> 1.1.0)
+  - SkyFloatingLabelTextField (~> 3.0)
+  - Stripe
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - CCBottomRefreshControl
+    - Crashlytics
+    - EMAlertController
+    - Fabric
+    - Firebase
+    - FirebaseAnalyticsInterop
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
+    - FirebaseCrashlytics
+    - FirebaseInstallations
+    - GoogleDataTransport
+    - GoogleDataTransportCCTSupport
+    - GoogleMaps
+    - GooglePlaces
+    - GoogleUtilities
+    - IQKeyboardManagerSwift
+    - Kingfisher
+    - MBProgressHUD
+    - nanopb
+    - PromisesObjC
+    - SkyFloatingLabelTextField
+    - Stripe
+
+SPEC CHECKSUMS:
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  CCBottomRefreshControl: 389780b4488321c91d18f66a6da5ef9606df6de5
+  Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
+  EMAlertController: 471e4630309e5ae843ef71f502d6b58525b22c60
+  Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
+  Firebase: f378c80340dd41c0ad0914af740c021eb282a04b
+  FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
+  FirebaseCore: 9f495d3afacb7b558711e6218ebb14b1c51b5802
+  FirebaseCoreDiagnostics: e9b4cd8ba60dee0f2d13347332e4b7898cca5b61
+  FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  FirebaseCrashlytics: b9e729da8b80d9c45f234f791a73b5fe647d4c31
+  FirebaseInstallations: acb3216eb9784d3b1d2d2d635ff74fa892cc0c44
+  GoogleDataTransport: b29a21d813e906014ca16c00897827e40e4a24ab
+  GoogleDataTransportCCTSupport: 6f15a89b0ca35d6fa523e1f752ef818588885988
+  GoogleMaps: 7c8d66d70e4e8c300f43a7219d8fdaad7b325a9a
+  GooglePlaces: d5f70c3e9e427964fdeca1301a665d276ccd8754
+  GoogleUtilities: ad0f3b691c67909d03a3327cc205222ab8f42e0e
+  IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  Kingfisher: 2558186963e5be42d98c5b110ccb3130148b77e4
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
+  SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
+  Stripe: 92f1c73a9dbd3c54277ed06a1fea6e08f20414c6
+
+PODFILE CHECKSUM: 102037a18dc67c3249a0321910e0281e35bb0b1d
+
+COCOAPODS: 1.10.0

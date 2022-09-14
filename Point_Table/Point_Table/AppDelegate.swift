@@ -55,8 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         GMSPlacesClient.provideAPIKey(Google_Key)
 
 
-       // Stripe.setDefaultPublishableKey(Stripe_Live_Key)
-        Stripe.setDefaultPublishableKey(Stripe_Test_Key)
+        Stripe.setDefaultPublishableKey(Stripe_Live_Key)
+//        Stripe.setDefaultPublishableKey(Stripe_Test_Key)
         IQKeyboardManager.shared.enable = true
         application.statusBarStyle = .lightContent
 

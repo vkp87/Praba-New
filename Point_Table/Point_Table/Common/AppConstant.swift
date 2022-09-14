@@ -11,7 +11,7 @@ import UIKit
 
 
 public let Google_Key = "AIzaSyCtfzBYm86_zgoW0xZNcB_LwvGbYXrPWl8"
-public let Stripe_Live_Key = "pk_live_Gm9oqQGBhSUyVYa1a15ixcNZ00cFCMSCOm"
+public let Stripe_Live_Key = "pk_test_51It01vC6FRxOI6gySTInPRqiulf3Jt3skEW7iziyQWNnY4wcdTtsimClmbeLyFzDd7opyrstbf16L7v0NMYOKUd200eNABn6Td"
 public let Stripe_Test_Key = "pk_test_XLbzYEXOWVnphE4qNXnsrnIs00NlvqoIlV"
 
 //public let Font_Semibold = "OpenSans-Semibold"
@@ -77,11 +77,11 @@ var apiMode: ApiMode = .PROD
 struct Base {
     
     //Dev
-    public static let url =  "http://pointapidemo.softworldinfotech.com/"
+//    public static let url =  "http://pointapidemo.softworldinfotech.com/"
     //382415 : Post Code
 
     //Production
-    //public static let url =  "http://pointtableapi.clickfordrop.co.uk/"
+    public static let url =  "https://pointtableapi.prabagrocery.com/"
     //9427384408
     //Test@12345
     //DN31SE : Post Code

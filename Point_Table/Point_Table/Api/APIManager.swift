@@ -109,6 +109,7 @@ class APIManager: NSObject {
             MBProgressHUD.showAdded(to:(objApplication.window?.rootViewController?.view)!, animated: true)
         }
         
+        
         Alamofire.request(self.getRequestPath(api: strURL.rawValue), method: .post, parameters: param, encoding: JSONEncoding.default , headers: headers).responseJSON { (responseObject) -> Void in
             
             if isLoading == true {

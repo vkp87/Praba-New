@@ -1,0 +1,6 @@
+framework module Pods_Point_Table {
+  umbrella header "Pods-Point_Table-umbrella.h"
+
+  export *
+  module * { export * }
+}
