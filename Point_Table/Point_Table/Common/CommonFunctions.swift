@@ -71,7 +71,17 @@ class CommonFunctions: NSObject {
         formatter.paddingCharacter = "0"
         return formatter.string(from: NSNumber(floatLiteral: value))! // here double() is not required as data is already double
     }
-    
+    public class func appendStringWeighItem(data: Double) -> String { // changed input type of data
+        let value = data
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 3 // for float
+        formatter.maximumFractionDigits = 3 // for float
+        formatter.minimumIntegerDigits = 1
+        formatter.maximumIntegerDigits = 5
+        formatter.paddingPosition = .afterPrefix
+        formatter.paddingCharacter = "0"
+        return formatter.string(from: NSNumber(floatLiteral: value))! // here double() is not required as data is already double
+    }
     // MARK: -  Alert
     public class func showMessage(message : String) {
         let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!

@@ -82,7 +82,7 @@ struct Base {
 
     //Production
     public static let url =  "https://pointtableapi.prabagrocery.com/"
-    //9427384408
+   //9427384408
     //Test@12345
     //DN31SE : Post Code
     //DN11DE : Post Code

@@ -110,6 +110,8 @@ class VProductViewController: UIViewController,UICollectionViewDelegate, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
         SetupUI()
+        txtUpdateQty.textAlignment = .center
+
         
         imgBackUpdateQty.isHidden = true
         viewUpdateQty.isHidden = true
@@ -353,7 +355,7 @@ class VProductViewController: UIViewController,UICollectionViewDelegate, UIColle
               CommonFunctions.setCornerRadius(view: btnCancelQty, radius: 17)
               CommonFunctions.setCornerRadius(view: viewUpdateQty, radius: 17)
 
-        lblUpdateQtyTitle.font = UIFont(name: Font_Semibold, size: 16)
+        lblUpdateQtyTitle.font = UIFont(name: Font_Semibold, size: 18)
               lblUpdateQtyMessage.font = UIFont(name: Font_Regular, size: 16)
               lblKg.font = UIFont(name: Font_Regular, size: 16)
 
@@ -1202,7 +1204,7 @@ class VProductViewController: UIViewController,UICollectionViewDelegate, UIColle
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-                        return CGSize(width: ScreenSize.width - 20, height: 280)
+                        return CGSize(width: ScreenSize.width - 20, height: 230)
 
                  }
     
@@ -1409,25 +1411,33 @@ class VProductViewController: UIViewController,UICollectionViewDelegate, UIColle
                     cell.lblTitleQty.text = "Kg"
                     
                     if arrProduct[indexPath.row].CartWeight ?? 0.0 > 0 {
-                        cell.lblQty.text = "\(arrProduct[indexPath.row].CartWeight!)"
+                        
+                        cell.lblQty.text = "\(CommonFunctions.appendStringWeighItem(data: arrProduct[indexPath.row].CartWeight!))"
 
                     } else {
 
-            cell.lblQty.text = "\(arrProduct[indexPath.row].DefaultWeight!)"
+                        
+            cell.lblQty.text = "\(CommonFunctions.appendStringWeighItem(data: arrProduct[indexPath.row].DefaultWeight!))"
                     }
                 } else {
                     if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
                         cell.lblQty.text = "\(arrProduct[indexPath.row].CartQty ?? 0)";
 
                     } else {
-                        cell.lblQty.text = "0"
+                        cell.lblQty.text = "1"
 
                     }
 
 
                 }
             } else {
-            cell.lblQty.text = "\(arrProduct[indexPath.row].CartQty ?? 0)";
+                if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
+                    cell.lblQty.text = "\(arrProduct[indexPath.row].CartQty ?? 0)";
+
+                } else {
+                    cell.lblQty.text = "1"
+
+                }
             }
             
             
@@ -1541,13 +1551,13 @@ class VProductViewController: UIViewController,UICollectionViewDelegate, UIColle
 
                         cell.lblDisplayweight.isHidden = false
 
-                        cell.lblDisplayweight.text = "Approx weight \(calculate) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
+                        cell.lblDisplayweight.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
                         }
                         if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
                         if calculate <  arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0 {
                             cell.lblDisplayweight.isHidden = false
 
-                            cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
+                            cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
 
                         }
                         }
@@ -1562,7 +1572,7 @@ class VProductViewController: UIViewController,UICollectionViewDelegate, UIColle
                         if calculate < arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0 {
                             cell.lblDisplayweight.isHidden = false
 
-                            cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
+                            cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
 
                         }
                             }
@@ -1587,7 +1597,7 @@ class VProductViewController: UIViewController,UICollectionViewDelegate, UIColle
                 if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
                 if arrProduct[indexPath.row].CartQty ?? 0 <  Int(arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0) {
 
-                    cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
+                    cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
 
                 }
                 }
@@ -2291,13 +2301,13 @@ extension VProductViewController  {
 
                     self.lblUpdateQtyMessage.isHidden = false
 
-                    self.lblUpdateQtyMessage.text = "Approx weight \(calculate) \(arrProduct[sender.tag].ProductSizeType ?? "")"
+                    self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                     }
                     if arrProduct[sender.tag].CartQty ?? 0 > 0 {
                     if calculate <  arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
 
-                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[sender.tag].ProductSizeType ?? "")"
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                         return
 
                     }
@@ -2313,7 +2323,7 @@ extension VProductViewController  {
                     if calculate < arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
 
-                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[sender.tag].ProductSizeType ?? "")"
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                         return
 
 
@@ -2332,7 +2342,7 @@ extension VProductViewController  {
                    if arrProduct[sender.tag].CartQty ?? 0 <  Int(arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0) {
                        self.lblUpdateQtyMessage.isHidden = false
 
-                      self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[sender.tag].ProductSizeType ?? "")"
+                      self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                     return
 
 
@@ -2343,9 +2353,9 @@ extension VProductViewController  {
         
         self.view.endEditing(true)
 
-//
-//        intSenderTag = sender.tag
-//        intSenderType = 1
+        
+        intSenderTag = sender.tag
+        intSenderType = 1
         if CommonFunctions.userLoginData() == true {
             
             if(arrProduct[sender.tag].PerItemCartLimit ?? 0 == 0) {

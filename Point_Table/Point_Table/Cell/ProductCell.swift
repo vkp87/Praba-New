@@ -43,6 +43,10 @@ class ProductCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        lblQty.layer.cornerRadius = 11
+        lblQty.layer.borderWidth = 1.5
+        lblQty.layer.borderColor = UIColor.black.cgColor
+        
        // lblPramotion.adjustsFontSizeToFitWidth = true
           CommonFunctions.setCornerRadius(view: viewBack, radius: 9)
         viewBack.dropShadow(color: Theme_Color, opacity: 0.5, radius: 2)
@@ -55,7 +59,7 @@ class ProductCell: UICollectionViewCell {
         
         lblPramotion.font = UIFont(name: Font_Semibold, size: 14)
         
-        lblDisplayweight.font = UIFont(name: Font_Semibold, size: 14)
+        lblDisplayweight.font = UIFont(name: Font_Semibold, size: 16)
         
         lblTitle.font = UIFont(name: Font_Semibold, size: 14)
         lblAmount.font = UIFont(name: Font_Number, size: 24)

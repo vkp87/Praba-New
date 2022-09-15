@@ -49,6 +49,8 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.SetupUI()
+        txtUpdateQty.textAlignment = .center
+
         imgBackUpdateQty.isHidden = true
         viewUpdateQty.isHidden = true
         if isbackhide == true {
@@ -394,7 +396,7 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
         lblHeader.font = UIFont(name: Font_Semibold, size: 18)
         lblNorecord.font = UIFont(name: Font_Semibold, size: 18)
         lblHeader.text = lblHeader.text?.firstCharacterUpperCase()
-        lblUpdateQtyTitle.font = UIFont(name: Font_Semibold, size: 16)
+        lblUpdateQtyTitle.font = UIFont(name: Font_Semibold, size: 18)
                lblUpdateQtyMessage.font = UIFont(name: Font_Regular, size: 16)
                lblKg.font = UIFont(name: Font_Regular, size: 16)
 
@@ -554,7 +556,7 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: ScreenSize.width - 20, height: 280)
+        return CGSize(width: ScreenSize.width - 20, height: 230)
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -583,194 +585,244 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
         
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell : ProductCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath as IndexPath) as! ProductCell
-            let pname = arrProduct[indexPath.row].ProductName!.replacingOccurrences(of: "\t", with: "")
-            arrProduct[indexPath.row].isQtyEdit = false
-            if arrProduct[indexPath.row].ProductSize == 0 {
-                self.attributetext(lbl1: cell.lblTitle, main: pname, sub: "")
-            } else {
-                self.attributetext(lbl1: cell.lblTitle, main: pname, sub: "(\(arrProduct[indexPath.row].ProductSize!.clean) \(arrProduct[indexPath.row].ProductSizeType!))")
-            }
+        let cell : ProductCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath as IndexPath) as! ProductCell
+        let pname = arrProduct[indexPath.row].ProductName!.replacingOccurrences(of: "\t", with: "")
+        arrProduct[indexPath.row].isQtyEdit = false
+        if arrProduct[indexPath.row].ProductSize == 0 {
+            self.attributetext(lbl1: cell.lblTitle, main: pname, sub: "")
+        } else {
+            self.attributetext(lbl1: cell.lblTitle, main: pname, sub: "(\(arrProduct[indexPath.row].ProductSize!.clean) \(arrProduct[indexPath.row].ProductSizeType!))")
+        }
+        
+        if arrProduct[indexPath.row].PromotionTitle! == "" {
+            cell.lblPramotion.isHidden = true
+            cell.lblconstheight.constant = 0
+            cell.imgPramotion.isHidden = true
+
+        } else {
+            cell.lblPramotion.isHidden = false
+            cell.imgPramotion.isHidden = false
+
+            cell.lblconstheight.constant = 22
+            cell.lblPramotion.text = " \(arrProduct[indexPath.row].PromotionTitle!)"
+        }
+        
+        if  arrProduct[indexPath.row].CartQty! > 0 || arrProduct[indexPath.row].CartWeight! > 0 {
+            cell.btnplus.isHidden = false
+            cell.btnminus.isHidden = false
+
+            cell.btnAdd.isHidden = true
+        } else {
+            cell.btnAdd.isHidden = false
+            cell.btnplus.isHidden = true
+            cell.btnminus.isHidden = true
+        }
+
+
+        if arrProduct[indexPath.row].ProductType! > 0 && arrProduct[indexPath.row].CartQty! > 0 {
+            arrProduct[indexPath.row].isKg! = false
+        }
+        
+        if arrProduct[indexPath.row].ProductType! > 0 && arrProduct[indexPath.row].CartQty! == 0 && arrProduct[indexPath.row].CartWeight! > 0 {
+                   arrProduct[indexPath.row].isKg! = true
+               }
+
+        
+        if arrProduct[indexPath.row].isKg! == true {
+            cell.btnKg.setImage(UIImage(named: "radio_select"), for: .normal)
+            cell.btnItems.setImage(UIImage(named: "radio_deselect"), for: .normal)
+        } else {
+            cell.btnKg.setImage(UIImage(named: "radio_deselect"), for: .normal)
+            cell.btnItems.setImage(UIImage(named: "radio_select"), for: .normal)
+        }
+        //
+
+        cell.btnKg.isHidden = true
+        cell.btnItems.isHidden = true
+
+        if arrProduct[indexPath.row].ProductType! == 1 {
+            cell.btnKg.isHidden = false
+            cell.btnItems.isHidden = false
+        }
+       
+        
+        
+        var symboll = ""
+        if let symbol =  CommonFunctions.getUserDefault(key:UserDefaultsKey.Currency) as? String {
+            symboll = symbol
+        }
+        
+        
+        cell.lblOrAmount.text = "\(symboll) \(CommonFunctions.appendString(data: arrProduct[indexPath.row].Price!))"
+        if arrProduct[indexPath.row].ProductType! > 0 {
+            //Show kg with price
             
-            if arrProduct[indexPath.row].PromotionTitle! == "" {
-                cell.lblPramotion.isHidden = true
-                cell.lblconstheight.constant = 0
-                cell.imgPramotion.isHidden = true
-
-            } else {
-                cell.lblPramotion.isHidden = false
-                cell.imgPramotion.isHidden = false
-
-                cell.lblconstheight.constant = 22
-                cell.lblPramotion.text = " \(arrProduct[indexPath.row].PromotionTitle!)"
-            }
             
-            if  arrProduct[indexPath.row].CartQty! > 0 || arrProduct[indexPath.row].CartWeight! > 0 {
-                cell.btnplus.isHidden = false
-                cell.btnminus.isHidden = false
-
-                cell.btnAdd.isHidden = true
-            } else {
-                cell.btnAdd.isHidden = false
-                cell.btnplus.isHidden = true
-                cell.btnminus.isHidden = true
-            }
-
-
-            if arrProduct[indexPath.row].ProductType! > 0 && arrProduct[indexPath.row].CartQty! > 0 {
-                arrProduct[indexPath.row].isKg! = false
-            }
             
-            if arrProduct[indexPath.row].ProductType! > 0 && arrProduct[indexPath.row].CartQty! == 0 && arrProduct[indexPath.row].CartWeight! > 0 {
-                       arrProduct[indexPath.row].isKg! = true
-                   }
+            let strPrice = "\(cell.lblOrAmount.text!)/ \(arrProduct[indexPath.row].ProductSizeType!)"
+            cell.lblOrAmount.text = strPrice
 
             
+        }
+        
+        cell.lblQty.tag = 100 + indexPath.row
+        cell.lblQty.delegate = self
+        cell.lblAmount.isHidden = false
+        cell.constTopamnt.constant = 15
+        cell.constHeightamnt.constant = 20
+
+        cell.lblOrAmount.textColor = Theme_Red_Color
+
+        if arrProduct[indexPath.row].OldPrice! == 0.0 {
+            cell.lblAmount.isHidden = true
+            cell.constTopamnt.constant = 0
+            cell.constHeightamnt.constant = 0
+            cell.lblOrAmount.textColor = UIColor.black
+
+        }
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(symboll) \(CommonFunctions.appendString(data: arrProduct[indexPath.row].OldPrice!))")
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
+        
+        cell.lblAmount.attributedText = attributeString
+        
+        if arrProduct[indexPath.row].CartQty! == 0 {
+//            cell.viewAdd.isHidden = true
+//            cell.btnAdd.isHidden = false
+        } else {
+//            cell.viewAdd.isHidden = false
+//            cell.btnAdd.isHidden = true
+        }
+        
+        if arrProduct[indexPath.row].IsFavourite! == false {
+            cell.btnAddwishList.setImage(UIImage(named: "Assetheartunfill"), for: .normal)
+        } else {
+            cell.btnAddwishList.setImage(UIImage(named: "Assetheart"), for: .normal)
+
+        }
+        
+        if arrProduct[indexPath.row].IsPriceMarked! == false {
+                   cell.imgPriceMark.isHidden = true
+               } else {
+                   cell.imgPriceMark.isHidden = false
+
+               }
+        
+        
+        cell.lblTitleQty.text = "Qty"
+
+        if arrProduct[indexPath.row].ProductType! == 1 {
+
             if arrProduct[indexPath.row].isKg! == true {
-                cell.btnKg.setImage(UIImage(named: "radio_select"), for: .normal)
-                cell.btnItems.setImage(UIImage(named: "radio_deselect"), for: .normal)
-            } else {
-                cell.btnKg.setImage(UIImage(named: "radio_deselect"), for: .normal)
-                cell.btnItems.setImage(UIImage(named: "radio_select"), for: .normal)
-            }
-            //
-
-            cell.btnKg.isHidden = true
-            cell.btnItems.isHidden = true
-
-            if arrProduct[indexPath.row].ProductType! == 1 {
-                cell.btnKg.isHidden = false
-                cell.btnItems.isHidden = false
-            }
-           
-            
-            
-            var symboll = ""
-            if let symbol =  CommonFunctions.getUserDefault(key:UserDefaultsKey.Currency) as? String {
-                symboll = symbol
-            }
-            
-            
-            cell.lblOrAmount.text = "\(symboll) \(CommonFunctions.appendString(data: arrProduct[indexPath.row].Price!))"
-            if arrProduct[indexPath.row].ProductType! > 0 {
-                //Show kg with price
                 
+                cell.lblTitleQty.text = "Kg"
                 
-                
-                let strPrice = "\(cell.lblOrAmount.text!)/ \(arrProduct[indexPath.row].ProductSizeType!)"
-                cell.lblOrAmount.text = strPrice
-
-                
-            }
-            
-            cell.lblQty.tag = 100 + indexPath.row
-            cell.lblQty.delegate = self
-            cell.lblAmount.isHidden = false
-            cell.constTopamnt.constant = 15
-            cell.constHeightamnt.constant = 20
-
-            cell.lblOrAmount.textColor = Theme_Red_Color
-
-            if arrProduct[indexPath.row].OldPrice! == 0.0 {
-                cell.lblAmount.isHidden = true
-                cell.constTopamnt.constant = 0
-                cell.constHeightamnt.constant = 0
-                cell.lblOrAmount.textColor = UIColor.black
-
-            }
-            let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(symboll) \(CommonFunctions.appendString(data: arrProduct[indexPath.row].OldPrice!))")
-            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
-            
-            cell.lblAmount.attributedText = attributeString
-            
-            if arrProduct[indexPath.row].CartQty! == 0 {
-    //            cell.viewAdd.isHidden = true
-    //            cell.btnAdd.isHidden = false
-            } else {
-    //            cell.viewAdd.isHidden = false
-    //            cell.btnAdd.isHidden = true
-            }
-            
-            if arrProduct[indexPath.row].IsFavourite! == false {
-                cell.btnAddwishList.setImage(UIImage(named: "Assetheartunfill"), for: .normal)
-            } else {
-                cell.btnAddwishList.setImage(UIImage(named: "Assetheart"), for: .normal)
-
-            }
-            
-            if arrProduct[indexPath.row].IsPriceMarked! == false {
-                       cell.imgPriceMark.isHidden = true
-                   } else {
-                       cell.imgPriceMark.isHidden = false
-
-                   }
-            
-            
-            cell.lblTitleQty.text = "Qty"
-
-            if arrProduct[indexPath.row].ProductType! == 1 {
-
-                if arrProduct[indexPath.row].isKg! == true {
+                if arrProduct[indexPath.row].CartWeight ?? 0.0 > 0 {
                     
-                    cell.lblTitleQty.text = "Kg"
-                    
-                    if arrProduct[indexPath.row].CartWeight ?? 0.0 > 0 {
-                        cell.lblQty.text = "\(arrProduct[indexPath.row].CartWeight!)"
+                    cell.lblQty.text = "\(CommonFunctions.appendStringWeighItem(data: arrProduct[indexPath.row].CartWeight!))"
 
-                    } else {
-
-            cell.lblQty.text = "\(arrProduct[indexPath.row].DefaultWeight!)"
-                    }
                 } else {
-                    if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
-                        cell.lblQty.text = "\(arrProduct[indexPath.row].CartQty ?? 0)";
 
-                    } else {
-                        cell.lblQty.text = "0"
-
-                    }
-
-
+                    
+        cell.lblQty.text = "\(CommonFunctions.appendStringWeighItem(data: arrProduct[indexPath.row].DefaultWeight!))"
                 }
             } else {
-            cell.lblQty.text = "\(arrProduct[indexPath.row].CartQty ?? 0)";
-            }
-            
-            
-            
-            cell.btnKg.tag = indexPath.row
-            cell.btnKg.addTarget(self, action: #selector(self.btnKgClicked), for: .touchUpInside)
-            
-            cell.btnItems.tag = indexPath.row
-            cell.btnItems.addTarget(self, action: #selector(self.btnitemClicked), for: .touchUpInside)
-            
-            cell.btnAdd.tag = indexPath.row
-            cell.btnAdd.addTarget(self, action: #selector(self.btnAddclicked), for: .touchUpInside)
-            DispatchQueue.main.async {
-                
-                cell.imgView.kf.indicatorType = .activity
-                cell.imgView.kf.setImage(
-                    with: URL(string: self.arrProduct[indexPath.row].ProductImage!),
-                    placeholder: UIImage(named: "placeholder"),
-                    options: [.transition(.fade(0.2))],
-                    progressBlock: { receivedSize, totalSize in
-                        // print("\(indexPath.row + 1): \(receivedSize)/\(totalSize)")
-                },
-                    completionHandler: { result in
-                        // print(result)
-                        //print("\(indexPath.row + 1): Finished")
-                }
-                )
-            }
-            
-            cell.btnAdd.isUserInteractionEnabled = true
-            cell.btnAdd.alpha = 1.0
-            cell.viewAdd.isHidden = false
+                if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
+                    cell.lblQty.text = "\(arrProduct[indexPath.row].CartQty ?? 0)";
 
-            cell.btnplus.isEnabled = true
-            cell.btnplus.alpha = 1.0
+                } else {
+                    cell.lblQty.text = "1"
+
+                }
+
+
+            }
+        } else {
+            if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
+                cell.lblQty.text = "\(arrProduct[indexPath.row].CartQty ?? 0)";
+
+            } else {
+                cell.lblQty.text = "1"
+
+            }
+        }
+        
+        
+        
+        cell.btnKg.tag = indexPath.row
+        cell.btnKg.addTarget(self, action: #selector(self.btnKgClicked), for: .touchUpInside)
+        
+        cell.btnItems.tag = indexPath.row
+        cell.btnItems.addTarget(self, action: #selector(self.btnitemClicked), for: .touchUpInside)
+        
+        cell.btnAdd.tag = indexPath.row
+        cell.btnAdd.addTarget(self, action: #selector(self.btnAddclicked), for: .touchUpInside)
+        DispatchQueue.main.async {
+            
+            cell.imgView.kf.indicatorType = .activity
+            cell.imgView.kf.setImage(
+                with: URL(string: self.arrProduct[indexPath.row].ProductImage!),
+                placeholder: UIImage(named: "placeholder"),
+                options: [.transition(.fade(0.2))],
+                progressBlock: { receivedSize, totalSize in
+                    // print("\(indexPath.row + 1): \(receivedSize)/\(totalSize)")
+            },
+                completionHandler: { result in
+                    // print(result)
+                    //print("\(indexPath.row + 1): Finished")
+            }
+            )
+        }
+        
+        cell.btnAdd.isUserInteractionEnabled = true
+        cell.btnAdd.alpha = 1.0
+        cell.viewAdd.isHidden = false
+
+        cell.btnplus.isEnabled = true
+        cell.btnplus.alpha = 1.0
+        cell.lbloutofstock.isHidden = false
+
+        if arrProduct[indexPath.row].ProductType! == 1 {
             cell.lbloutofstock.isHidden = false
 
+            cell.lbloutofstock.textColor = UIColor.black
+            
+            let priceper = "\(symboll)\(arrProduct[indexPath.row].PricePerQty!)/each"
+            cell.lbloutofstock.text = priceper
+
+        }
+
+        if arrProduct[indexPath.row].ProductType! > 0 {
+            cell.lbloutofstock.isHidden = true
+        }
+        //cell.btnAdd.setImage(UIImage(named: "img5"), for: .normal)
+        if arrProduct[indexPath.row].AvailableQty ?? 0 == 0 {
+            cell.lbloutofstock.isHidden = false
+
+            if arrProduct[indexPath.row].outOfStockMessage == "" {
+                cell.lbloutofstock.text = "Out Of Stock"
+            } else {
+                cell.lbloutofstock.text = arrProduct[indexPath.row].outOfStockMessage
+            }
+            cell.lbloutofstock.textColor = Theme_Color
+            //cell.btnAdd.setImage(UIImage(named: "img1"), for: .normal)
+
+            cell.btnAdd.isUserInteractionEnabled = false
+            cell.btnAdd.alpha = 0.7
+            cell.viewAdd.isHidden = true
+            
+            cell.btnplus.isEnabled = false
+            cell.btnplus.alpha = 0.7
+        } else {
+            
+            if arrProduct[indexPath.row].IsLowQty! == true {
+                cell.lbloutofstock.textColor = UIColor.orange
+
+            } else {
+                cell.lbloutofstock.textColor = Theme_green_Color
+
+            }
+
+            cell.lbloutofstock.text = "In Stock : \(arrProduct[indexPath.row].AvailableQty ?? 0)"
             if arrProduct[indexPath.row].ProductType! == 1 {
                 cell.lbloutofstock.isHidden = false
 
@@ -780,140 +832,98 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
                 cell.lbloutofstock.text = priceper
 
             }
+        }
+        
+        cell.lblDisplayweight.isHidden = true
+        
+        
+        if arrProduct[indexPath.row].ProductType! == 1 {
+//            if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
+//                cell.lblDisplayweight.isHidden = false
+//
+//            }
+//
+//            if arrProduct[indexPath.row].CartWeight ?? 0.0 > 0 {
+//                cell.lblDisplayweight.isHidden = false
+//
+//            }
 
-            if arrProduct[indexPath.row].ProductType! > 0 {
-                cell.lbloutofstock.isHidden = true
-            }
-            //cell.btnAdd.setImage(UIImage(named: "img5"), for: .normal)
-            if arrProduct[indexPath.row].AvailableQty ?? 0 == 0 {
-                cell.lbloutofstock.isHidden = false
+                   if arrProduct[indexPath.row].isKg! == false {
 
-                if arrProduct[indexPath.row].outOfStockMessage == "" {
-                    cell.lbloutofstock.text = "Out Of Stock"
-                } else {
-                    cell.lbloutofstock.text = arrProduct[indexPath.row].outOfStockMessage
-                }
-                cell.lbloutofstock.textColor = Theme_Color
-                //cell.btnAdd.setImage(UIImage(named: "img1"), for: .normal)
-
-                cell.btnAdd.isUserInteractionEnabled = false
-                cell.btnAdd.alpha = 0.7
-                cell.viewAdd.isHidden = true
-                
-                cell.btnplus.isEnabled = false
-                cell.btnplus.alpha = 0.7
-            } else {
-                
-                if arrProduct[indexPath.row].IsLowQty! == true {
-                    cell.lbloutofstock.textColor = UIColor.orange
-
-                } else {
-                    cell.lbloutofstock.textColor = Theme_green_Color
-
-                }
-
-                cell.lbloutofstock.text = "In Stock : \(arrProduct[indexPath.row].AvailableQty ?? 0)"
-                if arrProduct[indexPath.row].ProductType! == 1 {
-                    cell.lbloutofstock.isHidden = false
-
-                    cell.lbloutofstock.textColor = UIColor.black
                     
-                    let priceper = "\(symboll)\(arrProduct[indexPath.row].PricePerQty!)/each"
-                    cell.lbloutofstock.text = priceper
+                    let calculate = Double(arrProduct[indexPath.row].CartQty ?? 0) * (arrProduct[indexPath.row].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
 
-                }
-            }
-            
-            cell.lblDisplayweight.isHidden = true
-            
-            
-            if arrProduct[indexPath.row].ProductType! == 1 {
-    //            if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
-    //                cell.lblDisplayweight.isHidden = false
-    //
-    //            }
-    //
-    //            if arrProduct[indexPath.row].CartWeight ?? 0.0 > 0 {
-    //                cell.lblDisplayweight.isHidden = false
-    //
-    //            }
+                    cell.lblDisplayweight.isHidden = false
 
-                       if arrProduct[indexPath.row].isKg! == false {
-
-                        
-                        let calculate = Double(arrProduct[indexPath.row].CartQty ?? 0) * (arrProduct[indexPath.row].ProductSizePerQty ?? 0.0)
-                        print(calculate)
-                        if calculate > 0 {
-
+                    cell.lblDisplayweight.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
+                    }
+                    if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
+                    if calculate <  arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0 {
                         cell.lblDisplayweight.isHidden = false
 
-                        cell.lblDisplayweight.text = "Approx weight \(calculate) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
+                        cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
+
+                    }
+                    }
+
+                   } else {
+                    let calculate = arrProduct[indexPath.row].CartWeight ?? 0 * (arrProduct[indexPath.row].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                        if arrProduct[indexPath.row].CartWeight ?? 0.0 > 0 {
+
+                    if calculate < arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0 {
+                        cell.lblDisplayweight.isHidden = false
+
+                        cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
+
+                    }
                         }
-                        if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
-                        if calculate <  arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0 {
-                            cell.lblDisplayweight.isHidden = false
-
-                            cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
-
-                        }
-                        }
-
-                       } else {
-                        let calculate = arrProduct[indexPath.row].CartWeight ?? 0 * (arrProduct[indexPath.row].ProductSizePerQty ?? 0.0)
-                        print(calculate)
-                        if calculate > 0 {
-
-                            if arrProduct[indexPath.row].CartWeight ?? 0.0 > 0 {
-
-                        if calculate < arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0 {
-                            cell.lblDisplayweight.isHidden = false
-
-                            cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
-
-                        }
-                            }
-                        }
-                        
-                }
-                
+                    }
+                    
             }
             
-            if arrProduct[indexPath.row].ProductType! == 0 {
-                
-                if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
-                    cell.lblDisplayweight.isHidden = false
-
-                }
-                
-                if arrProduct[indexPath.row].CartWeight ?? 0.0 > 0 {
-                    cell.lblDisplayweight.isHidden = false
-
-                }
-                
-                if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
-                if arrProduct[indexPath.row].CartQty ?? 0 <  Int(arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0) {
-
-                    cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
-
-                }
-                }
-                
-            }
-            
-            
-            cell.btnplus.tag = indexPath.row
-            cell.btnplus.addTarget(self, action: #selector(self.btnPlusclicked), for: .touchUpInside)
-            
-            cell.btnminus.tag = indexPath.row
-            cell.btnminus.addTarget(self, action: #selector(self.btnMinusclicked), for: .touchUpInside)
-            
-            
-            cell.btnAddwishList.tag = indexPath.row
-            cell.btnAddwishList.addTarget(self, action: #selector(self.btnAddWishClicked), for: .touchUpInside)
-            
-            
-            return cell
         }
+        
+        if arrProduct[indexPath.row].ProductType! == 0 {
+            
+            if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
+                cell.lblDisplayweight.isHidden = false
+
+            }
+            
+            if arrProduct[indexPath.row].CartWeight ?? 0.0 > 0 {
+                cell.lblDisplayweight.isHidden = false
+
+            }
+            
+            if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
+            if arrProduct[indexPath.row].CartQty ?? 0 <  Int(arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0) {
+
+                cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[indexPath.row].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[indexPath.row].ProductSizeType ?? "")"
+
+            }
+            }
+            
+        }
+        
+        
+        cell.btnplus.tag = indexPath.row
+        cell.btnplus.addTarget(self, action: #selector(self.btnPlusclicked), for: .touchUpInside)
+        
+        cell.btnminus.tag = indexPath.row
+        cell.btnminus.addTarget(self, action: #selector(self.btnMinusclicked), for: .touchUpInside)
+        
+        
+        cell.btnAddwishList.tag = indexPath.row
+        cell.btnAddwishList.addTarget(self, action: #selector(self.btnAddWishClicked), for: .touchUpInside)
+        
+        
+        return cell
+    }
         @objc private func btnKgClicked(sender:UIButton)
         {
             var isPopup = false
@@ -1422,13 +1432,13 @@ extension WishlistViewController  {
 
                     self.lblUpdateQtyMessage.isHidden = false
 
-                    self.lblUpdateQtyMessage.text = "Approx weight \(calculate) \(arrProduct[sender.tag].ProductSizeType ?? "")"
+                    self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                     }
                     if arrProduct[sender.tag].CartQty ?? 0 > 0 {
                     if calculate <  arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
 
-                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[sender.tag].ProductSizeType ?? "")"
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                         return
 
                     }
@@ -1444,7 +1454,7 @@ extension WishlistViewController  {
                     if calculate < arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
 
-                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[sender.tag].ProductSizeType ?? "")"
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                         return
 
 
@@ -1463,7 +1473,7 @@ extension WishlistViewController  {
                    if arrProduct[sender.tag].CartQty ?? 0 <  Int(arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0) {
                        self.lblUpdateQtyMessage.isHidden = false
 
-                      self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[sender.tag].ProductSizeType ?? "")"
+                      self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                     return
 
 
@@ -1474,9 +1484,9 @@ extension WishlistViewController  {
         
         self.view.endEditing(true)
 
-//
-//        intSenderTag = sender.tag
-//        intSenderType = 1
+        
+        intSenderTag = sender.tag
+        intSenderType = 1
         if CommonFunctions.userLoginData() == true {
             
             if(arrProduct[sender.tag].PerItemCartLimit ?? 0 == 0) {
