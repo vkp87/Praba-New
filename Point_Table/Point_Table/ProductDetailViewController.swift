@@ -11,7 +11,7 @@ import SkyFloatingLabelTextField
 import QuickLook
 import MBProgressHUD
 import EMAlertController
-class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate, QLPreviewControllerDataSource {
+class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate, QLPreviewControllerDataSource, UITextFieldDelegate {
     @IBOutlet weak var lblHeader: UILabel!
     @IBOutlet weak var lblCart: UILabel!
     @IBOutlet weak var lblBuy: UILabel!
@@ -54,7 +54,7 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
     @IBOutlet weak var viewUpdateQty: UIView!
 
     @IBOutlet weak var lblUpdateQtyTitle: UILabel!
-    @IBOutlet weak var txtUpdateQty: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtUpdateQty: UITextField!
     @IBOutlet weak var lblUpdateQtyMessage: UILabel!
     @IBOutlet weak var btnUpdateQty: UIButton!
     @IBOutlet weak var btnCancelQty: UIButton!
@@ -96,6 +96,7 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
     }
     func SetupUI() -> Void {
         
+        self.txtUpdateQty.delegate = self
         self.lblCount.isHidden = true
         lblUpdateQtyTitle.font = UIFont(name: Font_Semibold, size: 16)
                lblUpdateQtyMessage.font = UIFont(name: Font_Regular, size: 16)

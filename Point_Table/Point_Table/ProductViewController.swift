@@ -95,7 +95,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
     @IBOutlet weak var viewUpdateQty: UIView!
 
     @IBOutlet weak var lblUpdateQtyTitle: UILabel!
-    @IBOutlet weak var txtUpdateQty: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtUpdateQty: UITextField!
     @IBOutlet weak var lblUpdateQtyMessage: UILabel!
     @IBOutlet weak var btnUpdateQty: UIButton!
     @IBOutlet weak var btnCancelQty: UIButton!
@@ -357,7 +357,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
         
         self.tblProductSearch.isHidden = true
         self.imgProductSearch.isHidden = true
-        
+        self.txtUpdateQty.delegate  = self
         
         viewHeader.isHidden = false
         viewSearch.isHidden = true
@@ -2215,7 +2215,8 @@ extension ProductViewController :UITableViewDelegate {
 extension ProductViewController : UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        
+        self.txtUpdateQty.tag = textField.tag
+
         var isChange = false
         if arrProduct[textField.tag - 100].CartQty ?? 0 > 0 {
             isChange = true
@@ -2232,7 +2233,9 @@ extension ProductViewController : UITextFieldDelegate {
         
         if isChange == true {
             DispatchQueue.main.async {
+                if textField != self.txtUpdateQty {
         textField.resignFirstResponder()
+                }
             }
         self.txtUpdateQty.text = textField.text
 
@@ -2269,7 +2272,7 @@ extension ProductViewController : UITextFieldDelegate {
 
                     self.lblUpdateQtyMessage.isHidden = false
 
-                    self.lblUpdateQtyMessage.text = "Approx weight \(calculate) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
+                    self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
                     }
                     if arrProduct[textField.tag - 100].CartQty ?? 0 > 0 {
                     if calculate <  arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0 {
@@ -2290,7 +2293,7 @@ extension ProductViewController : UITextFieldDelegate {
                     if calculate < arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
 
-                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0))\(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
 
                     }
                         }
@@ -2308,7 +2311,7 @@ extension ProductViewController : UITextFieldDelegate {
             if arrProduct[textField.tag - 100].CartQty ?? 0 <  Int(arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0) {
                 self.lblUpdateQtyMessage.isHidden = false
 
-               self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
+               self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
 
             }
             }
@@ -2359,7 +2362,97 @@ extension ProductViewController : UITextFieldDelegate {
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
     {
+        var updatedText = ""
+        if let text = textField.text,
+                   let textRange = Range(range, in: text) {
+                   updatedText = text.replacingCharacters(in: textRange,
+                                                               with: string)
+                }
+        if viewUpdateQty.isHidden == false {
+            
         
+        if arrProduct[textField.tag - 100].ProductType ?? 0 == 1 {
+                       
+                       if arrProduct[textField.tag - 100].isKg == true {
+                        self.lblKg.isHidden = false
+
+                        if updatedText != "" {
+
+                        arrProduct[textField.tag - 100].CartWeight  = Double(updatedText)
+                        }
+                       } else {
+                        if updatedText != "" {
+                        arrProduct[textField.tag - 100].CartQty = Int(updatedText)
+                        }
+
+            }
+        } else {
+            if updatedText != "" {
+            arrProduct[textField.tag - 100].CartQty = Int(updatedText)
+            }
+        }
+        
+        if arrProduct[textField.tag - 100].ProductType! == 1 {
+
+                   if arrProduct[textField.tag - 100].isKg! == false {
+
+                    
+                    let calculate = Double(arrProduct[textField.tag - 100].CartQty ?? 0) * (arrProduct[textField.tag - 100].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                    self.lblUpdateQtyMessage.isHidden = false
+
+                    self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
+                    }
+                    if arrProduct[textField.tag - 100].CartQty ?? 0 > 0 {
+                    if calculate <  arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0 {
+                        self.lblUpdateQtyMessage.isHidden = false
+
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
+
+                    }
+                    }
+
+                   } else {
+                    let calculate = arrProduct[textField.tag - 100].CartWeight ?? 0 * (arrProduct[textField.tag - 100].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                        if arrProduct[textField.tag - 100].CartWeight ?? 0.0 > 0 {
+
+                    if calculate < arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0 {
+                        self.lblUpdateQtyMessage.isHidden = false
+
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
+
+
+                    }
+                        }
+                    }
+                    
+            }
+            
+        }
+        if arrProduct[textField.tag - 100].ProductType! == 0 {
+                   
+                  
+                   
+                   if arrProduct[textField.tag - 100].CartQty ?? 0 > 0 {
+                   if arrProduct[textField.tag - 100].CartQty ?? 0 <  Int(arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0) {
+                       self.lblUpdateQtyMessage.isHidden = false
+
+                      self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
+
+
+                   }
+                   }
+                   
+               }
+        }
+        else {
+            
+        }
         
         return true
     }
@@ -2370,7 +2463,8 @@ extension ProductViewController  {
         if self.txtUpdateQty.text == "" {
             return
         }
-        
+        arrProduct[sender.tag].isQtyEdit = true
+
         if arrProduct[sender.tag].ProductType ?? 0 == 1 {
                        
                        if arrProduct[sender.tag].isKg == true {
@@ -2470,7 +2564,7 @@ extension ProductViewController  {
                         intSender = sender.tag
                             intType = 1
                             
-                            addToCart(index: sender.tag, type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
+                            addToCart(index: sender.tag, type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
                         
                      } else {
                         CommonFunctions.showMessage(message: Message.noQuantityavailable)
@@ -2483,7 +2577,7 @@ extension ProductViewController  {
                                                intSender = sender.tag
                                                    intType = 1
                                                    
-                                                   addToCart(index: sender.tag, type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
+                                                   addToCart(index: sender.tag, type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
                                                
                                             } else {
                                                CommonFunctions.showMessage(message: Message.noQuantityavailable)
@@ -2497,7 +2591,7 @@ extension ProductViewController  {
                     intSender = sender.tag
                     intType = 1
                     
-                    addToCart(index: sender.tag, type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
+                    addToCart(index: sender.tag, type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
                 }
                 else {
                     CommonFunctions.showMessage(message: Message.noQuantityavailable)
@@ -2512,7 +2606,7 @@ extension ProductViewController  {
                         intSender = sender.tag
                         intType = 1
                         
-                        addToCart(index: sender.tag, type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
+                        addToCart(index: sender.tag, type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
                     }
                     else {
                         CommonFunctions.showMessage(message: Message.noQuantityavailable)
@@ -2530,7 +2624,7 @@ extension ProductViewController  {
                         intSender = sender.tag
                         intType = 1
                         
-                        addToCart(index: sender.tag, type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
+                        addToCart(index: sender.tag, type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
                     }
                     else {
                         CommonFunctions.showMessage(message: Message.noQuantityavailable)
