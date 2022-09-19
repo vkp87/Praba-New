@@ -11,7 +11,7 @@ import SkyFloatingLabelTextField
 import QuickLook
 import MBProgressHUD
 import EMAlertController
-class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate, QLPreviewControllerDataSource, UITextFieldDelegate {
+class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate, QLPreviewControllerDataSource {
     @IBOutlet weak var lblHeader: UILabel!
     @IBOutlet weak var lblCart: UILabel!
     @IBOutlet weak var lblBuy: UILabel!
@@ -35,7 +35,8 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
     var isDesc = true
     var isBrand = false
     var isKg = true
-    
+    var  isQtyEdit = false
+
     var datePicker:UIDatePicker = UIDatePicker()
     
     @IBOutlet weak var viewBirth: UIView!
@@ -275,7 +276,7 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
         }
     }
     
-    func addToCart(type : Int) -> Void {
+    func addToCart(type : Int, isManual : Bool, cartWeight : Double, cartQty : Int ) -> Void {
         NotificationCenter.default.post(name: Notification.Name("CARTITEMREFRESH"), object: nil, userInfo: nil)
 
         if type != 2 {
@@ -308,7 +309,8 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
         }
         
         let productid = arrProductDetail[0]["ProductId"]
-        
+        let qty = 1
+
         if let userdict = CommonFunctions.getUserDefaultObjectForKey(key: UserDefaultsKey.USER) as? [String:Any] {
             let user = UserModel(json: userdict)
             if Reachability.isConnectedToNetwork() {
@@ -316,11 +318,65 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
                 var param  = [String : Any]()
                 param["ShopId"] = shopId
                 param["UserId"] = user.UserId
-                param["Age"] = 0
-                
                 param["ProductId"] = productid
-                param["Qty"] = 1
+                param["Age"] = 0
+                param["ProductId"] = productid
+                if isQtyEdit == true {
+                    param["Qty"] = arrProductDetail[0]["CartQty"] as! Int
+
+                } else {
+                    param["Qty"] = cartQty == 0 ? qty : cartQty
+
+                }
                 param["Type"] = type
+                param["ProductType"] = self.arrProductDetail[0]["ProductType"] as! Int
+                
+                if self.arrProductDetail[0]["ProductType"] as! Int == 0 {
+                    param["Weight"] = 0
+                } else {
+                    if self.arrProductDetail[0]["ProductType"] as! Int == 1 {
+                        if isKg == true {
+                            param["Qty"] = cartQty == 0 ? 0 : cartQty
+                            if isQtyEdit == true {
+                                param["Weight"] =  self.arrProductDetail[0]["CartWeight"] as! Double
+                            } else {
+                               param["Weight"] = cartWeight == 0.0 ?  (self.arrProductDetail[0]["DefaultWeight"] as! Double): cartWeight
+                            }
+                            
+
+                        } else {
+                            if isQtyEdit == true {
+                                                           param["Weight"] =  self.arrProductDetail[0]["CartWeight"] as! Double
+                                                       } else {
+                                                          param["Weight"] = cartWeight == 0.0 ?  (self.arrProductDetail[0]["DefaultWeight"] as! Double) : cartWeight
+                                                       }
+
+                        }
+                    } else {
+                        if isQtyEdit == true {
+                                                       param["Weight"] =  self.arrProductDetail[0]["CartWeight"] as! Double
+                                                   } else {
+                                                      param["Weight"] = cartWeight == 0.0 ?  self.arrProductDetail[0]["DefaultWeight"] as! Double : cartWeight
+                                                   }
+
+                    }
+                }
+                 
+                if isManual == true {
+                    param["IsFullValueChange"] = isQtyEdit == true ? 1 : 0
+                } else {
+                    param["IsFullValueChange"] = 0
+
+                }
+                
+//                var param  = [String : Any]()
+//                param["ShopId"] = shopId
+//                param["UserId"] = user.UserId
+//                param["Age"] = 0
+//
+//                param["ProductId"] = productid
+//                param["Qty"] = 1
+//                param["Type"] = type
                 APIManager.requestPostJsonEncoding(.addorremovetocart, isLoading: true, params: param, headers: [:],success: { (JSONResponse)  -> Void in
                     
                     let Dict = JSONResponse as! [String:Any]
@@ -333,8 +389,12 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
                         }
                         NotificationCenter.default.post(name: Notification.Name("CARTITEMREFRESH"), object: nil, userInfo: nil)
 
+                       
                         if let productQty = data["ProductQty"] as? Int {
-                            self.arrProductDetail[0]["CartQty"] = productQty
+                            self.arrProductDetail[0]["CartQty"] = cartQty == 0 ? productQty : 0
+                        }
+                        if let productQty = data["ProductWeight"] as? Double {
+                            self.arrProductDetail[0]["CartWeight"] = cartWeight == 0.0 ? productQty : 0.0
                         }
                         if let qtyNotAvl = data["IsQtyNotAvailable"] as? Bool {
                             if qtyNotAvl == true {
@@ -619,6 +679,7 @@ extension ProductDetailViewController :UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetailCell", for: indexPath) as! ProductDetailCell
         cell.selectionStyle = .none
         cell.delegate = self
+        isQtyEdit = false
 
         if let arr = arrProductDetail[0]["ProductImages"] as? [[String:Any]] {
             if arr.count > 0 {
@@ -662,6 +723,8 @@ extension ProductDetailViewController :UITableViewDelegate {
             
             cell.lblPramotion.text = " \(arrProductDetail[0]["PromotionTitle"] as! String) "
         }
+        cell.lblQty.tag = 100 + indexPath.row
+        cell.lblQty.delegate = self
         
         cell.btnAddWish.tag = indexPath.row
         cell.btnAddWish.addTarget(self, action: #selector(self.btnAddWishClicked), for: .touchUpInside)
@@ -678,6 +741,25 @@ extension ProductDetailViewController :UITableViewDelegate {
         
         
         // }
+        if  arrProductDetail[0]["CartQty"] as! Int > 0 || arrProductDetail[0]["CartWeight"] as! Double > 0 {
+            cell.btnPlus.isHidden = false
+            cell.btnMinus.isHidden = false
+
+            cell.btnAdd.isHidden = true
+        } else {
+            cell.btnAdd.isHidden = false
+            cell.btnPlus.isHidden = true
+            cell.btnMinus.isHidden = true
+        }
+        
+        if arrProductDetail[0]["ProductType"] as! Int > 0 && arrProductDetail[0]["CartQty"] as! Int > 0 {
+            isKg = false
+        }
+        
+        if arrProductDetail[0]["ProductType"] as! Int > 0 && arrProductDetail[0]["CartQty"]  as! Int  == 0 && arrProductDetail[0]["CartWeight"] as! Double  > 0 {
+            isKg = true
+               }
+        
         cell.lblAvailable.isHidden = true
         
         if objApplication.isAvailableStockDisplay == true {
@@ -702,28 +784,79 @@ extension ProductDetailViewController :UITableViewDelegate {
                    cell.btnItem.isHidden = false
                }
         
-        if arrProductDetail[0]["ProductType"] as? Int == 1 {
+        cell.lblQtytitle.text = "Qty"
 
-        cell.lblQty.text = "\(arrProductDetail[0]["DefaultWeight"] as! Double)"
+        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+
+            if isKg == true {
+                
+                cell.lblQtytitle.text = "Kg"
+                
+                if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+                    
+                    cell.lblQty.text = "\(CommonFunctions.appendStringWeighItem(data: arrProductDetail[0]["CartWeight"] as! Double))"
+
+                } else {
+
+                    
+        cell.lblQty.text = "\(CommonFunctions.appendStringWeighItem(data: arrProductDetail[0]["DefaultWeight"] as! Double))"
+                }
+            } else {
+                if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                    cell.lblQty.text = "\(arrProductDetail[0]["CartQty"] as! Int)";
+
+                } else {
+                    cell.lblQty.text = "1"
+
+                }
+
+
+            }
         } else {
-            cell.lblQty.text = "\(arrProductDetail[0]["CartQty"] as! Double)"
+            if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                cell.lblQty.text = "\(arrProductDetail[0]["CartQty"] as! Int)";
 
+            } else {
+                cell.lblQty.text = "1"
+
+            }
         }
+        
+//        if arrProductDetail[0]["ProductType"] as? Int == 1 {
+//
+//        cell.lblQty.text = "\(arrProductDetail[0]["DefaultWeight"] as! Double)"
+//        } else {
+//            cell.lblQty.text = "\(arrProductDetail[0]["CartQty"] as! Double)"
+//
+//        }
         
         cell.btnAdd.isEnabled = true
         cell.btnAdd.alpha = 1.0
-        
+        var symboll = ""
+        if let symbol =  CommonFunctions.getUserDefault(key:UserDefaultsKey.Currency) as? String {
+            symboll = symbol
+        }
         cell.btnPlus.isEnabled = true
         cell.btnPlus.alpha = 1.0
             if arrProductDetail[0]["ProductType"] as! Int > 0 {
                cell.lblAvailable.isHidden = true
              }
+        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+            cell.lblAvailable.isHidden = false
+
+            cell.lblAvailable.textColor = UIColor.black
+            
+            let priceper = "\(symboll)\(arrProductDetail[0]["PricePerQty"]!)/each"
+            cell.lblAvailable.text = priceper
+
+        }
+        
         if (arrProductDetail[0]["AvailableQty"] as! Double) == 0 {
             cell.lblAvailable.text = "Out of stock"
             if arrProductDetail[0]["OutOfStockMessage"] as? String == "" {
                 cell.lblAvailable.text = "Out of Stock"
             } else {
-                cell.lblAvailable.text = arrProductDetail[0]["OutOfStockMessage"] as! String
+                cell.lblAvailable.text = arrProductDetail[0]["OutOfStockMessage"] as? String
             }
             
             cell.lblAvailable.isHidden = false
@@ -788,7 +921,71 @@ extension ProductDetailViewController :UITableViewDelegate {
             cell.lblBrandname.text = arrProductDetail[0]["BrandName"] as? String
             
         }
+        cell.lblDisplayweight.text = ""
+        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+
+
+                   if isKg == false {
+
+                    
+                    let calculate = Double(arrProductDetail[0]["CartQty"] as! Int) * (arrProductDetail[0]["ProductSizePerQty"] as! Double)
+                    print(calculate)
+                    if calculate > 0 {
+
+                    cell.lblDisplayweight.isHidden = false
+
+                    cell.lblDisplayweight.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+                    }
+                    if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                    if calculate <  arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double{
+                        cell.lblDisplayweight.isHidden = false
+
+                        cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                    }
+                    }
+
+                   } else {
+                    let calculate = (arrProductDetail[0]["CartWeight"] as! Double) * (arrProductDetail[0]["ProductSizePerQty"] as! Double)
+                    print(calculate)
+                    if calculate > 0 {
+
+                        if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+
+                    if calculate  <  (arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+                        cell.lblDisplayweight.isHidden = false
+
+                        cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                    }
+                        }
+                    }
+                    
+            }
+            
+        }
         
+        if arrProductDetail[0]["ProductType"] as! Int == 0 {
+            
+            if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                cell.lblDisplayweight.isHidden = false
+
+            }
+            
+            if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+                cell.lblDisplayweight.isHidden = false
+
+            }
+            
+            if arrProductDetail[0]["CartQty"] as! Int > 0 {
+            if (arrProductDetail[0]["CartQty"] as! Int) <  Int(arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+
+                cell.lblDisplayweight.text = "\(cell.lblDisplayweight.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+            }
+            }
+            
+        }
         cell.btnDesc.tag = indexPath.row
         cell.btnDesc.addTarget(self, action: #selector(self.btnDescClicked), for: .touchUpInside)
         
@@ -818,14 +1015,88 @@ extension ProductDetailViewController :UITableViewDelegate {
     }
     @objc private func btnKgClicked(sender:UIButton)
     {
-        isKg = true
-        self.tblView.reloadData()
+        var isPopup = false
+        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+            if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+                isPopup = true
+             }
+        
+        } else {
+            if arrProductDetail[0]["CartQty"] as! Int > 0 {
+               isPopup = true
+            }
+        }
+        
+        if isPopup == true {
+        let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
+         let alertError = EMAlertController(icon: nil, title: appName, message: "If you change product option it will remove items your from cart, are you sure your cart will be removes?")
+         alertError.addAction(EMAlertAction(title: "Yes", style: .normal, action: {
+             self.intType = 2
+             self.isKg = true
+              //self.collectionV.reloadData()
+             self.addToCart(type: 2, isManual: false, cartWeight: self.arrProductDetail[0]["CartWeight"] as! Double, cartQty: self.arrProductDetail[0]["CartQty"] as! Int)
+             
+         }))
+         
+        
+         alertError.addAction(EMAlertAction(title: "No", style: .normal, action: {
+             
+            
+         }))
+        
+         rootViewController.present(alertError, animated: true, completion: nil)
+        }else {
+            isKg = true
+            self.tblView.reloadData()
+                       
+        }
+        
+        
 
     }
     @objc private func btnitemClicked(sender:UIButton)
     {
-        isKg = false
-        self.tblView.reloadData()
+        
+            var isPopup = false
+            if arrProductDetail[0]["ProductType"] as! Int == 1 {
+                if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+                    isPopup = true
+                 }
+            
+            } else {
+                if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                   isPopup = true
+                }
+            }
+        
+        if isPopup == true {
+        let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
+         let alertError = EMAlertController(icon: nil, title: appName, message: "If you change product option it will remove items your from cart, are you sure your cart will be removes?")
+         alertError.addAction(EMAlertAction(title: "Yes", style: .normal, action: {
+            
+            self.isKg = false
+            //self.collectionV.reloadData()
+            
+             self.intType = 2
+              
+             self.addToCart(type: 2, isManual: false, cartWeight: self.arrProductDetail[0]["CartWeight"] as! Double, cartQty: self.arrProductDetail[0]["CartQty"] as! Int)
+
+         }))
+         
+         alertError.addAction(EMAlertAction(title: "No", style: .normal, action: {
+             
+             
+            
+         }))
+        
+         rootViewController.present(alertError, animated: true, completion: nil)
+        } else {
+            self.isKg = false
+                       self.tblView.reloadData()
+                       
+        }
+        
+        
 
     }
     
@@ -836,21 +1107,48 @@ extension ProductDetailViewController :UITableViewDelegate {
         if CommonFunctions.userLoginData() == true {
             
             if(arrProductDetail[0]["PerItemCartLimit"] as! Int == 0) {
+                if arrProductDetail[0]["ProductType"] as! Int == 1 {
+                    if isKg == true {
+                     if (arrProductDetail[0]["CartWeight"] as! Double) < (arrProductDetail[0]["AvailableQty"] as! Double) {
+                         self.imgBackUpdateQty.isHidden = true
+                         self.viewUpdateQty.isHidden = true
+                         self.intType = 1
+                            
+                         self.addToCart(type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
+                        
+                     } else {
+                        CommonFunctions.showMessage(message: Message.noQuantityavailable)
+
+                    }
+                    } else {
+                        if (arrProductDetail[0]["CartQty"] as! Int) < Int(arrProductDetail[0]["AvailableQty"] as! Double) {
+                            self.imgBackUpdateQty.isHidden = true
+                            self.viewUpdateQty.isHidden = true
+                            self.intType = 1
+                                                   
+                            self.addToCart( type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
+                                               
+                                            } else {
+                                               CommonFunctions.showMessage(message: Message.noQuantityavailable)
+
+                                           }
+                    }
+                } else {
                 if (arrProductDetail[0]["CartQty"] as! Int) < Int(arrProductDetail[0]["AvailableQty"] as! Double) {
                     
                     
                     intType = 1
-                    addToCart(type: 1)
+                    addToCart(type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
                 }
                 else {
                     CommonFunctions.showMessage(message: Message.noQuantityavailable)
-                }
+                }}
             } else {
                 if (arrProductDetail[0]["CartQty"] as! Int) < (arrProductDetail[0]["PerItemCartLimit"] as! Int) {
                     if (arrProductDetail[0]["CartQty"] as! Int) < Int(arrProductDetail[0]["AvailableQty"] as! Double) {
                         intType = 1
                         
-                        addToCart(type: 1)
+                        addToCart(type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
                     }
                     else {
                         CommonFunctions.showMessage(message: Message.noQuantityavailable)
@@ -882,7 +1180,7 @@ extension ProductDetailViewController :UITableViewDelegate {
                 if (arrProductDetail[0]["CartQty"] as! Int) < Int(arrProductDetail[0]["AvailableQty"] as! Double) {
                     intType = 1
                     
-                    addToCart(type: 1)
+                    addToCart(type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
                 }
                 else {
                     CommonFunctions.showMessage(message: Message.noQuantityavailable)
@@ -893,7 +1191,7 @@ extension ProductDetailViewController :UITableViewDelegate {
                     if (arrProductDetail[0]["CartQty"] as! Int) < Int(arrProductDetail[0]["AvailableQty"] as! Double) {
                         intType = 1
                         
-                        addToCart(type: 1)
+                        addToCart(type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
                     }
                     else {
                         CommonFunctions.showMessage(message: Message.noQuantityavailable)
@@ -920,10 +1218,18 @@ extension ProductDetailViewController :UITableViewDelegate {
         
         if CommonFunctions.userLoginData() == true {
             
-            if (arrProductDetail[0]["CartQty"] as! Int) > 0 {
+            if arrProductDetail[0]["ProductType"] as! Int  == 1 {
+                if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+                    intType = 2
+                    
+                    addToCart(type: 2, isManual: false, cartWeight: 0.0, cartQty: 0)
+                }
+            } else {
+                if (arrProductDetail[0]["CartQty"] as! Int) > 0 {
                 intType = 2
                 
-                addToCart(type: 2)
+                addToCart(type: 2, isManual: false, cartWeight: 0.0, cartQty: 0)
+            }
             }
         } else {
             isLoadingImage = false
@@ -1025,4 +1331,441 @@ extension ProductDetailViewController :UITableViewDelegate {
         
     }
     
+}
+extension ProductDetailViewController : UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        self.txtUpdateQty.tag = textField.tag
+
+        var isChange = false
+        if arrProductDetail[0]["CartQty"] as! Int > 0 {
+            isChange = true
+            imgBackUpdateQty.isHidden = false
+            viewUpdateQty.isHidden = false
+        }
+        
+        if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+            isChange = true
+
+            imgBackUpdateQty.isHidden = false
+            viewUpdateQty.isHidden = false
+        }
+        
+        if isChange == true {
+            DispatchQueue.main.async {
+                if textField != self.txtUpdateQty {
+        textField.resignFirstResponder()
+                }
+            }
+        self.txtUpdateQty.text = textField.text
+
+        btnCancelQty.tag = textField.tag - 100
+        btnUpdateQty.tag = textField.tag - 100
+        
+        lblUpdateQtyTitle.text = "Update Quantity"
+            
+            self.txtUpdateQty.keyboardType = UIKeyboardType.numberPad
+
+        if arrProductDetail[0]["ProductType"] as! Int  > 0 {
+            
+            if arrProductDetail[0]["ProductType"] as! Int == 1 {
+                
+                if isKg == true {
+                    self.txtUpdateQty.keyboardType = UIKeyboardType.decimalPad
+
+                    lblUpdateQtyTitle.text = "Update Weight"
+                }
+            }
+        }
+        
+        self.lblUpdateQtyMessage.isHidden = true
+        
+        
+            lblUpdateQtyMessage.text = ""
+            if arrProductDetail[0]["ProductType"] as! Int == 1 {
+
+
+                       if isKg == false {
+
+                        
+                        let calculate = Double(arrProductDetail[0]["CartQty"] as! Int) * (arrProductDetail[0]["ProductSizePerQty"] as! Double)
+                        print(calculate)
+                        if calculate > 0 {
+
+                            lblUpdateQtyMessage.isHidden = false
+
+                        lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+                        }
+                        if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                        if calculate <  arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double{
+                            lblUpdateQtyMessage.isHidden = false
+
+                            lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                        }
+                        }
+
+                       } else {
+                        let calculate = (arrProductDetail[0]["CartWeight"] as! Double) * (arrProductDetail[0]["ProductSizePerQty"] as! Double)
+                        print(calculate)
+                        if calculate > 0 {
+
+                            if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+
+                        if calculate  <  (arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+                            lblUpdateQtyMessage.isHidden = false
+
+                            lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                        }
+                            }
+                        }
+                        
+                }
+                
+            }
+            
+            if arrProductDetail[0]["ProductType"] as! Int == 0 {
+                
+                if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                    lblUpdateQtyMessage.isHidden = false
+
+                }
+                
+                if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+                    lblUpdateQtyMessage.isHidden = false
+
+                }
+                
+                if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                if (arrProductDetail[0]["CartQty"] as! Int) <  Int(arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+
+                    lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                }
+                }
+                
+            }
+            }
+
+        return true
+    }
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        
+        
+        
+
+        isQtyEdit = true
+
+        self.lblKg.isHidden = true
+        
+        
+        
+        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+                       
+                       if isKg == true {
+                        self.lblKg.isHidden = false
+
+                        if textField.text != "" {
+
+                            arrProductDetail[0]["CartWeight"]  = Double(textField.text!)
+                        }
+                       } else {
+                        if textField.text != "" {
+                            arrProductDetail[0]["CartQty"] = Int(textField.text!)
+                        }
+
+            }
+        } else {
+            if textField.text != "" {
+                arrProductDetail[0]["CartQty"] = Int(textField.text!)
+            }
+        }
+        
+        
+       
+        
+        
+        
+        return true
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    {
+        var updatedText = ""
+        if let text = textField.text,
+                   let textRange = Range(range, in: text) {
+                   updatedText = text.replacingCharacters(in: textRange,
+                                                               with: string)
+                }
+        if viewUpdateQty.isHidden == false {
+            
+        
+        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+                       
+                       if isKg == true {
+                        self.lblKg.isHidden = false
+
+                        if updatedText != "" {
+
+                            arrProductDetail[0]["CartWeight"]  = Double(updatedText)
+                        }
+                       } else {
+                        if updatedText != "" {
+                            arrProductDetail[0]["CartQty"] = Int(updatedText)
+                        }
+
+            }
+        } else {
+            if updatedText != "" {
+                arrProductDetail[0]["CartQty"] = Int(updatedText)
+            }
+        }
+        
+            self.lblUpdateQtyMessage.isHidden = true
+            
+            
+                lblUpdateQtyMessage.text = ""
+                if arrProductDetail[0]["ProductType"] as! Int == 1 {
+
+
+                           if isKg == false {
+
+                            
+                            let calculate = Double(arrProductDetail[0]["CartQty"] as! Int) * (arrProductDetail[0]["ProductSizePerQty"] as! Double)
+                            print(calculate)
+                            if calculate > 0 {
+
+                                lblUpdateQtyMessage.isHidden = false
+
+                            lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+                            }
+                            if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                            if calculate <  arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double{
+                                lblUpdateQtyMessage.isHidden = false
+
+                                lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                            }
+                            }
+
+                           } else {
+                            let calculate = (arrProductDetail[0]["CartWeight"] as! Double) * (arrProductDetail[0]["ProductSizePerQty"] as! Double)
+                            print(calculate)
+                            if calculate > 0 {
+
+                                if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+
+                            if calculate  <  (arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+                                lblUpdateQtyMessage.isHidden = false
+
+                                lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                            }
+                                }
+                            }
+                            
+                    }
+                    
+                }
+                
+                if arrProductDetail[0]["ProductType"] as! Int == 0 {
+                    
+                    if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                        lblUpdateQtyMessage.isHidden = false
+
+                    }
+                    
+                    if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+                        lblUpdateQtyMessage.isHidden = false
+
+                    }
+                    
+                    if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                    if (arrProductDetail[0]["CartQty"] as! Int) <  Int(arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+
+                        lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                    }
+                    }
+                    
+                }
+        }
+        else {
+            
+        }
+        
+        return true
+    }
+}
+extension ProductDetailViewController  {
+    @IBAction func btnUpdateQtyClicked(_ sender: UIButton) {
+        
+        if self.txtUpdateQty.text == "" {
+            return
+        }
+        isQtyEdit = true
+
+        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+                       
+                       if isKg == true {
+                        self.lblKg.isHidden = false
+
+                           if txtUpdateQty.text != "" {
+
+                               arrProductDetail[0]["CartWeight"]  = Double(txtUpdateQty.text ?? "0.0")
+                        }
+                       } else {
+                        if txtUpdateQty.text != "" {
+                            arrProductDetail[0]["CartQty"] = Int(txtUpdateQty.text ?? "0")
+                        }
+
+            }
+        } else {
+            if txtUpdateQty.text != "" {
+                arrProductDetail[0]["CartQty"] = Int(txtUpdateQty.text ?? "0")
+            }
+        }
+        
+        self.lblUpdateQtyMessage.isHidden = true
+        
+        
+            lblUpdateQtyMessage.text = ""
+            if arrProductDetail[0]["ProductType"] as! Int == 1 {
+
+
+                       if isKg == false {
+
+                        
+                        let calculate = Double(arrProductDetail[0]["CartQty"] as! Int) * (arrProductDetail[0]["ProductSizePerQty"] as! Double)
+                        print(calculate)
+                        if calculate > 0 {
+
+                            lblUpdateQtyMessage.isHidden = false
+
+                        lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+                        }
+                        if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                        if calculate <  arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double{
+                            lblUpdateQtyMessage.isHidden = false
+
+                            lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                        }
+                        }
+
+                       } else {
+                        let calculate = (arrProductDetail[0]["CartWeight"] as! Double) * (arrProductDetail[0]["ProductSizePerQty"] as! Double)
+                        print(calculate)
+                        if calculate > 0 {
+
+                            if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+
+                        if calculate  <  (arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+                            lblUpdateQtyMessage.isHidden = false
+
+                            lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                        }
+                            }
+                        }
+                        
+                }
+                
+            }
+            
+            if arrProductDetail[0]["ProductType"] as! Int == 0 {
+                
+                if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                    lblUpdateQtyMessage.isHidden = false
+
+                }
+                
+                if arrProductDetail[0]["CartWeight"] as! Double > 0 {
+                    lblUpdateQtyMessage.isHidden = false
+
+                }
+                
+                if arrProductDetail[0]["CartQty"] as! Int > 0 {
+                if (arrProductDetail[0]["CartQty"] as! Int) <  Int(arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+
+                    lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
+
+                }
+                }
+                
+            }
+        
+        self.view.endEditing(true)
+
+        
+        intSenderType = 1
+        if CommonFunctions.userLoginData() == true {
+            
+            if(arrProductDetail[0]["PerItemCartLimit"] as! Int == 0) {
+                if arrProductDetail[0]["ProductType"] as! Int == 1 {
+                    if isKg == true {
+                     if (arrProductDetail[0]["CartWeight"] as! Double) < (arrProductDetail[0]["AvailableQty"] as! Double) {
+                         self.imgBackUpdateQty.isHidden = true
+                         self.viewUpdateQty.isHidden = true
+                         self.intType = 1
+                            
+                         self.addToCart(type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
+                        
+                     } else {
+                        CommonFunctions.showMessage(message: Message.noQuantityavailable)
+
+                    }
+                    } else {
+                        if (arrProductDetail[0]["CartQty"] as! Int) < Int(arrProductDetail[0]["AvailableQty"] as! Double) {
+                            self.imgBackUpdateQty.isHidden = true
+                            self.viewUpdateQty.isHidden = true
+                            self.intType = 1
+                                                   
+                            self.addToCart( type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
+                                               
+                                            } else {
+                                               CommonFunctions.showMessage(message: Message.noQuantityavailable)
+
+                                           }
+                    }
+                } else {
+                if (arrProductDetail[0]["CartQty"] as! Int) < Int(arrProductDetail[0]["AvailableQty"] as! Double) {
+                    
+                    
+                    intType = 1
+                    addToCart(type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
+                }
+                else {
+                    CommonFunctions.showMessage(message: Message.noQuantityavailable)
+                }}
+            } else {
+                if (arrProductDetail[0]["CartQty"] as! Int) < (arrProductDetail[0]["PerItemCartLimit"] as! Int) {
+                    if (arrProductDetail[0]["CartQty"] as! Int) < Int(arrProductDetail[0]["AvailableQty"] as! Double) {
+                        intType = 1
+                        
+                        addToCart(type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
+                    }
+                    else {
+                        CommonFunctions.showMessage(message: Message.noQuantityavailable)
+                    }
+                } else {
+                    CommonFunctions.showMessage(message: Message.nocartlimit)
+                    
+                }
+            }
+        } else {
+            isLoadingImage = false
+
+            let storyBaord = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBaord.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            vc.cType = ControllerType.OrderDetail
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+    }
+    @IBAction func btnCloseQtyClicked(_ sender: UIButton) {
+        imgBackUpdateQty.isHidden = true
+              viewUpdateQty.isHidden = true
+    }
 }

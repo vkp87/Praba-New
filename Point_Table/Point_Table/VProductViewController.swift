@@ -1530,7 +1530,8 @@ class VProductViewController: UIViewController,UICollectionViewDelegate, UIColle
             }
             
             cell.lblDisplayweight.isHidden = true
-            
+            cell.lblDisplayweight.text = ""
+
             
             if arrProduct[indexPath.row].ProductType! == 1 {
     //            if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
@@ -1564,7 +1565,7 @@ class VProductViewController: UIViewController,UICollectionViewDelegate, UIColle
                         }
 
                        } else {
-                        let calculate = arrProduct[indexPath.row].CartWeight ?? 0 * (arrProduct[indexPath.row].ProductSizePerQty ?? 0.0)
+                        let calculate = (arrProduct[indexPath.row].CartWeight ?? 0) * (arrProduct[indexPath.row].ProductSizePerQty ?? 0.0)
                         print(calculate)
                         if calculate > 0 {
 
@@ -2159,7 +2160,8 @@ extension VProductViewController : UITextFieldDelegate {
         
         self.lblUpdateQtyMessage.isHidden = true
         
-        
+            self.lblUpdateQtyMessage.text = ""
+
         if arrProduct[textField.tag - 100].ProductType! == 1 {
 
                    if arrProduct[textField.tag - 100].isKg! == false {
@@ -2183,7 +2185,7 @@ extension VProductViewController : UITextFieldDelegate {
                     }
 
                    } else {
-                    let calculate = arrProduct[textField.tag - 100].CartWeight ?? 0 * (arrProduct[textField.tag - 100].ProductSizePerQty ?? 0.0)
+                    let calculate = (arrProduct[textField.tag - 100].CartWeight ?? 0) * (arrProduct[textField.tag - 100].ProductSizePerQty ?? 0.0)
                     print(calculate)
                     if calculate > 0 {
 
@@ -2290,7 +2292,8 @@ extension VProductViewController : UITextFieldDelegate {
             arrProduct[textField.tag - 100].CartQty = Int(updatedText)
             }
         }
-        
+            self.lblUpdateQtyMessage.text = ""
+
         if arrProduct[textField.tag - 100].ProductType! == 1 {
 
                    if arrProduct[textField.tag - 100].isKg! == false {
@@ -2314,7 +2317,7 @@ extension VProductViewController : UITextFieldDelegate {
                     }
 
                    } else {
-                    let calculate = arrProduct[textField.tag - 100].CartWeight ?? 0 * (arrProduct[textField.tag - 100].ProductSizePerQty ?? 0.0)
+                    let calculate = (arrProduct[textField.tag - 100].CartWeight ?? 0) * (arrProduct[textField.tag - 100].ProductSizePerQty ?? 0.0)
                     print(calculate)
                     if calculate > 0 {
 
@@ -2384,7 +2387,8 @@ extension VProductViewController  {
             arrProduct[sender.tag].CartQty = Int(txtUpdateQty.text!)
             }
         }
-        
+        self.lblUpdateQtyMessage.text = ""
+
         if arrProduct[sender.tag].ProductType! == 1 {
 
                    if arrProduct[sender.tag].isKg! == false {
