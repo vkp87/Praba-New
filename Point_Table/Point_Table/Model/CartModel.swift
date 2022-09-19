@@ -21,6 +21,7 @@ class CartModel: NSObject {
     var Price : Double?
     var ProductName : String?
     var PromotionTitle : String?
+    var ProductType : Int?
 
     var AvailableQty : Int?
     var CartQty : Int?
@@ -33,6 +34,7 @@ class CartModel: NSObject {
     var DeliveryDistance : Int?
 
     var SellingPrice : Double?
+    var Weight : Double?
     var Quantity : Int?
     var Discount : Int?
     var PerItemCartLimit : Int?
@@ -52,6 +54,11 @@ class CartModel: NSObject {
         ExcludeMinimumCartValueMessage = ""
         if let str = json!["ExcludeMinimumCartValueMessage"] as? String {
             ExcludeMinimumCartValueMessage = str
+        }
+        
+        ProductType = 0
+        if let str = json!["ProductType"] as? Int {
+            ProductType = str
         }
         
         PerItemCartLimit = 0
@@ -177,6 +184,12 @@ class CartModel: NSObject {
             DeliveryCharge = str
         }
         
+        Weight = 0
+        if let str = json!["Weight"] as? Double {
+            Weight = str
+        }
+        
+        
         OrderDetailId = 0
         if let str = json!["OrderDetailId"] as? Int {
             OrderDetailId = str
@@ -195,7 +208,8 @@ class CartModel: NSObject {
         dicParam["PerItemCartLimit"] = PerItemCartLimit as AnyObject
         dicParam["IsExcludeMinimumCartValue"] = IsExcludeMinimumCartValue as AnyObject
 
-        
+        dicParam["ProductType"] = ProductType as AnyObject
+
         
         dicParam["PromotionTitle"] = PromotionTitle as AnyObject
 
@@ -226,6 +240,8 @@ class CartModel: NSObject {
         dicParam["DeliveryChargeEligibleTill"] = DeliveryChargeEligibleTill as AnyObject
         dicParam["ProductSizeType"] = ProductSizeType as AnyObject
         dicParam["OutOfStockMessage"] = outOfStockMessage as AnyObject
+        dicParam["Weight"] = Weight as AnyObject
+
         return dicParam
     }
 }

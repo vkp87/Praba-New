@@ -471,8 +471,11 @@ extension MyOrderDetailViewControler :UITableViewDelegate {
             
             if arrOrderDetail[indexPath.row].PromotionTitle! == "" {
                 cell.lblPramotion.isHidden = true
+                cell.imgPramotion.isHidden = true
             } else {
                 cell.lblPramotion.isHidden = false
+                cell.imgPramotion.isHidden = false
+
 
                 cell.lblPramotion.text = " \(arrOrderDetail[indexPath.row].PromotionTitle!) "
             }
@@ -497,7 +500,29 @@ extension MyOrderDetailViewControler :UITableViewDelegate {
             }
             )
             
-            cell.lblQty.text = "\(arrOrderDetail[indexPath.row].Quantity ?? 0)";
+            if arrOrderDetail[indexPath.row].ProductType! == 0 {
+                cell.lblTitleQty.text = "Qty"
+                cell.lblQty.text = "\(arrOrderDetail[indexPath.row].Quantity ?? 0)";
+
+            }
+            
+            cell.lblApprox.isHidden = true
+            
+            if arrOrderDetail[indexPath.row].ProductType! > 0 && arrOrderDetail[indexPath.row].Quantity! > 0 && arrOrderDetail[indexPath.row].Weight! > 0{
+                cell.lblTitleQty.text = "Qty"
+                cell.lblApprox.isHidden = false
+
+                cell.lblApprox.text = "Approx Weight \(arrOrderDetail[indexPath.row].Weight!) \(arrOrderDetail[indexPath.row].ProductSizeType!)"
+                cell.lblQty.text = "\(arrOrderDetail[indexPath.row].Quantity ?? 0)";
+
+            }
+            
+            if arrOrderDetail[indexPath.row].ProductType! > 0 && arrOrderDetail[indexPath.row].Quantity! == 0 && arrOrderDetail[indexPath.row].Weight! > 0{
+                cell.lblTitleQty.text = "\(arrOrderDetail[indexPath.row].ProductSizeType!)"
+                cell.lblQty.text = "\(arrOrderDetail[indexPath.row].Weight ?? 0.0)";
+
+            }
+            
             cell.backgroundColor = UIColor.clear
             cell.contentView.backgroundColor = UIColor.clear
             return cell
@@ -528,7 +553,7 @@ extension MyOrderDetailViewControler :UITableViewDelegate {
             }
             return 50
         }
-        return 145
+        return 164
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -17,6 +17,7 @@ class OrderItemCell: UITableViewCell {
     @IBOutlet weak var imgPramotion: UIImageView!
 
     @IBOutlet weak var lblmincartmsg: UILabel!
+    @IBOutlet weak var lblApprox: UILabel!
 
     @IBOutlet weak var lblAmount: UILabel! //15
     @IBOutlet weak var lblTitleType: UILabel! //10
@@ -34,6 +35,7 @@ class OrderItemCell: UITableViewCell {
 
         lblTitle.font = UIFont(name: Font_Semibold, size: 15)
         lblAmount.font = UIFont(name: Font_Semibold, size: 13)
+        lblApprox.font = UIFont(name: Font_Regular, size: 13)
 
         lblTitleType.font = UIFont(name: Font_Regular, size: 13)
         lblQty.font = UIFont(name: Font_Regular, size: 14)

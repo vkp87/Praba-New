@@ -77,11 +77,11 @@ var apiMode: ApiMode = .PROD
 struct Base {
     
     //Dev
-//    public static let url =  "http://pointapidemo.softworldinfotech.com/"
+   public static let url =  "http://pointapidemo.softworldinfotech.com/"
     //382415 : Post Code
 
     //Production
-    public static let url =  "https://pointtableapi.prabagrocery.com/"
+    //public static let url =  "https://pointtableapi.prabagrocery.com/"
    //9427384408
     //Test@12345
     //DN31SE : Post Code
