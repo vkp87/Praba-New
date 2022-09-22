@@ -63,7 +63,7 @@ class MyAddressListViewController: UIViewController {
                         self.tblView.reloadData()
                     }
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -175,7 +175,7 @@ extension MyAddressListViewController :UITableViewDelegate {
                         
                         
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                       // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 } else {
                     CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -232,7 +232,7 @@ extension MyAddressListViewController :UITableViewDelegate {
                         
                         
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 } else {
                     CommonFunctions.showMessage(message: Message.internetnotconnected)

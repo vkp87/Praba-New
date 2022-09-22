@@ -230,7 +230,7 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
                                     
                                     
                                 }) { (error) -> Void in
-                                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                                    //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                                 }
                             } else {
                                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -242,7 +242,7 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
                     self.tblView.reloadData()
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                  //  CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -268,7 +268,7 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
                     self.tblView.reloadData()
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -406,7 +406,7 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
                     
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                   // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -439,7 +439,7 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
                     }
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                   /// CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -514,7 +514,7 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
                         
                         
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                       // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 } else {
                     CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -1301,7 +1301,7 @@ extension ProductDetailViewController :UITableViewDelegate {
                             
                             
                         }) { (error) -> Void in
-                            CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                            //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                         }
                     } else {
                         CommonFunctions.showMessage(message: Message.internetnotconnected)

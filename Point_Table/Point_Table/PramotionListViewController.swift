@@ -98,7 +98,7 @@ class PramotionListViewController: UIViewController {
                         }
                         
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        //  CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 } else {
                     APIManager.requestPostJsonEncoding(.getallorderpromotions, isLoading: true, params: param, headers: [:],success: { (JSONResponse)  -> Void in
@@ -120,7 +120,7 @@ class PramotionListViewController: UIViewController {
                         
                         
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 }
             } else {
@@ -158,7 +158,7 @@ class PramotionListViewController: UIViewController {
                         }
                         
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 } else {
                     APIManager.requestPostJsonEncoding(.getallorderpromotions, isLoading: true, params: param, headers: [:],success: { (JSONResponse)  -> Void in
@@ -180,7 +180,7 @@ class PramotionListViewController: UIViewController {
                         
                         
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 }
             } else {

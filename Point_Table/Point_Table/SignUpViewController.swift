@@ -152,7 +152,7 @@ class SignUpViewController: UIViewController {
                 
                 
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+               // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         } else {
             CommonFunctions.showMessage(message: Message.internetnotconnected)

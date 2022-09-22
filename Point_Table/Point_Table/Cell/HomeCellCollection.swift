@@ -777,7 +777,7 @@ extension HomeCellCollection {
                             self.collectionProduct.reloadData()
                             
                         }) { (error) -> Void in
-                            CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+//                            CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                         }
                     } else {
                         CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -861,7 +861,7 @@ extension HomeCellCollection {
                     self.collectionProduct.reloadData()
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+//                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)

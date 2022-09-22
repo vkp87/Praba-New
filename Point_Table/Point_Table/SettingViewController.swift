@@ -297,7 +297,7 @@ class SettingViewController: UIViewController,UINavigationControllerDelegate,UII
                 }
                 
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         } else {
             CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -376,7 +376,7 @@ class SettingViewController: UIViewController,UINavigationControllerDelegate,UII
                           }
                       }*/
                   }) { (error) -> Void in
-                      CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                      //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                   }
               } else {
                   CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -697,7 +697,7 @@ extension SettingViewController :UITableViewDataSource {
                             
                             
                         }) { (error) -> Void in
-                            CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                            //   CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                         }
                     } else {
                         CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -1079,7 +1079,7 @@ extension SettingViewController :HomeProfileCellDelegate {
                             
                         }
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 } else {
                     CommonFunctions.showMessage(message: Message.internetnotconnected)

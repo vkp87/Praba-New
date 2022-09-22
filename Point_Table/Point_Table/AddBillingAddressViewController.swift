@@ -79,7 +79,7 @@ class AddBillingAddressViewController: UIViewController {
                     
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -227,7 +227,7 @@ class AddBillingAddressViewController: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                     CommonFunctions.showMessage(message: Message.successaddyouradress)
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)

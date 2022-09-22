@@ -132,7 +132,7 @@ class CategoryViewController: UIViewController,UICollectionViewDelegate, UIColle
                 
                 
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         } else {
             CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -192,7 +192,7 @@ class CategoryViewController: UIViewController,UICollectionViewDelegate, UIColle
                 
                 
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         } else {
             CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -224,7 +224,7 @@ class CategoryViewController: UIViewController,UICollectionViewDelegate, UIColle
                     }
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)

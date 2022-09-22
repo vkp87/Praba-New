@@ -105,7 +105,7 @@ class OtpViewController: UIViewController {
 
                 
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         } else {
             CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -148,7 +148,7 @@ class OtpViewController: UIViewController {
                     self.btnSubmit.setTitle("SUBMIT", for: .normal)
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -202,7 +202,7 @@ class OtpViewController: UIViewController {
                     }
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                   // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)

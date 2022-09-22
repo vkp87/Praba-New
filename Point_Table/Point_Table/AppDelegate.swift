@@ -265,7 +265,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
                     
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+//                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             }
             
@@ -373,7 +373,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
                 
                 
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+//                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         }
         

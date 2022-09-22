@@ -82,7 +82,7 @@ class MyOrderListViewControler: UIViewController {
                         self.tblView.reloadData()
                     }
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                   // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -173,7 +173,7 @@ class MyOrderListViewControler: UIViewController {
                          self.navigationController?.pushViewController(vc, animated: true)
                        }
                    }) { (error) -> Void in
-                       CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                      // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                    }
                } else {
                    CommonFunctions.showMessage(message: Message.internetnotconnected)

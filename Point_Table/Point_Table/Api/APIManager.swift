@@ -55,7 +55,11 @@ class APIManager: NSObject {
                     if let message = Dict["message"] as? String {
                         msg = message
                     }
-                    CommonFunctions.showMessage(message: msg)
+                    if msg != "The network connection was lost." {
+                        CommonFunctions.showMessage(message: msg)
+
+                    }
+                    
                 }
             }
         }
@@ -94,7 +98,11 @@ class APIManager: NSObject {
                     if let message = Dict["message"] as? String {
                         msg = message
                     }
-                    CommonFunctions.showMessage(message: msg)
+                    if msg != "The network connection was lost." {
+                        CommonFunctions.showMessage(message: msg)
+
+                    }
+                    
                 }
             }
         }
@@ -127,7 +135,10 @@ class APIManager: NSObject {
                             if let message = Dict["message"] as? String {
                                 msg = message
                             }
-                            CommonFunctions.showMessage(message: msg)
+                            if msg != "The network connection was lost." {
+                                CommonFunctions.showMessage(message: msg)
+
+                            }
                         }
                         else {
                             success(resJson as AnyObject)
@@ -152,7 +163,11 @@ class APIManager: NSObject {
                     if let message = Dict["message"] as? String {
                         msg = message
                     }
-                    CommonFunctions.showMessage(message: msg)
+                    if msg != "The network connection was lost." {
+                        CommonFunctions.showMessage(message: msg)
+
+                    }
+                    
                 }
             }
         }
@@ -193,7 +208,11 @@ class APIManager: NSObject {
                         if let message = Dict["message"] as? String {
                             msg = message
                         }
-                        CommonFunctions.showMessage(message: msg)
+                        if msg != "The network connection was lost." {
+                            CommonFunctions.showMessage(message: msg)
+
+                        }
+                        
                     }
                     
                 }

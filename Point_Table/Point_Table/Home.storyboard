@@ -208,7 +208,7 @@
                                             <action selector="btnMapClicked:" destination="mld-X7-p1Z" eventType="touchUpInside" id="IAN-NU-NmV"/>
                                         </connections>
                                     </button>
-                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="U6H-NJ-ThV">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash_Logo" translatesAutoresizingMaskIntoConstraints="NO" id="U6H-NJ-ThV">
                                         <rect key="frame" x="137.5" y="10" width="100" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="Ut2-df-BiX"/>
@@ -6827,6 +6827,7 @@
     </designables>
     <resources>
         <image name="Applepay" width="300" height="300"/>
+        <image name="Splash_Logo" width="180" height="180"/>
         <image name="background" width="396" height="600"/>
         <image name="close" width="14" height="14"/>
         <image name="emptycart" width="400" height="300"/>
@@ -6835,7 +6836,6 @@
         <image name="left" width="18" height="15.5"/>
         <image name="like" width="64" height="64"/>
         <image name="location1" width="64" height="64"/>
-        <image name="logo" width="75" height="75"/>
         <image name="menu" width="96" height="96"/>
         <image name="payment fail" width="200" height="200"/>
         <image name="plus-sign-in-circle" width="64" height="64"/>

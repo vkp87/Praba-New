@@ -185,7 +185,7 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
                     self.getAllProduct()
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -235,7 +235,7 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
                     self.collectionV.reloadData()
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    //  CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -367,7 +367,7 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
                     self.collectionV.reloadData()
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -498,7 +498,7 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
                         self.collectionV.reloadData()
                         
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 } else {
                     CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -1048,7 +1048,7 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
                             
                             
                         }) { (error) -> Void in
-                            CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                            //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                         }
                     } else {
                         CommonFunctions.showMessage(message: Message.internetnotconnected)

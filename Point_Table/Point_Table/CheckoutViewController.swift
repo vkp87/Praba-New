@@ -415,7 +415,7 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
                     }
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -503,7 +503,7 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
                     }
                                         
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                   // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -573,7 +573,7 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
                     rootViewController.present(alertError, animated: true, completion: nil)
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                  //  CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -655,7 +655,7 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
                                 }
                             }
                         }) { (error) -> Void in
-                            CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                          //  CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                         }
                     } else {
                         CommonFunctions.showMessage(message: Message.internetnotconnected)

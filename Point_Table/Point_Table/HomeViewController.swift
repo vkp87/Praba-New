@@ -122,7 +122,7 @@ class HomeViewController: UIViewController,UINavigationControllerDelegate,UIImag
                     }
                     
                 }) { (error) -> Void in
-                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                   // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -284,7 +284,7 @@ class HomeViewController: UIViewController,UINavigationControllerDelegate,UIImag
                         }
                 }
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+              //  CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         } else {
             CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -325,7 +325,7 @@ class HomeViewController: UIViewController,UINavigationControllerDelegate,UIImag
                 self.getAllBrandWeb(sid: sid)
                 
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+               // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         } else {
             CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -373,7 +373,7 @@ class HomeViewController: UIViewController,UINavigationControllerDelegate,UIImag
 
                 
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+               // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         } else {
             CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -433,7 +433,7 @@ class HomeViewController: UIViewController,UINavigationControllerDelegate,UIImag
                 
                 
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         } else {
             CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -492,7 +492,7 @@ class HomeViewController: UIViewController,UINavigationControllerDelegate,UIImag
                 self.getAllProduct(sid: sid)
                 
             }) { (error) -> Void in
-                CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+               // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
             }
         } else {
             CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -843,7 +843,7 @@ class HomeViewController: UIViewController,UINavigationControllerDelegate,UIImag
                             
                             
                         }) { (error) -> Void in
-                            CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                            //CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                         }
                     } else {
                         CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -958,7 +958,7 @@ class HomeViewController: UIViewController,UINavigationControllerDelegate,UIImag
                             
                             
                         }) { (error) -> Void in
-                            CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                            // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                         }
                     } else {
                         CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -1070,7 +1070,7 @@ class HomeViewController: UIViewController,UINavigationControllerDelegate,UIImag
                         
                         
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 } else {
                     CommonFunctions.showMessage(message: Message.internetnotconnected)
@@ -1301,7 +1301,7 @@ class HomeViewController: UIViewController,UINavigationControllerDelegate,UIImag
                           
                         }
                     }) { (error) -> Void in
-                        CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                     }
                 } else {
                     CommonFunctions.showMessage(message: Message.internetnotconnected)
