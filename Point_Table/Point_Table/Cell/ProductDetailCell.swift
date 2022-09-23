@@ -53,6 +53,12 @@ class ProductDetailCell: UITableViewCell,UICollectionViewDelegate, UICollectionV
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        lblQty.layer.cornerRadius = 11
+        lblQty.layer.borderWidth = 1.5
+        lblQty.layer.borderColor = UIColor.black.cgColor
+        
+        
         lblAdd.font = UIFont(name: Font_Regular, size: 15)
         btnAdd.titleLabel?.font = UIFont(name: Font_Semibold, size: 17)
 
@@ -122,9 +128,18 @@ class ProductDetailCell: UITableViewCell,UICollectionViewDelegate, UICollectionV
             //Show kg with price
             
             
+            if dict["ProductSizeType"] as! String == "" {
+                let strPrice = "\(lblPrize.text!)"
+                lblPrize.text = strPrice
+            } else {
+                
+                let strPrice = "\(lblPrize.text!)/ \(dict["ProductSizeType"] as! String)"
+                lblPrize.text = strPrice
+            }
             
-            let strPrice = "\(lblPrize.text!)/ \(dict["ProductSizeType"] as! String)"
-            lblPrize.text = strPrice
+            
+            
+          
 
             
         }

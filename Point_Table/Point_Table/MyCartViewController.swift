@@ -32,9 +32,22 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
     var symboll = ""
     var isbackhide = false
        @IBOutlet weak var btnBack: UIButton!
+    
+    @IBOutlet weak var imgBackUpdateQty: UIImageView!
+    @IBOutlet weak var viewUpdateQty: UIView!
+
+    @IBOutlet weak var lblUpdateQtyTitle: UILabel!
+    @IBOutlet weak var txtUpdateQty: UITextField!
+    @IBOutlet weak var lblUpdateQtyMessage: UILabel!
+    @IBOutlet weak var btnUpdateQty: UIButton!
+    @IBOutlet weak var btnCancelQty: UIButton!
+    @IBOutlet weak var lblKg: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        txtUpdateQty.textAlignment = .center
+        imgBackUpdateQty.isHidden = true
+        viewUpdateQty.isHidden = true
         if isbackhide == true {
                    btnBack.isHidden = true
                } else {
@@ -129,7 +142,23 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
     
     func SetupUI() -> Void {
         
+        txtUpdateQty.layer.cornerRadius = 11
+        txtUpdateQty.layer.borderWidth = 1.5
+        txtUpdateQty.layer.borderColor = UIColor.black.cgColor
         
+        self.txtUpdateQty.delegate  = self
+
+        lblUpdateQtyTitle.font = UIFont(name: Font_Semibold, size: 18)
+        lblUpdateQtyMessage.font = UIFont(name: Font_Regular, size: 16)
+        lblKg.font = UIFont(name: Font_Regular, size: 16)
+
+        btnUpdateQty.titleLabel?.font =  UIFont(name: Font_Semibold, size: 17)
+        CommonFunctions.setCornerRadius(view: btnUpdateQty, radius: 17)
+        
+        btnCancelQty.titleLabel?.font =  UIFont(name: Font_Semibold, size: 17)
+        CommonFunctions.setCornerRadius(view: btnCancelQty, radius: 17)
+        CommonFunctions.setCornerRadius(view: viewUpdateQty, radius: 17)
+
         lblHeader.font = UIFont(name: Font_Semibold, size: 18)
         lblNorecord.font = UIFont(name: Font_Semibold, size: 18)
         lblNorecord1.font = UIFont(name: Font_Regular, size: 15)
@@ -282,7 +311,7 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
         
         if self.arrCart.count > 0 {
             for i in 0..<arrCart.count {
-                if arrCart[i].AvailableQty ?? 0 < arrCart[i].CartQty ?? 0 {
+                if arrCart[i].AvailableQty ?? 0.0 < Double(arrCart[i].CartQty ?? 0) {
                     isAvaiqty = false
                 }
             }
@@ -363,7 +392,7 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
         
     }
     
-    func addToCart(index : Int, type : Int) -> Void {
+    func addToCart(index : Int, type : Int, isManual : Bool, cartWeight : Double, cartQty : Int ) -> Void {
         NotificationCenter.default.post(name: Notification.Name("CARTITEMREFRESH"), object: nil, userInfo: nil)
         let productid = arrCart[index].ProductId ?? 0
         let qty = 1
@@ -372,13 +401,66 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
             let user = UserModel(json: userdict)
             if Reachability.isConnectedToNetwork() {
                 
+//                var param  = [String : Any]()
+//                param["ShopId"] = shopId
+//                param["UserId"] = user.UserId
+//
+//                param["ProductId"] = productid
+//                param["Qty"] = qty
+//                param["Type"] = type
                 var param  = [String : Any]()
                 param["ShopId"] = shopId
                 param["UserId"] = user.UserId
-                
                 param["ProductId"] = productid
-                param["Qty"] = qty
+                param["Age"] = 0
+                param["ProductId"] = productid
+                if arrCart[index].isQtyEdit == true {
+                    param["Qty"] = arrCart[index].CartQty!
+
+                } else {
+                    param["Qty"] = cartQty == 0 ? qty : cartQty
+
+                }
                 param["Type"] = type
+                param["ProductType"] = self.arrCart[index].ProductType ?? 0
+                
+                if self.arrCart[index].ProductType ?? 0 == 0 {
+                    param["Weight"] = 0
+                } else {
+                    if self.arrCart[index].ProductType ?? 0 == 1 || self.arrCart[index].ProductType ?? 0 == 2{
+                        if arrCart[index].isKg! == true {
+                            param["Qty"] = cartQty == 0 ? 0 : cartQty
+                            if arrCart[index].isQtyEdit == true {
+                                param["Weight"] =  self.arrCart[index].CartWeight!
+                            } else {
+                               param["Weight"] = cartWeight == 0.0 ?  self.arrCart[index].WeightIncrement : cartWeight
+                            }
+                            
+
+                        } else {
+                            if arrCart[index].isQtyEdit == true {
+                                                           param["Weight"] =  self.arrCart[index].CartWeight!
+                                                       } else {
+                                                          param["Weight"] = cartWeight == 0.0 ?  self.arrCart[index].WeightIncrement : cartWeight
+                                                       }
+
+                        }
+                    } else {
+                        if arrCart[index].isQtyEdit == true {
+                                                       param["Weight"] =  self.arrCart[index].CartWeight!
+                                                   } else {
+                                                      param["Weight"] = cartWeight == 0.0 ?  self.arrCart[index].WeightIncrement : cartWeight
+                                                   }
+
+                    }
+                }
+                 
+                if isManual == true {
+                    param["IsFullValueChange"] = arrCart[index].isQtyEdit == true ? 1 : 0
+                } else {
+                    param["IsFullValueChange"] = 0
+
+                }
                 APIManager.requestPostJsonEncoding(.addorremovetocart, isLoading: false, params: param, headers: [:],success: { (JSONResponse)  -> Void in
                     
                     let Dict = JSONResponse as! [String:Any]
@@ -391,13 +473,15 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
                         
                         NotificationCenter.default.post(name: Notification.Name("CARTITEMREFRESH"), object: nil, userInfo: nil)
                         if let productQty = data["ProductQty"] as? Int {
-                            if productQty == 0 {
-                                // If count 0 remove item from cart
-                                self.arrCart.remove(at: index)
-                            } else {
-                                self.arrCart[index].CartQty = productQty //+ 1
+                            self.arrCart[index].CartQty = cartQty == 0 ? productQty : 0
+                        }
+                        if let productQty = data["ProductWeight"] as? Double {
+                            self.arrCart[index].CartWeight = cartWeight == 0.0 ? productQty : 0.0
+                        }
+                        if let qtyNotAvl = data["IsQtyNotAvailable"] as? Bool {
+                            if qtyNotAvl == true {
+                                self.arrCart[index].AvailableQty = Double(self.arrCart[index].CartQty!)
                             }
-                            
                         }
                         self.calculateAmount()
                     }
@@ -437,7 +521,16 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
         var savingAmt = 0.0
         for data in arrCart {
             let product = data
-            totalAmt += Double(product.CartQty!) * product.Price!
+            if product.ProductType == 2 {
+                totalAmt += Double(product.CartWeight!) * product.Price!
+
+            }
+            else if product.ProductType == 1 {
+                totalAmt += Double(product.CartWeight!) * product.Price!
+
+            }else {
+                totalAmt += Double(product.CartQty!) * product.Price!
+            }
             if product.OldPrice! > 0 {
                 savingAmt += Double(product.CartQty!) * (Double(product.OldPrice!) - product.Price!)
             }
@@ -466,7 +559,7 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: ScreenSize.width - 20, height: 160)
+        return CGSize(width: ScreenSize.width - 20, height: 200)
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -495,7 +588,8 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
         
         let pname = arrCart[indexPath.row].ProductName!.replacingOccurrences(of: "\t", with: "")
 
-        
+        arrCart[indexPath.row].isQtyEdit = false
+
         if arrCart[indexPath.row].ProductSize == 0 {
             self.attributetext(lbl1: cell.lblTitle, main: pname, sub: "")
         } else {
@@ -506,7 +600,34 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
 
         cell.lblqtAvail.textColor = UIColor.red
         
-        if arrCart[indexPath.row].AvailableQty ?? 0 < arrCart[indexPath.row].CartQty ?? 0 {
+        if arrCart[indexPath.row].ProductType! > 0 && arrCart[indexPath.row].CartQty! > 0 {
+            arrCart[indexPath.row].isKg! = false
+        }
+        
+        if arrCart[indexPath.row].ProductType! > 0 && arrCart[indexPath.row].CartQty! == 0 && arrCart[indexPath.row].CartWeight! > 0 {
+            arrCart[indexPath.row].isKg! = true
+               }
+        
+        cell.lblOrAmount.text = "\(symboll) \(CommonFunctions.appendString(data: arrCart[indexPath.row].Price!))"
+        if arrCart[indexPath.row].ProductType! > 0 {
+            //Show kg with price
+            
+            
+            if arrCart[indexPath.row].ProductSizeType! == "" {
+                let strPrice = "\(cell.lblOrAmount.text!)"
+                cell.lblOrAmount.text = strPrice
+            } else {
+                
+                let strPrice = "\(cell.lblOrAmount.text!)/ \(arrCart[indexPath.row].ProductSizeType!)"
+                cell.lblOrAmount.text = strPrice
+            }
+
+            
+        }
+        cell.lblQty.tag = 100 + indexPath.row
+        cell.lblQty.delegate = self
+        
+        if arrCart[indexPath.row].AvailableQty ?? 0.0 < Double(arrCart[indexPath.row].CartQty ?? 0) {
             cell.lblqtAvail.isHidden = false
             
             cell.lblqtAvail.text = "\(arrCart[indexPath.row].AvailableQty ?? 0) qty available"
@@ -528,17 +649,18 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
         
         cell.lblOrAmount.isHidden = false
         if arrCart[indexPath.row].OldPrice! == 0.0 {
-            cell.lblOrAmount.isHidden = true
+            cell.lblAmount.isHidden = true
+            cell.lblOrAmount.textColor = UIColor.black
+
         }
         
-        cell.lblOrAmount.textColor = Theme_Red_Color
 
         
         let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(symboll) \(CommonFunctions.appendString(data: Double(arrCart[indexPath.row].OldPrice!)))")
         
         //let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "$ \(arrCart[indexPath.row].OldPrice!)")
         attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
-        cell.lblOrAmount.attributedText = attributeString
+        cell.lblAmount.attributedText = attributeString
         
         DispatchQueue.main.async {
             cell.imgView.kf.indicatorType = .activity
@@ -568,29 +690,165 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
             cell.btnplus.isEnabled = false
             cell.btnplus.alpha = 0.7
         }
-        
+        if arrCart[indexPath.row].ProductType! > 0 {
+            cell.lblOutofstock.isHidden = true
+        }
         if arrCart[indexPath.row].AvailableQty ?? 0 == 0 {
+            cell.lblOutofstock.isHidden = false
+
             if arrCart[indexPath.row].outOfStockMessage == "" {
                 cell.lblOutofstock.text = "Out Of Stock"
             } else {
                 cell.lblOutofstock.text = arrCart[indexPath.row].outOfStockMessage
             }
             cell.lblOutofstock.textColor = Theme_Color
+            //cell.btnAdd.setImage(UIImage(named: "img1"), for: .normal)
+
+        
+            
             cell.btnplus.isEnabled = false
             cell.btnplus.alpha = 0.7
         } else {
             
-           
-                cell.lblOutofstock.textColor = Theme_green_Color
-
+            
 
             cell.lblOutofstock.text = "In Stock : \(arrCart[indexPath.row].AvailableQty ?? 0)"
-
+            
         }
         
+//        if arrCart[indexPath.row].AvailableQty ?? 0 == 0 {
+//            if arrCart[indexPath.row].outOfStockMessage == "" {
+//                cell.lblOutofstock.text = "Out Of Stock"
+//            } else {
+//                cell.lblOutofstock.text = arrCart[indexPath.row].outOfStockMessage
+//            }
+//            cell.lblOutofstock.textColor = Theme_Color
+//            cell.btnplus.isEnabled = false
+//            cell.btnplus.alpha = 0.7
+//        } else {
+//
+//
+//                cell.lblOutofstock.textColor = Theme_green_Color
+//
+//
+//            cell.lblOutofstock.text = "In Stock : \(arrCart[indexPath.row].AvailableQty ?? 0)"
+//
+//        }
         
-        cell.lblQty.text = "\(arrCart[indexPath.row].CartQty ?? 0)"
         
+        //cell.lblQty.text = "\(arrCart[indexPath.row].CartQty ?? 0)"
+        cell.lblTitleQty.text = "Qty"
+
+        if arrCart[indexPath.row].ProductType! == 1 || arrCart[indexPath.row].ProductType! == 2{
+
+            if arrCart[indexPath.row].isKg! == true {
+                
+                cell.lblTitleQty.text = "Kg"
+                
+                if arrCart[indexPath.row].CartWeight ?? 0.0 > 0 {
+                    
+                    cell.lblQty.text = "\(CommonFunctions.appendStringWeighItem(data: arrCart[indexPath.row].CartWeight!))"
+
+                } else {
+
+                    
+                    cell.lblQty.text = "\(CommonFunctions.appendStringWeighItem(data: arrCart[indexPath.row].WeightIncrement!))"
+                }
+            } else {
+                if arrCart[indexPath.row].CartQty ?? 0 > 0 {
+                    cell.lblQty.text = "\(arrCart[indexPath.row].CartQty ?? 0)";
+
+                } else {
+                    cell.lblQty.text = "1"
+
+                }
+
+
+            }
+        } else {
+            if arrCart[indexPath.row].CartQty ?? 0 > 0 {
+                cell.lblQty.text = "\(arrCart[indexPath.row].CartQty ?? 0)";
+
+            } else {
+                cell.lblQty.text = "1"
+
+            }
+        }
+        cell.lblOutofstock.isHidden = true
+        
+        cell.lblOutofstock.text = ""
+        if arrCart[indexPath.row].ProductType! == 1 || arrCart[indexPath.row].ProductType! == 2{
+//            if arrCart[indexPath.row].CartQty ?? 0 > 0 {
+//                cell.lblDisplayweight.isHidden = false
+//
+//            }
+//
+//            if arrCart[indexPath.row].CartWeight ?? 0.0 > 0 {
+//                cell.lblDisplayweight.isHidden = false
+//
+//            }
+
+                   if arrCart[indexPath.row].isKg! == false {
+
+                    
+                    let calculate = Double(arrCart[indexPath.row].CartQty ?? 0) * (arrCart[indexPath.row].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                    cell.lblOutofstock.isHidden = false
+
+                    cell.lblOutofstock.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrCart[indexPath.row].ProductSizeType ?? "")"
+                    }
+                    if arrCart[indexPath.row].CartQty ?? 0 > 0 {
+                    if calculate <  arrCart[indexPath.row].MinOrderQty ?? 0.0 {
+                        cell.lblOutofstock.isHidden = false
+
+                        cell.lblOutofstock.text = "\(cell.lblOutofstock.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[indexPath.row].MinOrderQty ?? 0.0)) \(arrCart[indexPath.row].ProductSizeType ?? "")"
+
+                    }
+                    }
+
+                   } else {
+                    let calculate = (arrCart[indexPath.row].CartWeight ?? 0) * (arrCart[indexPath.row].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                        if arrCart[indexPath.row].CartWeight ?? 0.0 > 0 {
+
+                    if calculate < arrCart[indexPath.row].MinOrderQty ?? 0.0 {
+                        cell.lblOutofstock.isHidden = false
+
+                        cell.lblOutofstock.text = "\(cell.lblOutofstock.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[indexPath.row].MinOrderQty ?? 0.0)) \(arrCart[indexPath.row].ProductSizeType ?? "")"
+
+                    }
+                        }
+                    }
+                    
+            }
+            
+        }
+        
+        if arrCart[indexPath.row].ProductType! == 0 {
+            
+            if arrCart[indexPath.row].CartQty ?? 0 > 0 {
+                cell.lblOutofstock.isHidden = false
+
+            }
+            
+            if arrCart[indexPath.row].CartWeight ?? 0.0 > 0 {
+                cell.lblOutofstock.isHidden = false
+
+            }
+            
+            if arrCart[indexPath.row].CartQty ?? 0 > 0 {
+            if arrCart[indexPath.row].CartQty ?? 0 <  Int(arrCart[indexPath.row].MinOrderQty ?? 0.0) {
+
+                cell.lblOutofstock.text = "\(cell.lblOutofstock.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[indexPath.row].MinOrderQty ?? 0.0)) \(arrCart[indexPath.row].ProductSizeType ?? "")"
+
+            }
+            }
+            
+        }
         cell.btnplus.tag = indexPath.row
         cell.btnplus.addTarget(self, action: #selector(self.btnPlusclicked), for: .touchUpInside)
         
@@ -652,8 +910,8 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
     @objc private func btnPlusclicked(sender:UIButton)
     {
         if(arrCart[sender.tag].PerItemCartLimit ?? 0 == 0) {
-            if arrCart[sender.tag].CartQty ?? 0 < arrCart[sender.tag].AvailableQty ?? 0 {
-                addToCart(index: sender.tag, type: 1)
+            if Double(arrCart[sender.tag].CartQty ?? 0) < arrCart[sender.tag].AvailableQty ?? 0.0 {
+                addToCart(index: sender.tag, type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
             }
             else {
                 // addToCart(index: sender.tag, type: 1) // VK
@@ -661,8 +919,8 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
             }
         } else {
             if arrCart[sender.tag].CartQty ?? 0 < arrCart[sender.tag].PerItemCartLimit ?? 0 {
-                if arrCart[sender.tag].CartQty ?? 0 < arrCart[sender.tag].AvailableQty ?? 0 {
-                    addToCart(index: sender.tag, type: 1)
+                if Double(arrCart[sender.tag].CartQty ?? 0) < arrCart[sender.tag].AvailableQty ?? 0.0 {
+                    addToCart(index: sender.tag, type: 1, isManual: false, cartWeight: 0.0, cartQty: 0)
                 }
                 else {
                     // addToCart(index: sender.tag, type: 1) // VK
@@ -677,8 +935,14 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
     
     @objc private func btnMinusclicked(sender:UIButton)
     {
-        if arrCart[sender.tag].CartQty ?? 0 > 0 {
-            addToCart(index: sender.tag, type: 2)
+        if arrCart[sender.tag].ProductType ?? 0  == 1 || arrCart[sender.tag].ProductType ?? 0  == 2{
+            if arrCart[sender.tag].CartWeight ?? 0 > 0 {
+                addToCart(index: sender.tag, type: 2, isManual: false, cartWeight: 0.0, cartQty: 0)
+            }
+        } else {
+            if arrCart[sender.tag].CartQty ?? 0 > 0 {
+                addToCart(index: sender.tag, type: 2, isManual: false, cartWeight: 0.0, cartQty: 0)
+            }
         }
     }
     
@@ -699,4 +963,435 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
          self.navigationController?.pushViewController(vc, animated: true)*/
     }
     
+}
+extension MyCartViewController : UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        self.txtUpdateQty.tag = textField.tag
+
+        var isChange = false
+        if arrCart[textField.tag - 100].CartQty ?? 0 > 0 {
+            isChange = true
+            imgBackUpdateQty.isHidden = false
+            viewUpdateQty.isHidden = false
+        }
+        
+        if arrCart[textField.tag - 100].CartWeight ?? 0.0 > 0 {
+            isChange = true
+
+            imgBackUpdateQty.isHidden = false
+            viewUpdateQty.isHidden = false
+        }
+        
+        if isChange == true {
+            DispatchQueue.main.async {
+                if textField != self.txtUpdateQty {
+        textField.resignFirstResponder()
+                }
+            }
+        self.txtUpdateQty.text = textField.text
+
+        btnCancelQty.tag = textField.tag - 100
+        btnUpdateQty.tag = textField.tag - 100
+        
+        lblUpdateQtyTitle.text = "Update Quantity"
+            
+            self.txtUpdateQty.keyboardType = UIKeyboardType.numberPad
+
+        if arrCart[textField.tag - 100].ProductType ?? 0 > 0 {
+            
+            if arrCart[textField.tag - 100].ProductType ?? 0 == 1 || arrCart[textField.tag - 100].ProductType ?? 0 == 2{
+                
+                if arrCart[textField.tag - 100].isKg == true {
+                    self.txtUpdateQty.keyboardType = UIKeyboardType.decimalPad
+
+                    lblUpdateQtyTitle.text = "Update Weight"
+                }
+            }
+        }
+        
+        self.lblUpdateQtyMessage.isHidden = true
+        
+            self.lblUpdateQtyMessage.text = ""
+
+        if arrCart[textField.tag - 100].ProductType! == 1 || arrCart[textField.tag - 100].ProductType! == 2{
+
+                   if arrCart[textField.tag - 100].isKg! == false {
+
+                    
+                    let calculate = Double(arrCart[textField.tag - 100].CartQty ?? 0) * (arrCart[textField.tag - 100].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                    self.lblUpdateQtyMessage.isHidden = false
+
+                    self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
+                    }
+                    if arrCart[textField.tag - 100].CartQty ?? 0 > 0 {
+                    if calculate <  arrCart[textField.tag - 100].MinOrderQty ?? 0.0 {
+                        self.lblUpdateQtyMessage.isHidden = false
+
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrCart[textField.tag - 100].MinOrderQty ?? 0.0) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
+
+                    }
+                    }
+
+                   } else {
+                    let calculate = (arrCart[textField.tag - 100].CartWeight ?? 0) * (arrCart[textField.tag - 100].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                        if arrCart[textField.tag - 100].CartWeight ?? 0.0 > 0 {
+
+                    if calculate < arrCart[textField.tag - 100].MinOrderQty ?? 0.0 {
+                        self.lblUpdateQtyMessage.isHidden = false
+
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[textField.tag - 100].MinOrderQty ?? 0.0))\(arrCart[textField.tag - 100].ProductSizeType ?? "")"
+
+                    }
+                        }
+                    }
+                    
+            }
+            
+        }
+        
+        if arrCart[textField.tag - 100].ProductType! == 0 {
+            
+           
+            
+            if arrCart[textField.tag - 100].CartQty ?? 0 > 0 {
+            if arrCart[textField.tag - 100].CartQty ?? 0 <  Int(arrCart[textField.tag - 100].MinOrderQty ?? 0.0) {
+                self.lblUpdateQtyMessage.isHidden = false
+
+               self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[textField.tag - 100].MinOrderQty ?? 0.0)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
+
+            }
+            }
+            
+        }
+            }
+
+        return true
+    }
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        
+        
+        
+
+        arrCart[textField.tag - 100].isQtyEdit = true
+
+        self.lblKg.isHidden = true
+        
+        
+        
+        if arrCart[textField.tag - 100].ProductType ?? 0 == 1 || arrCart[textField.tag - 100].ProductType ?? 0 == 2{
+                       
+                       if arrCart[textField.tag - 100].isKg == true {
+                        self.lblKg.isHidden = false
+
+                        if textField.text != "" {
+
+                        arrCart[textField.tag - 100].CartWeight  = Double(textField.text!)
+                        }
+                       } else {
+                        if textField.text != "" {
+                        arrCart[textField.tag - 100].CartQty = Int(textField.text!)
+                        }
+
+            }
+        } else {
+            if textField.text != "" {
+            arrCart[textField.tag - 100].CartQty = Int(textField.text!)
+            }
+        }
+        
+        
+       
+        
+        
+        
+        return true
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    {
+        var updatedText = ""
+        if let text = textField.text,
+                   let textRange = Range(range, in: text) {
+                   updatedText = text.replacingCharacters(in: textRange,
+                                                               with: string)
+                }
+        if viewUpdateQty.isHidden == false {
+            
+        
+        if arrCart[textField.tag - 100].ProductType ?? 0 == 1 || arrCart[textField.tag - 100].ProductType ?? 0 == 2{
+                       
+                       if arrCart[textField.tag - 100].isKg == true {
+                        self.lblKg.isHidden = false
+
+                        if updatedText != "" {
+
+                        arrCart[textField.tag - 100].CartWeight  = Double(updatedText)
+                        }
+                       } else {
+                        if updatedText != "" {
+                        arrCart[textField.tag - 100].CartQty = Int(updatedText)
+                        }
+
+            }
+        } else {
+            if updatedText != "" {
+            arrCart[textField.tag - 100].CartQty = Int(updatedText)
+            }
+        }
+            self.lblUpdateQtyMessage.text = ""
+
+        if arrCart[textField.tag - 100].ProductType! == 1 || arrCart[textField.tag - 100].ProductType! == 2{
+
+                   if arrCart[textField.tag - 100].isKg! == false {
+
+                    
+                    let calculate = Double(arrCart[textField.tag - 100].CartQty ?? 0) * (arrCart[textField.tag - 100].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                    self.lblUpdateQtyMessage.isHidden = false
+
+                    self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
+                    }
+                    if arrCart[textField.tag - 100].CartQty ?? 0 > 0 {
+                    if calculate <  arrCart[textField.tag - 100].MinOrderQty ?? 0.0 {
+                        self.lblUpdateQtyMessage.isHidden = false
+
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[textField.tag - 100].MinOrderQty ?? 0.0)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
+
+                    }
+                    }
+
+                   } else {
+                    let calculate = (arrCart[textField.tag - 100].CartWeight ?? 0) * (arrCart[textField.tag - 100].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                        if arrCart[textField.tag - 100].CartWeight ?? 0.0 > 0 {
+
+                    if calculate < arrCart[textField.tag - 100].MinOrderQty ?? 0.0 {
+                        self.lblUpdateQtyMessage.isHidden = false
+
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[textField.tag - 100].MinOrderQty ?? 0.0)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
+
+
+                    }
+                        }
+                    }
+                    
+            }
+            
+        }
+        if arrCart[textField.tag - 100].ProductType! == 0 {
+                   
+                  
+                   
+                   if arrCart[textField.tag - 100].CartQty ?? 0 > 0 {
+                   if arrCart[textField.tag - 100].CartQty ?? 0 <  Int(arrCart[textField.tag - 100].MinOrderQty ?? 0.0) {
+                       self.lblUpdateQtyMessage.isHidden = false
+
+                      self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[textField.tag - 100].MinOrderQty ?? 0.0)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
+
+
+                   }
+                   }
+                   
+               }
+        }
+        else {
+            
+        }
+        
+        return true
+    }
+}
+extension MyCartViewController  {
+    @IBAction func btnUpdateQtyClicked(_ sender: UIButton) {
+        
+        if self.txtUpdateQty.text == "" {
+            return
+        }
+        arrCart[sender.tag].isQtyEdit = true
+        
+        if arrCart[sender.tag].ProductType ?? 0 == 1 || arrCart[sender.tag].ProductType ?? 0 == 2{
+                       
+                       if arrCart[sender.tag].isKg == true {
+                        self.lblKg.isHidden = false
+
+                        if txtUpdateQty.text != "" {
+
+                        arrCart[sender.tag].CartWeight  = Double(txtUpdateQty.text!)
+                        }
+                       } else {
+                        if txtUpdateQty.text != "" {
+                        arrCart[sender.tag].CartQty = Int(txtUpdateQty.text!)
+                        }
+
+            }
+        } else {
+            if txtUpdateQty.text != "" {
+            arrCart[sender.tag].CartQty = Int(txtUpdateQty.text!)
+            }
+        }
+        self.lblUpdateQtyMessage.text = ""
+        if arrCart[sender.tag].ProductType! == 1 || arrCart[sender.tag].ProductType! == 2{
+
+                   if arrCart[sender.tag].isKg! == false {
+
+                    
+                    let calculate = Double(arrCart[sender.tag].CartQty ?? 0) * (arrCart[sender.tag].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                    self.lblUpdateQtyMessage.isHidden = false
+
+                    self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrCart[sender.tag].ProductSizeType ?? "")"
+                    }
+                    if arrCart[sender.tag].CartQty ?? 0 > 0 {
+                    if calculate <  arrCart[sender.tag].MinOrderQty ?? 0.0 {
+                        self.lblUpdateQtyMessage.isHidden = false
+
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[sender.tag].MinOrderQty ?? 0.0)) \(arrCart[sender.tag].ProductSizeType ?? "")"
+                        return
+
+                    }
+                    }
+
+                   } else {
+                    let calculate = arrCart[sender.tag].CartWeight ?? 0 * (arrCart[sender.tag].ProductSizePerQty ?? 0.0)
+                    print(calculate)
+                    if calculate > 0 {
+
+                        if arrCart[sender.tag].CartWeight ?? 0.0 > 0 {
+
+                    if calculate < arrCart[sender.tag].MinOrderQty ?? 0.0 {
+                        self.lblUpdateQtyMessage.isHidden = false
+
+                        self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[sender.tag].MinOrderQty ?? 0.0)) \(arrCart[sender.tag].ProductSizeType ?? "")"
+                        return
+
+
+                    }
+                        }
+                    }
+                    
+            }
+            
+        }
+        if arrCart[sender.tag].ProductType! == 0 {
+                   
+                  
+                   
+                   if arrCart[sender.tag].CartQty ?? 0 > 0 {
+                   if arrCart[sender.tag].CartQty ?? 0 <  Int(arrCart[sender.tag].MinOrderQty ?? 0.0) {
+                       self.lblUpdateQtyMessage.isHidden = false
+
+                      self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[sender.tag].MinOrderQty ?? 0.0)) \(arrCart[sender.tag].ProductSizeType ?? "")"
+                    return
+
+
+                   }
+                   }
+                   
+               }
+        
+        self.view.endEditing(true)
+
+        
+     
+        if CommonFunctions.userLoginData() == true {
+            
+            if(arrCart[sender.tag].PerItemCartLimit ?? 0 == 0) {
+                
+                if arrCart[sender.tag].ProductType ?? 0 == 1 || arrCart[sender.tag].ProductType ?? 0 == 2{
+                    if arrCart[sender.tag].isKg == true {
+                     if arrCart[sender.tag].CartWeight ?? 0.0 < arrCart[sender.tag].AvailableQty ?? 0.0 {
+                        imgBackUpdateQty.isHidden = true
+                        viewUpdateQty.isHidden = true
+                       
+                            
+                            addToCart(index: sender.tag, type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
+                        
+                     } else {
+                        CommonFunctions.showMessage(message: Message.noQuantityavailable)
+
+                    }
+                    } else {
+                        if arrCart[sender.tag].CartQty ?? 0 < Int(arrCart[sender.tag].AvailableQty ?? 0.0) {
+                                               imgBackUpdateQty.isHidden = true
+                                               viewUpdateQty.isHidden = true
+                                             
+                                                   addToCart(index: sender.tag, type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
+                                               
+                                            } else {
+                                               CommonFunctions.showMessage(message: Message.noQuantityavailable)
+
+                                           }
+                    }
+                } else {
+                if arrCart[sender.tag].CartQty ?? 0 < Int(arrCart[sender.tag].AvailableQty ?? 0.0) {
+                    imgBackUpdateQty.isHidden = true
+                    viewUpdateQty.isHidden = true
+                  
+                    
+                    addToCart(index: sender.tag, type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
+                }
+                else {
+                    CommonFunctions.showMessage(message: Message.noQuantityavailable)
+                }
+                }
+            } else {
+                if arrCart[sender.tag].ProductType ?? 0 == 1 || arrCart[sender.tag].ProductType ?? 0 == 2{
+                if arrCart[sender.tag].CartWeight ?? 0 < Double(arrCart[sender.tag].PerItemCartLimit ?? 0) {
+                    if arrCart[sender.tag].CartWeight ?? 0 < arrCart[sender.tag].AvailableQty ?? 0.0 {
+                        imgBackUpdateQty.isHidden = true
+                        viewUpdateQty.isHidden = true
+                       
+                        
+                        addToCart(index: sender.tag, type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
+                    }
+                    else {
+                        CommonFunctions.showMessage(message: Message.noQuantityavailable)
+                    }
+                    
+                } else {
+                    CommonFunctions.showMessage(message: Message.nocartlimit)
+                    
+                }
+                } else {
+                if arrCart[sender.tag].CartQty ?? 0 < arrCart[sender.tag].PerItemCartLimit ?? 0 {
+                    if arrCart[sender.tag].CartQty ?? 0 < Int(arrCart[sender.tag].AvailableQty ?? 0.0) {
+                        imgBackUpdateQty.isHidden = true
+                        viewUpdateQty.isHidden = true
+                       
+                        
+                        addToCart(index: sender.tag, type: 1, isManual: true, cartWeight: 0.0, cartQty: 0)
+                    }
+                    else {
+                        CommonFunctions.showMessage(message: Message.noQuantityavailable)
+                    }
+                    
+                } else {
+                    CommonFunctions.showMessage(message: Message.nocartlimit)
+                    
+                }
+                }
+            }
+        } else {
+            let storyBaord = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBaord.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+    }
+    @IBAction func btnCloseQtyClicked(_ sender: UIButton) {
+        imgBackUpdateQty.isHidden = true
+              viewUpdateQty.isHidden = true
+    }
 }

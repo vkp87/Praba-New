@@ -54,8 +54,8 @@ class ProductCell: UICollectionViewCell {
         //CommonFunctions.setCornerRadius(view: btnAdd, radius: 7)
         
         lblOrAmount.adjustsFontSizeToFitWidth = true
-        CommonFunctions.setCornerRadius(view: btnplus, radius: 25/2)
-        CommonFunctions.setCornerRadius(view: btnminus, radius: 25/2)
+        CommonFunctions.setCornerRadius(view: btnplus, radius: 30/2)
+        CommonFunctions.setCornerRadius(view: btnminus, radius: 30/2)
         
         lblPramotion.font = UIFont(name: Font_Semibold, size: 14)
         

@@ -355,6 +355,11 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
         
         
         
+        txtUpdateQty.layer.cornerRadius = 11
+        txtUpdateQty.layer.borderWidth = 1.5
+        txtUpdateQty.layer.borderColor = UIColor.black.cgColor
+        
+        
         self.tblProductSearch.isHidden = true
         self.imgProductSearch.isHidden = true
         self.txtUpdateQty.delegate  = self
@@ -834,7 +839,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
                 if self.arrProduct[index].ProductType ?? 0 == 0 {
                     param["Weight"] = 0
                 } else {
-                    if self.arrProduct[index].ProductType ?? 0 == 1 {
+                    if self.arrProduct[index].ProductType ?? 0 == 1 || self.arrProduct[index].ProductType ?? 0 == 2{
                         if arrProduct[index].isKg! == true {
                             param["Qty"] = cartQty == 0 ? 0 : cartQty
                             if arrProduct[index].isQtyEdit == true {
@@ -1253,7 +1258,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-                        return CGSize(width: ScreenSize.width - 20, height: 230)
+                        return CGSize(width: ScreenSize.width - 20, height: 220)
 
                  }
     
@@ -1403,9 +1408,14 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
             
             
             
-            let strPrice = "\(cell.lblOrAmount.text!)/ \(arrProduct[indexPath.row].ProductSizeType!)"
-            cell.lblOrAmount.text = strPrice
-
+            if arrProduct[indexPath.row].ProductSizeType! == "" {
+                let strPrice = "\(cell.lblOrAmount.text!)"
+                cell.lblOrAmount.text = strPrice
+            } else {
+                
+                let strPrice = "\(cell.lblOrAmount.text!)/ \(arrProduct[indexPath.row].ProductSizeType!)"
+                cell.lblOrAmount.text = strPrice
+            }
             
         }
         
@@ -1454,7 +1464,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
         
         cell.lblTitleQty.text = "Qty"
 
-        if arrProduct[indexPath.row].ProductType! == 1 {
+        if arrProduct[indexPath.row].ProductType! == 1 || arrProduct[indexPath.row].ProductType! == 2{
 
             if arrProduct[indexPath.row].isKg! == true {
                 
@@ -1525,7 +1535,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
         cell.btnplus.alpha = 1.0
         cell.lbloutofstock.isHidden = false
 
-        if arrProduct[indexPath.row].ProductType! == 1 {
+        if arrProduct[indexPath.row].ProductType! == 1 || arrProduct[indexPath.row].ProductType! == 2{
             cell.lbloutofstock.isHidden = false
 
             cell.lbloutofstock.textColor = UIColor.black
@@ -1581,7 +1591,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
         cell.lblDisplayweight.isHidden = true
         
         cell.lblDisplayweight.text = ""
-        if arrProduct[indexPath.row].ProductType! == 1 {
+        if arrProduct[indexPath.row].ProductType! == 1 || arrProduct[indexPath.row].ProductType! == 2{
 //            if arrProduct[indexPath.row].CartQty ?? 0 > 0 {
 //                cell.lblDisplayweight.isHidden = false
 //
@@ -1851,7 +1861,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
         intSenderType = 2
         if CommonFunctions.userLoginData() == true {
             
-            if arrProduct[sender.tag].ProductType ?? 0  == 1 {
+            if arrProduct[sender.tag].ProductType ?? 0  == 1 || arrProduct[sender.tag].ProductType ?? 0  == 2{
                 if arrProduct[sender.tag].CartWeight ?? 0 > 0 {
                     intSender = sender.tag
                     intType = 2
@@ -1885,7 +1895,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
             
             if(arrProduct[sender.tag].PerItemCartLimit ?? 0 == 0) {
                 
-                if arrProduct[sender.tag].ProductType ?? 0 == 1 {
+                if arrProduct[sender.tag].ProductType ?? 0 == 1 || arrProduct[sender.tag].ProductType ?? 0 == 2{
                     if arrProduct[sender.tag].isKg == true {
                      if arrProduct[sender.tag].CartWeight ?? 0.0 < arrProduct[sender.tag].AvailableQty ?? 0.0 {
                         imgBackUpdateQty.isHidden = true
@@ -1927,7 +1937,7 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
                 }
                 }
             } else {
-                if arrProduct[sender.tag].ProductType ?? 0 == 1 {
+                if arrProduct[sender.tag].ProductType ?? 0 == 1 ||  arrProduct[sender.tag].ProductType ?? 0 == 2{
                 if arrProduct[sender.tag].CartWeight ?? 0 < Double(arrProduct[sender.tag].PerItemCartLimit ?? 0) {
                     if arrProduct[sender.tag].CartWeight ?? 0 < arrProduct[sender.tag].AvailableQty ?? 0.0 {
                         intSender = sender.tag
@@ -2250,7 +2260,7 @@ extension ProductViewController : UITextFieldDelegate {
 
         if arrProduct[textField.tag - 100].ProductType ?? 0 > 0 {
             
-            if arrProduct[textField.tag - 100].ProductType ?? 0 == 1 {
+            if arrProduct[textField.tag - 100].ProductType ?? 0 == 1 || arrProduct[textField.tag - 100].ProductType ?? 0 == 2{
                 
                 if arrProduct[textField.tag - 100].isKg == true {
                     self.txtUpdateQty.keyboardType = UIKeyboardType.decimalPad
@@ -2264,7 +2274,7 @@ extension ProductViewController : UITextFieldDelegate {
         
             self.lblUpdateQtyMessage.text = ""
 
-        if arrProduct[textField.tag - 100].ProductType! == 1 {
+        if arrProduct[textField.tag - 100].ProductType! == 1 || arrProduct[textField.tag - 100].ProductType! == 2{
 
                    if arrProduct[textField.tag - 100].isKg! == false {
 
@@ -2335,7 +2345,7 @@ extension ProductViewController : UITextFieldDelegate {
         
         
         
-        if arrProduct[textField.tag - 100].ProductType ?? 0 == 1 {
+        if arrProduct[textField.tag - 100].ProductType ?? 0 == 1 || arrProduct[textField.tag - 100].ProductType ?? 0 == 2{
                        
                        if arrProduct[textField.tag - 100].isKg == true {
                         self.lblKg.isHidden = false
@@ -2374,7 +2384,7 @@ extension ProductViewController : UITextFieldDelegate {
         if viewUpdateQty.isHidden == false {
             
         
-        if arrProduct[textField.tag - 100].ProductType ?? 0 == 1 {
+        if arrProduct[textField.tag - 100].ProductType ?? 0 == 1 || arrProduct[textField.tag - 100].ProductType ?? 0 == 2{
                        
                        if arrProduct[textField.tag - 100].isKg == true {
                         self.lblKg.isHidden = false
@@ -2396,7 +2406,7 @@ extension ProductViewController : UITextFieldDelegate {
         }
             self.lblUpdateQtyMessage.text = ""
 
-        if arrProduct[textField.tag - 100].ProductType! == 1 {
+        if arrProduct[textField.tag - 100].ProductType! == 1 || arrProduct[textField.tag - 100].ProductType! == 2{
 
                    if arrProduct[textField.tag - 100].isKg! == false {
 
@@ -2468,8 +2478,8 @@ extension ProductViewController  {
             return
         }
         arrProduct[sender.tag].isQtyEdit = true
-
-        if arrProduct[sender.tag].ProductType ?? 0 == 1 {
+        
+        if arrProduct[sender.tag].ProductType ?? 0 == 1 || arrProduct[sender.tag].ProductType ?? 0 == 2{
                        
                        if arrProduct[sender.tag].isKg == true {
                         self.lblKg.isHidden = false
@@ -2490,7 +2500,7 @@ extension ProductViewController  {
             }
         }
         self.lblUpdateQtyMessage.text = ""
-        if arrProduct[sender.tag].ProductType! == 1 {
+        if arrProduct[sender.tag].ProductType! == 1 || arrProduct[sender.tag].ProductType! == 2{
 
                    if arrProduct[sender.tag].isKg! == false {
 
@@ -2560,7 +2570,7 @@ extension ProductViewController  {
             
             if(arrProduct[sender.tag].PerItemCartLimit ?? 0 == 0) {
                 
-                if arrProduct[sender.tag].ProductType ?? 0 == 1 {
+                if arrProduct[sender.tag].ProductType ?? 0 == 1 || arrProduct[sender.tag].ProductType ?? 0 == 2{
                     if arrProduct[sender.tag].isKg == true {
                      if arrProduct[sender.tag].CartWeight ?? 0.0 < arrProduct[sender.tag].AvailableQty ?? 0.0 {
                         imgBackUpdateQty.isHidden = true
@@ -2602,7 +2612,7 @@ extension ProductViewController  {
                 }
                 }
             } else {
-                if arrProduct[sender.tag].ProductType ?? 0 == 1 {
+                if arrProduct[sender.tag].ProductType ?? 0 == 1 || arrProduct[sender.tag].ProductType ?? 0 == 2{
                 if arrProduct[sender.tag].CartWeight ?? 0 < Double(arrProduct[sender.tag].PerItemCartLimit ?? 0) {
                     if arrProduct[sender.tag].CartWeight ?? 0 < arrProduct[sender.tag].AvailableQty ?? 0.0 {
                         imgBackUpdateQty.isHidden = true

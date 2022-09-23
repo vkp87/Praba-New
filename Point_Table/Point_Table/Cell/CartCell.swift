@@ -23,7 +23,7 @@ class CartCell: UICollectionViewCell {
     @IBOutlet weak var lblTitleType: UILabel! //10
     @IBOutlet weak var lblPramotion: UILabel! // 14
 
-    @IBOutlet weak var lblQty: UILabel! //10
+    @IBOutlet weak var lblQty: UITextField! //10
     @IBOutlet weak var lblTitleQty: UILabel! //10
     @IBOutlet weak var btnminus: UIButton! // 18
     @IBOutlet weak var btnplus: UIButton! // 18
@@ -36,15 +36,21 @@ class CartCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        lblQty.layer.cornerRadius = 11
+        lblQty.layer.borderWidth = 1.5
+        lblQty.layer.borderColor = UIColor.black.cgColor
+        
+        lblAmount.adjustsFontSizeToFitWidth = true
+        lblOrAmount.adjustsFontSizeToFitWidth = true
         CommonFunctions.setCornerRadius(view: viewBack, radius: 9)
         viewBack.dropShadow(color: Theme_Color, opacity: 0.5, radius: 2)
 
         btnRemove.titleLabel?.font = UIFont(name: Font_Semibold, size: 15)
 
-        CommonFunctions.setCornerRadius(view: btnplus, radius: 20/2)
-        CommonFunctions.setCornerRadius(view: btnminus, radius: 20/2)
+        CommonFunctions.setCornerRadius(view: btnplus, radius: 30/2)
+        CommonFunctions.setCornerRadius(view: btnminus, radius: 30/2)
 
-        
+
         lblTitle.font = UIFont(name: Font_Semibold, size: 15)
         lblPramotion.font = UIFont(name: Font_Semibold, size: 14)
 

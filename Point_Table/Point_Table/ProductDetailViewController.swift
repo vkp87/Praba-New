@@ -786,7 +786,7 @@ extension ProductDetailViewController :UITableViewDelegate {
         
         cell.lblQtytitle.text = "Qty"
 
-        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+        if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
 
             if isKg == true {
                 
@@ -841,7 +841,7 @@ extension ProductDetailViewController :UITableViewDelegate {
             if arrProductDetail[0]["ProductType"] as! Int > 0 {
                cell.lblAvailable.isHidden = true
              }
-        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+        if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
             cell.lblAvailable.isHidden = false
 
             cell.lblAvailable.textColor = UIColor.black
@@ -874,7 +874,7 @@ extension ProductDetailViewController :UITableViewDelegate {
                        symboll = symbol
                    }
             cell.lblAvailable.text = "In Stock : \(arrProductDetail[0]["AvailableQty"] as! Double)"
-            if arrProductDetail[0]["ProductType"] as! Int == 1 {
+            if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
                 cell.lblAvailable.isHidden = false
 
                 cell.lblAvailable.textColor = UIColor.black
@@ -922,7 +922,7 @@ extension ProductDetailViewController :UITableViewDelegate {
             
         }
         cell.lblDisplayweight.text = ""
-        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+        if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
 
 
                    if isKg == false {
@@ -1107,7 +1107,7 @@ extension ProductDetailViewController :UITableViewDelegate {
         if CommonFunctions.userLoginData() == true {
             
             if(arrProductDetail[0]["PerItemCartLimit"] as! Int == 0) {
-                if arrProductDetail[0]["ProductType"] as! Int == 1 {
+                if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
                     if isKg == true {
                      if (arrProductDetail[0]["CartWeight"] as! Double) < (arrProductDetail[0]["AvailableQty"] as! Double) {
                          self.imgBackUpdateQty.isHidden = true
@@ -1218,7 +1218,7 @@ extension ProductDetailViewController :UITableViewDelegate {
         
         if CommonFunctions.userLoginData() == true {
             
-            if arrProductDetail[0]["ProductType"] as! Int  == 1 {
+            if arrProductDetail[0]["ProductType"] as! Int  == 1 || arrProductDetail[0]["ProductType"] as! Int  == 2{
                 if arrProductDetail[0]["CartWeight"] as! Double > 0 {
                     intType = 2
                     
@@ -1368,7 +1368,7 @@ extension ProductDetailViewController : UITextFieldDelegate {
 
         if arrProductDetail[0]["ProductType"] as! Int  > 0 {
             
-            if arrProductDetail[0]["ProductType"] as! Int == 1 {
+            if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
                 
                 if isKg == true {
                     self.txtUpdateQty.keyboardType = UIKeyboardType.decimalPad
@@ -1382,7 +1382,7 @@ extension ProductDetailViewController : UITextFieldDelegate {
         
         
             lblUpdateQtyMessage.text = ""
-            if arrProductDetail[0]["ProductType"] as! Int == 1 {
+            if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
 
 
                        if isKg == false {
@@ -1461,7 +1461,7 @@ extension ProductDetailViewController : UITextFieldDelegate {
         
         
         
-        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+        if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
                        
                        if isKg == true {
                         self.lblKg.isHidden = false
@@ -1500,7 +1500,7 @@ extension ProductDetailViewController : UITextFieldDelegate {
         if viewUpdateQty.isHidden == false {
             
         
-        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+        if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
                        
                        if isKg == true {
                         self.lblKg.isHidden = false
@@ -1525,7 +1525,7 @@ extension ProductDetailViewController : UITextFieldDelegate {
             
             
                 lblUpdateQtyMessage.text = ""
-                if arrProductDetail[0]["ProductType"] as! Int == 1 {
+                if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
 
 
                            if isKg == false {
@@ -1605,7 +1605,7 @@ extension ProductDetailViewController  {
         }
         isQtyEdit = true
 
-        if arrProductDetail[0]["ProductType"] as! Int == 1 {
+        if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
                        
                        if isKg == true {
                         self.lblKg.isHidden = false
@@ -1630,7 +1630,7 @@ extension ProductDetailViewController  {
         
         
             lblUpdateQtyMessage.text = ""
-            if arrProductDetail[0]["ProductType"] as! Int == 1 {
+            if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
 
 
                        if isKg == false {
@@ -1702,7 +1702,7 @@ extension ProductDetailViewController  {
         if CommonFunctions.userLoginData() == true {
             
             if(arrProductDetail[0]["PerItemCartLimit"] as! Int == 0) {
-                if arrProductDetail[0]["ProductType"] as! Int == 1 {
+                if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
                     if isKg == true {
                      if (arrProductDetail[0]["CartWeight"] as! Double) < (arrProductDetail[0]["AvailableQty"] as! Double) {
                          self.imgBackUpdateQty.isHidden = true

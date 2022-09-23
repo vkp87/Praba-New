@@ -519,7 +519,9 @@ extension MyOrderDetailViewControler :UITableViewDelegate {
             
             if arrOrderDetail[indexPath.row].ProductType! > 0 && arrOrderDetail[indexPath.row].Quantity! == 0 && arrOrderDetail[indexPath.row].Weight! > 0{
                 cell.lblTitleQty.text = "\(arrOrderDetail[indexPath.row].ProductSizeType!)"
-                cell.lblQty.text = "\(arrOrderDetail[indexPath.row].Weight ?? 0.0)";
+                cell.lblQty.text = "\(CommonFunctions.appendStringWeighItem(data:arrOrderDetail[indexPath.row].Weight ?? 0.0))";
+                
+                
 
             }
             

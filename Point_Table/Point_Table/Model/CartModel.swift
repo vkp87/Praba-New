@@ -23,7 +23,7 @@ class CartModel: NSObject {
     var PromotionTitle : String?
     var ProductType : Int?
 
-    var AvailableQty : Int?
+    var AvailableQty : Double?
     var CartQty : Int?
     var PromotionDetailId : Int?
     var TaxValue : Int?
@@ -43,8 +43,49 @@ class CartModel: NSObject {
     var IsExcludeMinimumCartValue : Bool?
     var outOfStockMessage : String?
 
+    var ProductSizePerQty : Double?
+    var WeightIncrement : Double?
+    var MinOrderQty : Double?
+    var CartWeight : Double?
+
+    var  isKg : Bool?
+    var  isQtyEdit : Bool?
+
     init(json: [String: Any]?) {
+        isQtyEdit = false
+        if let str = json!["isQtyEdit"] as? Bool {
+            isQtyEdit = str
+        }
         
+        isKg = true
+        if let str = json!["isKg"] as? Bool {
+            isKg = str
+        }
+        
+        ProductType = 0
+        if let str = json!["ProductType"] as? Int {
+            ProductType = str
+        }
+        
+        ProductSizePerQty = 0.0
+        if let str = json!["ProductSizePerQty"] as? Double {
+            ProductSizePerQty = str
+        }
+        
+        WeightIncrement = 0.0
+        if let str = json!["WeightIncrement"] as? Double {
+            WeightIncrement = str
+        }
+        
+        MinOrderQty = 0.0
+        if let str = json!["MinOrderQty"] as? Double {
+            MinOrderQty = str
+        }
+        
+        CartWeight = 0.0
+        if let str = json!["CartWeight"] as? Double {
+            CartWeight = str
+        }
         
         IsExcludeMinimumCartValue = false
         if let str = json!["IsExcludeMinimumCartValue"] as? Bool {
@@ -129,8 +170,8 @@ class CartModel: NSObject {
             CartQty = str
         }
         
-        AvailableQty = 0
-        if let str = json!["AvailableQty"] as? Int {
+        AvailableQty = 0.0
+        if let str = json!["AvailableQty"] as? Double {
             AvailableQty = str
         }
         
@@ -241,6 +282,14 @@ class CartModel: NSObject {
         dicParam["ProductSizeType"] = ProductSizeType as AnyObject
         dicParam["OutOfStockMessage"] = outOfStockMessage as AnyObject
         dicParam["Weight"] = Weight as AnyObject
+
+        dicParam["ProductType"] = ProductType as AnyObject
+        dicParam["ProductSizePerQty"] = ProductSizePerQty as AnyObject
+        dicParam["MinOrderQty"] = MinOrderQty as AnyObject
+        dicParam["WeightIncrement"] = WeightIncrement as AnyObject
+        dicParam["CartWeight"] = CartWeight as AnyObject
+        dicParam["isKg"] = isKg as AnyObject
+        dicParam["isQtyEdit"] = isQtyEdit as AnyObject
 
         return dicParam
     }
