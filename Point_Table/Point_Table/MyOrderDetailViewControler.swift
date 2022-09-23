@@ -512,7 +512,7 @@ extension MyOrderDetailViewControler :UITableViewDelegate {
                 cell.lblTitleQty.text = "Qty"
                 cell.lblApprox.isHidden = false
 
-                cell.lblApprox.text = "Approx Weight \(arrOrderDetail[indexPath.row].Weight!) \(arrOrderDetail[indexPath.row].ProductSizeType!)"
+                cell.lblApprox.text = "Approx Weight \(CommonFunctions.appendStringWeighItem(data:arrOrderDetail[indexPath.row].Weight ?? 0.0)) \(arrOrderDetail[indexPath.row].ProductSizeType!)"
                 cell.lblQty.text = "\(arrOrderDetail[indexPath.row].Quantity ?? 0)";
 
             }

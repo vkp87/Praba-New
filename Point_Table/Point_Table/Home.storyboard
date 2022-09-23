@@ -2093,6 +2093,7 @@
                         <outlet property="txtBirth" destination="Bx5-wo-kfH" id="PRi-y2-V49"/>
                         <outlet property="txtUpdateQty" destination="J7K-ft-yeQ" id="p7J-QC-VyC"/>
                         <outlet property="viewBirth" destination="h7x-kh-tid" id="PbM-u3-LD7"/>
+                        <outlet property="viewUpdateConst" destination="iJp-rC-KvK" id="Fqs-m1-ada"/>
                         <outlet property="viewUpdateQty" destination="4z0-M8-0Lq" id="li1-Am-atf"/>
                     </connections>
                 </viewController>
@@ -2450,6 +2451,7 @@
                         <outlet property="lblUpdateQtyTitle" destination="4gH-19-unv" id="SuC-yz-mOv"/>
                         <outlet property="txtUpdateQty" destination="xGm-OK-1Up" id="7bP-bP-z0L"/>
                         <outlet property="viewBottom" destination="YWw-HY-wej" id="Hwd-YG-IST"/>
+                        <outlet property="viewUpdateConst" destination="bfe-VW-j6j" id="2Fj-dn-kok"/>
                         <outlet property="viewUpdateQty" destination="XYb-5B-XIx" id="4vj-Qr-1xH"/>
                     </connections>
                 </viewController>
@@ -3113,6 +3115,7 @@
                         <outlet property="viewHeader" destination="Lbw-G2-Jy5" id="mXK-3m-6Ce"/>
                         <outlet property="viewSearch" destination="4E8-CJ-wwE" id="MFa-8n-ALT"/>
                         <outlet property="viewSort" destination="eUO-VB-mVn" id="srn-IK-ikR"/>
+                        <outlet property="viewUpdateConst" destination="wkw-xX-1lO" id="7i7-kR-5MZ"/>
                         <outlet property="viewUpdateQty" destination="Dw9-U6-ZB1" id="VL9-HO-Bxe"/>
                     </connections>
                 </viewController>
@@ -3557,6 +3560,7 @@
                         <outlet property="txtUpdateQty" destination="PCB-gZ-tLU" id="mds-aE-7bR"/>
                         <outlet property="viewBirth" destination="QEa-im-mrA" id="7s9-0s-Bsg"/>
                         <outlet property="viewCart" destination="zha-lf-sL4" id="w8P-Wq-IE8"/>
+                        <outlet property="viewUpdateConst" destination="fAo-A4-xrE" id="oQQ-D0-zKD"/>
                         <outlet property="viewUpdateQty" destination="KHH-2E-bqB" id="cQm-vg-6En"/>
                     </connections>
                 </viewController>
@@ -6809,6 +6813,7 @@
                         <outlet property="btnUpdateQty" destination="uJL-dB-1v3" id="UEy-xT-Asm"/>
                         <outlet property="btnYes" destination="v4h-AA-j5r" id="pMv-zn-g1I"/>
                         <outlet property="collectionV" destination="9WZ-zE-bj2" id="Bgj-Gg-qnw"/>
+                        <outlet property="consHeight" destination="z65-W1-fhI" id="asx-vK-flr"/>
                         <outlet property="imgBackBrand" destination="2ba-Dh-cYg" id="CcR-WW-rVd"/>
                         <outlet property="imgBackSort" destination="Yqi-p8-koU" id="LcF-ha-enc"/>
                         <outlet property="imgBackUpdateQty" destination="MVq-vn-jHJ" id="3la-t9-ww6"/>

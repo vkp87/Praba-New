@@ -38,7 +38,8 @@ class ProductDetailViewController: UIViewController, QLPreviewControllerDelegate
     var  isQtyEdit = false
 
     var datePicker:UIDatePicker = UIDatePicker()
-    
+    @IBOutlet weak var viewUpdateConst: NSLayoutConstraint! // 200
+
     @IBOutlet weak var viewBirth: UIView!
     @IBOutlet weak var imgBirth: UIView!
     @IBOutlet weak var lblBirthTitle: UILabel!
@@ -1379,7 +1380,8 @@ extension ProductDetailViewController : UITextFieldDelegate {
         }
         
         self.lblUpdateQtyMessage.isHidden = true
-        
+            viewUpdateConst.constant = 165
+
         
             lblUpdateQtyMessage.text = ""
             if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
@@ -1393,12 +1395,14 @@ extension ProductDetailViewController : UITextFieldDelegate {
                         if calculate > 0 {
 
                             lblUpdateQtyMessage.isHidden = false
+                            viewUpdateConst.constant = 200
 
                         lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
                         }
                         if arrProductDetail[0]["CartQty"] as! Int > 0 {
                         if calculate <  arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double{
                             lblUpdateQtyMessage.isHidden = false
+                            viewUpdateConst.constant = 200
 
                             lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
 
@@ -1414,6 +1418,7 @@ extension ProductDetailViewController : UITextFieldDelegate {
 
                         if calculate  <  (arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
                             lblUpdateQtyMessage.isHidden = false
+                            viewUpdateConst.constant = 200
 
                             lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
 
@@ -1439,6 +1444,7 @@ extension ProductDetailViewController : UITextFieldDelegate {
                 
                 if arrProductDetail[0]["CartQty"] as! Int > 0 {
                 if (arrProductDetail[0]["CartQty"] as! Int) <  Int(arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+                    viewUpdateConst.constant = 200
 
                     lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
 
@@ -1522,7 +1528,8 @@ extension ProductDetailViewController : UITextFieldDelegate {
         }
         
             self.lblUpdateQtyMessage.isHidden = true
-            
+            viewUpdateConst.constant = 165
+
             
                 lblUpdateQtyMessage.text = ""
                 if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
@@ -1536,12 +1543,14 @@ extension ProductDetailViewController : UITextFieldDelegate {
                             if calculate > 0 {
 
                                 lblUpdateQtyMessage.isHidden = false
+                                viewUpdateConst.constant = 200
 
                             lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
                             }
                             if arrProductDetail[0]["CartQty"] as! Int > 0 {
                             if calculate <  arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double{
                                 lblUpdateQtyMessage.isHidden = false
+                                viewUpdateConst.constant = 200
 
                                 lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
 
@@ -1557,6 +1566,7 @@ extension ProductDetailViewController : UITextFieldDelegate {
 
                             if calculate  <  (arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
                                 lblUpdateQtyMessage.isHidden = false
+                                viewUpdateConst.constant = 200
 
                                 lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
 
@@ -1582,6 +1592,7 @@ extension ProductDetailViewController : UITextFieldDelegate {
                     
                     if arrProductDetail[0]["CartQty"] as! Int > 0 {
                     if (arrProductDetail[0]["CartQty"] as! Int) <  Int(arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+                        viewUpdateConst.constant = 200
 
                         lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
 
@@ -1627,7 +1638,8 @@ extension ProductDetailViewController  {
         }
         
         self.lblUpdateQtyMessage.isHidden = true
-        
+        viewUpdateConst.constant = 165
+
         
             lblUpdateQtyMessage.text = ""
             if arrProductDetail[0]["ProductType"] as! Int == 1 || arrProductDetail[0]["ProductType"] as! Int == 2{
@@ -1641,12 +1653,14 @@ extension ProductDetailViewController  {
                         if calculate > 0 {
 
                             lblUpdateQtyMessage.isHidden = false
+                            viewUpdateConst.constant = 200
 
                         lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
                         }
                         if arrProductDetail[0]["CartQty"] as! Int > 0 {
                         if calculate <  arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double{
                             lblUpdateQtyMessage.isHidden = false
+                            viewUpdateConst.constant = 200
 
                             lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
 
@@ -1662,6 +1676,7 @@ extension ProductDetailViewController  {
 
                         if calculate  <  (arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
                             lblUpdateQtyMessage.isHidden = false
+                            viewUpdateConst.constant = 200
 
                             lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
 
@@ -1687,6 +1702,7 @@ extension ProductDetailViewController  {
                 
                 if arrProductDetail[0]["CartQty"] as! Int > 0 {
                 if (arrProductDetail[0]["CartQty"] as! Int) <  Int(arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double) {
+                    viewUpdateConst.constant = 200
 
                     lblUpdateQtyMessage.text = "\(lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProductDetail[0]["MinOrderQtyOrWeigth"] as! Double)) \(arrProductDetail[0]["ProductSizeType"] as! String)"
 

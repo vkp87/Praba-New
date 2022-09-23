@@ -43,6 +43,8 @@ class MyCartViewController: UIViewController,UICollectionViewDelegate, UICollect
     @IBOutlet weak var btnCancelQty: UIButton!
     @IBOutlet weak var lblKg: UILabel!
     
+    @IBOutlet weak var viewUpdateConst: NSLayoutConstraint! // 200
+
     override func viewDidLoad() {
         super.viewDidLoad()
         txtUpdateQty.textAlignment = .center
@@ -1013,7 +1015,7 @@ extension MyCartViewController : UITextFieldDelegate {
         self.lblUpdateQtyMessage.isHidden = true
         
             self.lblUpdateQtyMessage.text = ""
-
+            viewUpdateConst.constant = 165
         if arrCart[textField.tag - 100].ProductType! == 1 || arrCart[textField.tag - 100].ProductType! == 2{
 
                    if arrCart[textField.tag - 100].isKg! == false {
@@ -1024,12 +1026,14 @@ extension MyCartViewController : UITextFieldDelegate {
                     if calculate > 0 {
 
                     self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                     self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
                     }
                     if arrCart[textField.tag - 100].CartQty ?? 0 > 0 {
                     if calculate <  arrCart[textField.tag - 100].MinOrderQty ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrCart[textField.tag - 100].MinOrderQty ?? 0.0) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1045,6 +1049,7 @@ extension MyCartViewController : UITextFieldDelegate {
 
                     if calculate < arrCart[textField.tag - 100].MinOrderQty ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[textField.tag - 100].MinOrderQty ?? 0.0))\(arrCart[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1063,6 +1068,7 @@ extension MyCartViewController : UITextFieldDelegate {
             if arrCart[textField.tag - 100].CartQty ?? 0 > 0 {
             if arrCart[textField.tag - 100].CartQty ?? 0 <  Int(arrCart[textField.tag - 100].MinOrderQty ?? 0.0) {
                 self.lblUpdateQtyMessage.isHidden = false
+                viewUpdateConst.constant = 200
 
                self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[textField.tag - 100].MinOrderQty ?? 0.0)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1145,6 +1151,7 @@ extension MyCartViewController : UITextFieldDelegate {
             }
         }
             self.lblUpdateQtyMessage.text = ""
+            viewUpdateConst.constant = 165
 
         if arrCart[textField.tag - 100].ProductType! == 1 || arrCart[textField.tag - 100].ProductType! == 2{
 
@@ -1156,12 +1163,14 @@ extension MyCartViewController : UITextFieldDelegate {
                     if calculate > 0 {
 
                     self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                     self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
                     }
                     if arrCart[textField.tag - 100].CartQty ?? 0 > 0 {
                     if calculate <  arrCart[textField.tag - 100].MinOrderQty ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[textField.tag - 100].MinOrderQty ?? 0.0)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1177,6 +1186,7 @@ extension MyCartViewController : UITextFieldDelegate {
 
                     if calculate < arrCart[textField.tag - 100].MinOrderQty ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[textField.tag - 100].MinOrderQty ?? 0.0)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1195,6 +1205,7 @@ extension MyCartViewController : UITextFieldDelegate {
                    if arrCart[textField.tag - 100].CartQty ?? 0 > 0 {
                    if arrCart[textField.tag - 100].CartQty ?? 0 <  Int(arrCart[textField.tag - 100].MinOrderQty ?? 0.0) {
                        self.lblUpdateQtyMessage.isHidden = false
+                       viewUpdateConst.constant = 200
 
                       self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[textField.tag - 100].MinOrderQty ?? 0.0)) \(arrCart[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1240,6 +1251,8 @@ extension MyCartViewController  {
             }
         }
         self.lblUpdateQtyMessage.text = ""
+        viewUpdateConst.constant = 165
+
         if arrCart[sender.tag].ProductType! == 1 || arrCart[sender.tag].ProductType! == 2{
 
                    if arrCart[sender.tag].isKg! == false {
@@ -1250,12 +1263,14 @@ extension MyCartViewController  {
                     if calculate > 0 {
 
                     self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                     self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrCart[sender.tag].ProductSizeType ?? "")"
                     }
                     if arrCart[sender.tag].CartQty ?? 0 > 0 {
                     if calculate <  arrCart[sender.tag].MinOrderQty ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[sender.tag].MinOrderQty ?? 0.0)) \(arrCart[sender.tag].ProductSizeType ?? "")"
                         return
@@ -1272,6 +1287,7 @@ extension MyCartViewController  {
 
                     if calculate < arrCart[sender.tag].MinOrderQty ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[sender.tag].MinOrderQty ?? 0.0)) \(arrCart[sender.tag].ProductSizeType ?? "")"
                         return
@@ -1291,6 +1307,7 @@ extension MyCartViewController  {
                    if arrCart[sender.tag].CartQty ?? 0 > 0 {
                    if arrCart[sender.tag].CartQty ?? 0 <  Int(arrCart[sender.tag].MinOrderQty ?? 0.0) {
                        self.lblUpdateQtyMessage.isHidden = false
+                       viewUpdateConst.constant = 200
 
                       self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrCart[sender.tag].MinOrderQty ?? 0.0)) \(arrCart[sender.tag].ProductSizeType ?? "")"
                     return

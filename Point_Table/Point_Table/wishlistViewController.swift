@@ -46,6 +46,9 @@ class WishlistViewController: UIViewController,UICollectionViewDelegate, UIColle
        @IBOutlet weak var lblKg: UILabel!
        
        @IBOutlet weak var btnBack: UIButton!
+    
+    @IBOutlet weak var viewUpdateConst: NSLayoutConstraint! // 200
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.SetupUI()
@@ -1301,6 +1304,7 @@ extension WishlistViewController : UITextFieldDelegate {
         self.lblUpdateQtyMessage.isHidden = true
         
             self.lblUpdateQtyMessage.text = ""
+            viewUpdateConst.constant = 165
 
         if arrProduct[textField.tag - 100].ProductType! == 1 || arrProduct[textField.tag - 100].ProductType! == 2{
 
@@ -1312,12 +1316,14 @@ extension WishlistViewController : UITextFieldDelegate {
                     if calculate > 0 {
 
                     self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                     self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
                     }
                     if arrProduct[textField.tag - 100].CartQty ?? 0 > 0 {
                     if calculate <  arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1333,6 +1339,7 @@ extension WishlistViewController : UITextFieldDelegate {
 
                     if calculate < arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0))\(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1351,6 +1358,7 @@ extension WishlistViewController : UITextFieldDelegate {
             if arrProduct[textField.tag - 100].CartQty ?? 0 > 0 {
             if arrProduct[textField.tag - 100].CartQty ?? 0 <  Int(arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0) {
                 self.lblUpdateQtyMessage.isHidden = false
+                viewUpdateConst.constant = 200
 
                self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1433,6 +1441,7 @@ extension WishlistViewController : UITextFieldDelegate {
             }
         }
             self.lblUpdateQtyMessage.text = ""
+            viewUpdateConst.constant = 165
 
         if arrProduct[textField.tag - 100].ProductType! == 1 || arrProduct[textField.tag - 100].ProductType! == 2{
 
@@ -1444,12 +1453,14 @@ extension WishlistViewController : UITextFieldDelegate {
                     if calculate > 0 {
 
                     self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                     self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
                     }
                     if arrProduct[textField.tag - 100].CartQty ?? 0 > 0 {
                     if calculate <  arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1465,6 +1476,7 @@ extension WishlistViewController : UITextFieldDelegate {
 
                     if calculate < arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1483,6 +1495,7 @@ extension WishlistViewController : UITextFieldDelegate {
                    if arrProduct[textField.tag - 100].CartQty ?? 0 > 0 {
                    if arrProduct[textField.tag - 100].CartQty ?? 0 <  Int(arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0) {
                        self.lblUpdateQtyMessage.isHidden = false
+                       viewUpdateConst.constant = 200
 
                       self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[textField.tag - 100].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[textField.tag - 100].ProductSizeType ?? "")"
 
@@ -1528,6 +1541,7 @@ extension WishlistViewController  {
             }
         }
         self.lblUpdateQtyMessage.text = ""
+        viewUpdateConst.constant = 165
 
         if arrProduct[sender.tag].ProductType! == 1 || arrProduct[sender.tag].ProductType! == 2{
 
@@ -1539,12 +1553,14 @@ extension WishlistViewController  {
                     if calculate > 0 {
 
                     self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                     self.lblUpdateQtyMessage.text = "Approx weight \(CommonFunctions.appendStringWeighItem(data:calculate)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                     }
                     if arrProduct[sender.tag].CartQty ?? 0 > 0 {
                     if calculate <  arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                         return
@@ -1561,6 +1577,7 @@ extension WishlistViewController  {
 
                     if calculate < arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0 {
                         self.lblUpdateQtyMessage.isHidden = false
+                        viewUpdateConst.constant = 200
 
                         self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                         return
@@ -1580,6 +1597,7 @@ extension WishlistViewController  {
                    if arrProduct[sender.tag].CartQty ?? 0 > 0 {
                    if arrProduct[sender.tag].CartQty ?? 0 <  Int(arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0) {
                        self.lblUpdateQtyMessage.isHidden = false
+                       viewUpdateConst.constant = 200
 
                       self.lblUpdateQtyMessage.text = "\(self.lblUpdateQtyMessage.text ?? "") you need to by minimum \(CommonFunctions.appendStringWeighItem(data:arrProduct[sender.tag].MinOrderQtyOrWeigth ?? 0.0)) \(arrProduct[sender.tag].ProductSizeType ?? "")"
                     return
