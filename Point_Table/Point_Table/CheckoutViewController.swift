@@ -391,7 +391,7 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
 //                        }
                         
                         if self.isApplePay == true {
-                            let merchantIdentifier = "merchant.com.clickfordrop"
+                            let merchantIdentifier = "merchant.com.sangaa.praba"
                             let paymentRequest = Stripe.paymentRequest(withMerchantIdentifier: merchantIdentifier, country: "GB", currency: "GBP")
                             paymentRequest.countryCode = "GB"
 
