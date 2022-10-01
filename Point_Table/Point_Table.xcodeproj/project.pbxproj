@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		22402171ED2938BED3FE0A0F /* Pods_Point_Table.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E34021D7F452427D6B88EF /* Pods_Point_Table.framework */; };
+		71997A8528E362E500DCCFD8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71997A8428E362E500DCCFD8 /* GoogleService-Info.plist */; };
 		9249F07F23C1B73A004DFAB1 /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9249F07E23C1B73A004DFAB1 /* CheckoutViewController.swift */; };
 		92EC351B23C21F81007D22E1 /* OrderAmountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92EC351923C21F81007D22E1 /* OrderAmountCell.xib */; };
 		92EC351C23C21F81007D22E1 /* OrderAmountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EC351A23C21F81007D22E1 /* OrderAmountCell.swift */; };
@@ -68,7 +69,6 @@
 		E13AADAC2324E76300358D1E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13AADAB2324E76300358D1E /* SettingViewController.swift */; };
 		E13AADAF2324E7F200358D1E /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13AADAD2324E7F200358D1E /* SettingCell.swift */; };
 		E13AADB02324E7F200358D1E /* SettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E13AADAE2324E7F200358D1E /* SettingCell.xib */; };
-		E141611C24DBE25200DB3E74 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E141611B24DBE25200DB3E74 /* GoogleService-Info.plist */; };
 		E14A89D823E2160C00B8D0BC /* OrderPramotionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14A89D723E2160C00B8D0BC /* OrderPramotionListViewController.swift */; };
 		E14BBBF3249D1B86005B0B54 /* OrderPromoCode.xib in Resources */ = {isa = PBXBuildFile; fileRef = E14BBBF1249D1B85005B0B54 /* OrderPromoCode.xib */; };
 		E14BBBF4249D1B86005B0B54 /* OrderPromoCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14BBBF2249D1B86005B0B54 /* OrderPromoCode.swift */; };
@@ -177,20 +177,21 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		E1D6489E237B077900939A28 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
 				E1D6489A237B077900939A28 /* PointTableNotificationService.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3D6419C662F5409B4FF1D00F /* Pods-Point_Table.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Point_Table.release.xcconfig"; path = "Pods/Target Support Files/Pods-Point_Table/Pods-Point_Table.release.xcconfig"; sourceTree = "<group>"; };
 		5F68FBE09DC28E0AAFCFADFD /* Pods-Point_Table.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Point_Table.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Point_Table/Pods-Point_Table.debug.xcconfig"; sourceTree = "<group>"; };
+		71997A8428E362E500DCCFD8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		89E34021D7F452427D6B88EF /* Pods_Point_Table.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Point_Table.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9249F07E23C1B73A004DFAB1 /* CheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutViewController.swift; sourceTree = "<group>"; };
 		92EC351923C21F81007D22E1 /* OrderAmountCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderAmountCell.xib; sourceTree = "<group>"; };
@@ -254,7 +255,6 @@
 		E13AADAB2324E76300358D1E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		E13AADAD2324E7F200358D1E /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		E13AADAE2324E7F200358D1E /* SettingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingCell.xib; sourceTree = "<group>"; };
-		E141611B24DBE25200DB3E74 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E14A89D723E2160C00B8D0BC /* OrderPramotionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderPramotionListViewController.swift; sourceTree = "<group>"; };
 		E14BBBF1249D1B85005B0B54 /* OrderPromoCode.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderPromoCode.xib; sourceTree = "<group>"; };
 		E14BBBF2249D1B86005B0B54 /* OrderPromoCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderPromoCode.swift; sourceTree = "<group>"; };
@@ -588,7 +588,7 @@
 		E1381BAF231BAAC300757667 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E141611B24DBE25200DB3E74 /* GoogleService-Info.plist */,
+				71997A8428E362E500DCCFD8 /* GoogleService-Info.plist */,
 				E1381BB0231BAAC300757667 /* Font */,
 			);
 			path = Resources;
@@ -782,11 +782,11 @@
 				E102A4422377F2880067F5EF /* CategoryCell.xib in Resources */,
 				E18244D62625E48000DFAB0E /* Roboto-Bold.ttf in Resources */,
 				E1E18FA02612FA630029E669 /* HomeCellCollection.xib in Resources */,
-				E141611C24DBE25200DB3E74 /* GoogleService-Info.plist in Resources */,
 				E1381BBB231BAAC300757667 /* OpenSans-Regular.ttf in Resources */,
 				E1CE8DBC26791430003F59E6 /* ARIALBD 1.TTF in Resources */,
 				E1381BA4231BA6A200757667 /* Assets.xcassets in Resources */,
 				E10A5093238D57B2004C0D4A /* BrandCell.xib in Resources */,
+				71997A8528E362E500DCCFD8 /* GoogleService-Info.plist in Resources */,
 				E1C3887524F53CEB001B7B49 /* OrderSummaryDetail.xib in Resources */,
 				E1381BB9231BAAC300757667 /* OpenSans-Light.ttf in Resources */,
 				E1168964249E6EB200609418 /* SearchProduct.xib in Resources */,
@@ -1160,7 +1160,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Point_Table/Point_Table.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = FM5HH4RZTK;
@@ -1171,12 +1171,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sangaa.praba;
 				PRODUCT_NAME = "Click for Drop";
-				PROVISIONING_PROFILE_SPECIFIER = "Praba Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "Praba Appstore";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1187,7 +1187,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Point_Table/Point_Table.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = FM5HH4RZTK;
@@ -1198,19 +1198,19 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sangaa.praba;
 				PRODUCT_NAME = "Click for Drop";
-				PROVISIONING_PROFILE_SPECIFIER = "Praba Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "Praba Appstore";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		E1D6489B237B077900939A28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = FM5HH4RZTK;
@@ -1223,7 +1223,7 @@
 				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sangaa.praba.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Praba Dev Push notification";
+				PROVISIONING_PROFILE_SPECIFIER = "Praba App Store Push notification";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1233,7 +1233,7 @@
 		E1D6489C237B077900939A28 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = FM5HH4RZTK;
@@ -1246,7 +1246,7 @@
 				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sangaa.praba.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Praba Dev Push notification";
+				PROVISIONING_PROFILE_SPECIFIER = "Praba App Store Push notification";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

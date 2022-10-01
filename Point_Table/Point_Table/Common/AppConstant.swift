@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 
-public let Google_Key = "AIzaSyCtfzBYm86_zgoW0xZNcB_LwvGbYXrPWl8"
-public let Stripe_Live_Key = "pk_test_51It01vC6FRxOI6gySTInPRqiulf3Jt3skEW7iziyQWNnY4wcdTtsimClmbeLyFzDd7opyrstbf16L7v0NMYOKUd200eNABn6Td"
+public let Google_Key = "AIzaSyCF2m69dkFiV4TBU-ZhX1N7RLOESjGZIAA"
+public let Stripe_Live_Key = "pk_live_51It01vC6FRxOI6gyEV3o9NLKzuR0Oni1YAH8j9Zcy81JRN1ldGlGuBN4nQDvyfVo2UDKUkysFXbauYER7yVo4KY600AQmWthWy"
 public let Stripe_Test_Key = "pk_test_XLbzYEXOWVnphE4qNXnsrnIs00NlvqoIlV"
 
 //public let Font_Semibold = "OpenSans-Semibold"
