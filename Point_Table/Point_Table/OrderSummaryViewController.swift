@@ -134,10 +134,15 @@ class OrderSummaryViewController: UIViewController {
         
         //viewStore.isHidden = true
         btnCod.isHidden = true
+        imgCod.isHidden = true
+        lbl2.isHidden = true
+        //
         
         intDeliveryType = 0
         if objApplication.isStoreCollectionEnable == true {
             btnCod.isHidden = false
+            imgCod.isHidden = false
+            lbl2.isHidden = false
             constheight.constant = 100
             //viewStore.isHidden = false
             constlableheight.constant = 50
