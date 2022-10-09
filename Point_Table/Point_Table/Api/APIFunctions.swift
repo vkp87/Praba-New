@@ -41,6 +41,8 @@ enum API : String {
 
     
     case removetoken = "api/user/removetoken"
+    
+    case delete_account = "api/user/deleteuser"
 
     case validatemobileno = "api/user/validatemobileno"
 

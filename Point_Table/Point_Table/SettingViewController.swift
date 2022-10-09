@@ -578,9 +578,140 @@ extension SettingViewController :UITableViewDataSource {
             
         }else if indexPath.row == 12 {
             
-            print("Delete Account")
-             
-         }else if indexPath.row == 13 {
+            let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
+            let alertError = EMAlertController(icon: nil, title: appName, message: "Are you sure you wan't to delete account?")
+            alertError.addAction(EMAlertAction(title: "Ok", style: .normal, action: {
+                
+                if let userdict = CommonFunctions.getUserDefaultObjectForKey(key: UserDefaultsKey.USER) as? [String:Any] {
+                    
+                    let user = UserModel(json: userdict)
+                    
+                    if Reachability.isConnectedToNetwork() {
+                        
+                        var param  = [String : Any]()
+                        
+                        
+                        param["Device"] = "iOS"
+                        param["DeviceType"] = 2
+
+                        param["UserId"] = user.UserId
+                        
+                        
+                        APIManager.requestPostJsonEncoding(.delete_account, isLoading: true, params: param, headers: [:],success: { (JSONResponse)  -> Void in
+                            
+                            let Dict = JSONResponse as! [String:Any]
+                            print(Dict)
+                            
+                            let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
+                            let alertError = EMAlertController(icon: nil, title: appName, message: Message.successdelete)
+                            alertError.addAction(EMAlertAction(title: "Ok", style: .normal, action: {
+                                CommonFunctions.removeUserDefaultForKey(key: UserDefaultsKey.USER)
+                                //CommonFunctions.removeUserDefaultForKey(key: UserDefaultsKey.StoreID)
+
+                                CommonFunctions.setUserDefault(object: false as AnyObject, key: UserDefaultsKey.FINGER)
+                                
+                                UITabBar.appearance().tintColor = selected_tab_color
+                                
+                                let storyBaord = UIStoryboard(name: "Home", bundle: nil)
+                                let vc1 = storyBaord.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                                let navi1 = UINavigationController(rootViewController: vc1)
+                                navi1.tabBarItem.title = "Shop"
+                                navi1.tabBarItem.image = UIImage(named: "shopseleted")
+                                navi1.tabBarItem.selectedImage = UIImage(named: "shop")
+                                
+                                
+                                
+                                let vc2 = storyBaord.instantiateViewController(withIdentifier: "PramotionCategoryViewController") as! PramotionCategoryViewController
+                                vc2.isbackhide = true
+                                let navi2 = UINavigationController(rootViewController: vc2)
+                                navi2.tabBarItem.title = "Offers"
+                                navi2.tabBarItem.image = UIImage(named: "offers")
+                                navi2.tabBarItem.selectedImage = UIImage(named: "offersselected")
+                                
+                                
+                                let vc3 = storyBaord.instantiateViewController(withIdentifier: "MyCartViewController") as! MyCartViewController
+                                vc3.isbackhide = true
+                                let navi3 = UINavigationController(rootViewController: vc3)
+                                navi3.tabBarItem.title = "Cart"
+                                navi3.tabBarItem.image = UIImage(named: "cart")
+                                navi3.tabBarItem.selectedImage = UIImage(named: "cartselected")
+                                
+                                
+                                
+                                let vc4 = storyBaord.instantiateViewController(withIdentifier: "WishlistViewController") as! WishlistViewController
+                                vc4.isbackhide = true
+                                let navi4 = UINavigationController(rootViewController: vc4)
+                                navi4.tabBarItem.title = "Wishlist"
+                                navi4.tabBarItem.image = UIImage(named: "wishlists")
+                                navi4.tabBarItem.selectedImage = UIImage(named: "wishlistselected")
+                                
+                                
+                                
+                                let vc5 = storyBaord.instantiateViewController(withIdentifier: "SettingViewController") as! SettingViewController
+                                vc5.isbackhide = true
+                                let navi5 = UINavigationController(rootViewController: vc5)
+                                navi5.tabBarItem.title = "Setting"
+                                navi5.tabBarItem.image = UIImage(named: "profile")
+                                navi5.tabBarItem.selectedImage = UIImage(named: "profileselected")
+                                
+                                
+                                
+                                /*  let vc = storyBaord.instantiateViewController(withIdentifier: "WishlistViewController") as! WishlistViewController
+                                 vc.shopId = arrShope[0].BusinessId ?? 0
+                                 self.navigationController?.pushViewController(vc, animated: true)
+                                 
+                                 
+                                 let vc2 = storyBaord.instantiateViewController(withIdentifier: "MyCartViewController") as! MyCartViewController
+                                 vc.shopId = arrShope[0].BusinessId ?? 0
+                                 self.navigationController?.pushViewController(vc, animated: true)
+                                 
+                                 
+                                 let storyBaord = UIStoryboard(name: "Home", bundle: nil)
+                                 let vc = storyBaord.instantiateViewController(withIdentifier: "PramotionCategoryViewController") as! PramotionCategoryViewController
+                                 vc.arrShope.removeAll()
+                                 
+                                 vc.arrShope.append(self.arrBanner[0])
+                                 
+                                 self.navigationController?.pushViewController(vc, animated: true)*/
+                                
+                                
+                                navi1.isNavigationBarHidden = true
+                                navi2.isNavigationBarHidden = true
+                                navi3.isNavigationBarHidden = true
+                                navi4.isNavigationBarHidden = true
+                                navi5.isNavigationBarHidden = true
+
+                                let tabBarController = UITabBarController()
+                                tabBarController.viewControllers = [navi1, navi2,navi3,navi4,navi5]
+                                UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: unselected_tab_color], for: .normal)
+                                
+                                UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selected_tab_color], for: .selected)
+                                NotificationCenter.default.post(name: Notification.Name("REFRESHLOGINAFTERDATA"), object: nil, userInfo: nil)
+
+                                objApplication.window?.rootViewController = tabBarController
+                            }))
+                            rootViewController.present(alertError, animated: true, completion: nil)
+                            
+                            
+                            
+                            
+                        }) { (error) -> Void in
+                            //   CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                        }
+                    } else {
+                        CommonFunctions.showMessage(message: Message.internetnotconnected)
+                    }
+                }
+                
+                
+            }))
+            alertError.addAction(EMAlertAction(title: "Cancel", style: .normal, action: {
+                
+            }))
+            rootViewController.present(alertError, animated: true, completion: nil)
+            
+           
+        }else if indexPath.row == 13 {
             
             let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
             let alertError = EMAlertController(icon: nil, title: appName, message: "Are you sure to logout?")

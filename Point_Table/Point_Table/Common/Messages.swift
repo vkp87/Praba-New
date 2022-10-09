@@ -37,7 +37,8 @@ public struct Message
     
     public static let successlogout = "Successfully Log out in your device."
 
-    
+    public static let successdelete = "Successfully delete your account."
+
     public static let fname = "Please Enter First Name"
     public static let lname = "Please Enter Last Name"
     public static let email = "Please Enter Email"
