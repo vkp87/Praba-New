@@ -82,7 +82,7 @@ class SettingViewController: UIViewController,UINavigationControllerDelegate,UII
             tblStore.reloadData()
         }
         if CommonFunctions.userLoginData() == true {
-            arrSetting = ["","\(strName)", "Set Fingerprint", "Update Password", "User Profile", "Shipping address", "Billing address" ,"My Orders", "Third Party","Point History","Privacy Policy", "Terms And Conditions", "Delete Account", "Logout", "Version " + (appVersion ?? "")]
+            arrSetting = ["","\(strName)", "Set Fingerprint", "Update Password", "User Profile", "Shipping address", "Billing address" ,"My Orders", "Third Party","Point History","Privacy Policy", "Terms And Conditions", "Logout",  "Delete Account", "Version " + (appVersion ?? "")]
         } else {
             arrSetting = ["\(strName)","Third Party", "Privacy Policy", "Terms And Conditions","Version " + (appVersion ?? "")]
             
@@ -130,7 +130,7 @@ class SettingViewController: UIViewController,UINavigationControllerDelegate,UII
               tblStore.reloadData()
           }
           if CommonFunctions.userLoginData() == true {
-              arrSetting = ["","\(strName)", "Set Fingerprint", "Update Password", "User Profile", "Shipping address", "Billing address" ,"My Orders", "Third Party","Point History","Privacy Policy", "Terms And Conditions", "Delete Account","Logout", "Version " + (appVersion ?? "")]
+              arrSetting = ["","\(strName)", "Set Fingerprint", "Update Password", "User Profile", "Shipping address", "Billing address" ,"My Orders", "Third Party","Point History","Privacy Policy", "Terms And Conditions", "Logout", "Delete Account", "Version " + (appVersion ?? "")]
           } else {
               arrSetting = ["\(strName)","Third Party", "Privacy Policy", "Terms And Conditions","Version " + (appVersion ?? "")]
               
@@ -264,7 +264,7 @@ class SettingViewController: UIViewController,UINavigationControllerDelegate,UII
                                  }
                                  }
                                  if CommonFunctions.userLoginData() == true {
-                                     self.arrSetting = ["","\(strName)", "Set Fingerprint", "Update Password", "User Profile", "Shiping address", "Billing address" ,"My Orders", "Third Party","Point History","Privacy Policy", "Terms And Conditions", "Delete Account", "Logout", "Version " + (appVersion ?? "")]
+                                     self.arrSetting = ["","\(strName)", "Set Fingerprint", "Update Password", "User Profile", "Shiping address", "Billing address" ,"My Orders", "Third Party","Point History","Privacy Policy", "Terms And Conditions", "Logout", "Delete Account", "Version " + (appVersion ?? "")]
                                  } else {
                                      self.arrSetting = ["\(strName)","Third Party", "Privacy Policy", "Terms And Conditions","Version " + (appVersion ?? "")]
                                      
@@ -435,7 +435,7 @@ class SettingViewController: UIViewController,UINavigationControllerDelegate,UII
                }
                }
                if CommonFunctions.userLoginData() == true {
-                   arrSetting = ["","\(strName)", "Set Fingerprint", "Update Password", "User Profile", "Shiping address", "Billing address" ,"My Orders", "Third Party","Point History","Privacy Policy", "Terms And Conditions","Delete Account", "Logout", "Version " + (appVersion ?? "")]
+                   arrSetting = ["","\(strName)", "Set Fingerprint", "Update Password", "User Profile", "Shiping address", "Billing address" ,"My Orders", "Third Party","Point History","Privacy Policy", "Terms And Conditions", "Logout", "Delete Account", "Version " + (appVersion ?? "")]
                } else {
                    arrSetting = ["\(strName)","Third Party", "Privacy Policy", "Terms And Conditions","Version " + (appVersion ?? "")]
                    
@@ -576,10 +576,10 @@ extension SettingViewController :UITableViewDataSource {
                 UIApplication.shared.open(url)
             }
             
-        }else if indexPath.row == 12 {
+        }else if indexPath.row == 13 {
             
             let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
-            let alertError = EMAlertController(icon: nil, title: appName, message: "Are you sure you wan't to delete account?")
+            let alertError = EMAlertController(icon: nil, title: appName, message: "Are you sure you wan't to delete your account from Praba App?")
             alertError.addAction(EMAlertAction(title: "Ok", style: .normal, action: {
                 
                 if let userdict = CommonFunctions.getUserDefaultObjectForKey(key: UserDefaultsKey.USER) as? [String:Any] {
@@ -711,7 +711,7 @@ extension SettingViewController :UITableViewDataSource {
             rootViewController.present(alertError, animated: true, completion: nil)
             
            
-        }else if indexPath.row == 13 {
+        }else if indexPath.row == 12 {
             
             let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
             let alertError = EMAlertController(icon: nil, title: appName, message: "Are you sure to logout?")
