@@ -483,17 +483,17 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
                     if Dict["custom_code"] as! Int == 1000 {
                         //let data = Dict["data"] as! [String: Any]
                         //if data["IsSuccess"] as! Int == 1 {
-                            let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
-                            let alertError = EMAlertController(icon: nil, title: appName, message: Message.orderplacesuc)
-                            alertError.addAction(EMAlertAction(title: "Ok", style: .normal, action: {
-                                let storyBaord = UIStoryboard(name: "Home", bundle: nil)
-                                let vc = storyBaord.instantiateViewController(withIdentifier: "MyOrderListViewControler") as! MyOrderListViewControler
-                                vc.shopId = self.shopId
-                                vc.isBack = false
-                                self.navigationController?.pushViewController(vc, animated: true)
-                                
-                            }))
-                            rootViewController.present(alertError, animated: true, completion: nil)
+//                            let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
+//                            let alertError = EMAlertController(icon: nil, title: appName, message: Message.orderplacesuc)
+//                            alertError.addAction(EMAlertAction(title: "Ok", style: .normal, action: {
+//                                let storyBaord = UIStoryboard(name: "Home", bundle: nil)
+//                                let vc = storyBaord.instantiateViewController(withIdentifier: "MyOrderListViewControler") as! MyOrderListViewControler
+//                                vc.shopId = self.shopId
+//                                vc.isBack = false
+//                                self.navigationController?.pushViewController(vc, animated: true)
+//                                
+//                            }))
+//                            rootViewController.present(alertError, animated: true, completion: nil)
                         //}
 //                        else {
 //                            CommonFunctions.showMessage(message: "Payment failed. Order not placed.")
@@ -503,7 +503,7 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
                     }
                                         
                 }) { (error) -> Void in
-                   // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                    CommonFunctions.showMessage(message: "\(error.localizedDescription)")
                 }
             } else {
                 CommonFunctions.showMessage(message: Message.internetnotconnected)
