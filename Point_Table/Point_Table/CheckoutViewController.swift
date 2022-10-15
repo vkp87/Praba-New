@@ -481,23 +481,22 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
                     print(Dict)
                     
                     if Dict["custom_code"] as! Int == 1000 {
-                        //let data = Dict["data"] as! [String: Any]
-                        //if data["IsSuccess"] as! Int == 1 {
-//                            let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
-//                            let alertError = EMAlertController(icon: nil, title: appName, message: Message.orderplacesuc)
-//                            alertError.addAction(EMAlertAction(title: "Ok", style: .normal, action: {
-//                                let storyBaord = UIStoryboard(name: "Home", bundle: nil)
-//                                let vc = storyBaord.instantiateViewController(withIdentifier: "MyOrderListViewControler") as! MyOrderListViewControler
-//                                vc.shopId = self.shopId
-//                                vc.isBack = false
-//                                self.navigationController?.pushViewController(vc, animated: true)
-//                                
-//                            }))
-//                            rootViewController.present(alertError, animated: true, completion: nil)
-                        //}
-//                        else {
-//                            CommonFunctions.showMessage(message: "Payment failed. Order not placed.")
-//                        }
+                        if isSuccess == true {
+                            let rootViewController: UIViewController = UIApplication.shared.windows[0].rootViewController!
+                            let alertError = EMAlertController(icon: nil, title: appName, message: Message.orderplacesuc)
+                            alertError.addAction(EMAlertAction(title: "Ok", style: .normal, action: {
+                                let storyBaord = UIStoryboard(name: "Home", bundle: nil)
+                                let vc = storyBaord.instantiateViewController(withIdentifier: "MyOrderListViewControler") as! MyOrderListViewControler
+                                vc.shopId = self.shopId
+                                vc.isBack = false
+                                self.navigationController?.pushViewController(vc, animated: true)
+                                
+                            }))
+                            rootViewController.present(alertError, animated: true, completion: nil)
+                        }
+                        else {
+                            CommonFunctions.showMessage(message: "Payment failed. Order not placed.")
+                        }
                     } else {
                         CommonFunctions.showMessage(message: "\(Dict["message"])")
                     }
