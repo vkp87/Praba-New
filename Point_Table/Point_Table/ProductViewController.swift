@@ -1232,13 +1232,20 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
            if self.isLoading {
                return CGSize.zero
            } else {
-               return CGSize(width: collectionView.bounds.size.width, height: 55)
+               if arrProduct.count > 0 {
+                   return CGSize(width: collectionView.bounds.size.width, height: 55)
+
+               } else {
+                   return CGSize.zero
+
+               }
            }
        }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionFooter {
             let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "loadingresuableviewid", for: indexPath) as! LoadingReusableView
             loadingView = aFooterView
+            
             loadingView?.backgroundColor = UIColor.clear
             return aFooterView
         }
@@ -1247,15 +1254,25 @@ class ProductViewController: UIViewController,UICollectionViewDelegate, UICollec
 
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter {
-            self.loadingView?.activityIndicator.startAnimating()
-            
+            if arrProduct.count > 0 {
+                self.loadingView?.activityIndicator.startAnimating()
+                
+            } else {
+                self.loadingView?.activityIndicator.stopAnimating()
+
+            }
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter {
-            self.loadingView?.activityIndicator.stopAnimating()
-        }
+            if arrProduct.count > 0 {
+                self.loadingView?.activityIndicator.stopAnimating()
+
+            } else {
+                self.loadingView?.activityIndicator.stopAnimating()
+
+            }        }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
