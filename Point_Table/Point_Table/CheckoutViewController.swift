@@ -82,6 +82,9 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
     var isApplePay = false
     
     var isDelivery = false
+    var symboll = ""
+
+    var calculateDistance = 0.0
 
     var totamnt = ""
     var discont = ""
@@ -120,6 +123,10 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
             //constTop.constant = 16
 
         }
+        if let symbol = CommonFunctions.getUserDefault(key:UserDefaultsKey.Currency) as? String {
+            symboll = symbol
+        }
+        
         if(!DeviceType.isIPad) {
             IQKeyboardManager.shared.enable = false
         }
@@ -216,6 +223,8 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
         lblTerm.attributedText = attribute
         
         getCodAvailable()
+        
+        getOrderSummary()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -237,6 +246,93 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
+    }
+    
+    func getOrderSummary() {
+      
+        
+        if let userdict = CommonFunctions.getUserDefaultObjectForKey(key: UserDefaultsKey.USER) as? [String:Any] {
+            let user = UserModel(json: userdict)
+            if Reachability.isConnectedToNetwork() {
+                
+                var param  = [String : Any]()
+                param["ShopId"] = shopId
+                param["UserId"] = user.UserId
+                param["DeliveryType"] = UserAddressId == 0 ? 1 : 0
+                param["Distance"] = calculateDistance
+
+                APIManager.requestPostJsonEncoding(.getOrderSummary, isLoading: true, params: param, headers: [:],success: { (JSONResponse)  -> Void in
+                    
+
+                   
+                    
+                   
+                    
+                    let Dict = JSONResponse as! [String:Any]
+                    if let data = Dict["data"] as? [String:Any] {
+                        
+                       
+                       
+                        
+                        
+                                               
+                                               
+
+                        self.TotalAmount = data["Total"] as! Double
+                        
+                        
+                        let subTotal = data["SubTotal"] as! Double
+
+                        let totalDiscount = data["TotalDiscount"] as! Double
+                        
+                        let deliveryCharges = data["DeliveryCharges"] as! Double
+                        
+                        self.totamnt = self.symboll + "\((CommonFunctions.appendString(data: subTotal)))"
+                        self.discont = self.symboll + "\((CommonFunctions.appendString(data: totalDiscount)))"
+                        self.deliverych = self.symboll + "\((CommonFunctions.appendString(data: deliveryCharges)))"
+                        self.payblamnt = self.symboll + "\((CommonFunctions.appendString(data: self.TotalAmount)))"
+                        
+                        
+                      
+
+                        
+                        self.lblTotalAmount.text = self.totamnt
+                        self.lblDiscount.text = self.discont
+                        self.lblDeliverycharge.text = self.deliverych
+                        self.lblPaybleAmount.text = self.payblamnt
+                        
+                        
+                        if deliveryCharges > 0 {
+                            self.lblTitleDeliverycharge.isHidden = false
+                            self.lblDeliverycharge.isHidden = false
+
+                            self.constDelivryHeight.constant = 20
+                            self.constDelivryTop.constant = 5
+                            self.constTitleDelivryHeight.constant = 20
+                            self.constTitleDelivryTop.constant = 5
+                       
+                        } else {
+                            self.lblTitleDeliverycharge.isHidden = true
+                            self.lblDeliverycharge.isHidden = true
+                            
+                            self.constDelivryHeight.constant = 0
+                            self.constDelivryTop.constant = 0
+                            self.constTitleDelivryHeight.constant = 0
+                            self.constTitleDelivryTop.constant = 0
+
+                        }
+                        
+                       
+                    }
+                    
+                }) { (error) -> Void in
+                   // CommonFunctions.showMessage(message: "\(error.localizedDescription)")
+                }
+            } else {
+                CommonFunctions.showMessage(message: Message.internetnotconnected)
+            }
+        }
+        
     }
     func getCodAvailable() {
         
@@ -375,6 +471,8 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
                 if let long = CommonFunctions.getUserDefault(key: "SavedLong") as? Double {
                     param["Longitude"] = long
                 }
+                param["Distance"] = calculateDistance
+
                 
                 
                 APIManager.requestPostJsonEncoding(.placeorder, isLoading: true, params: param, headers: [:],success: { (JSONResponse)  -> Void in
@@ -551,7 +649,8 @@ class CheckoutViewController: UIViewController, STPAuthenticationContext,STPAppl
                 if let long = CommonFunctions.getUserDefault(key: "SavedLong") as? Double {
                     param["Longitude"] = long
                 }
-                
+                param["Distance"] = calculateDistance
+
                 
                 APIManager.requestPostJsonEncoding(.placeorder, isLoading: true, params: param, headers: [:],success: { (JSONResponse)  -> Void in
                     

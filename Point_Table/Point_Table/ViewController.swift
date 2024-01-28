@@ -96,8 +96,10 @@ class ViewController: UIViewController {
     
     func SetupUI() -> Void {
         
-       // txtUser.text = "1234567891"
-       //  txtPassword.text = "1234"
+      
+        
+        
+        
         txtUser.tag = 101
         txtPassword.tag = 102
         

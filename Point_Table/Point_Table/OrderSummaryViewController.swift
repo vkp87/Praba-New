@@ -292,11 +292,19 @@ class OrderSummaryViewController: UIViewController {
         vc.TotalAmount = self.total
         vc.slotId = self.sId
         vc.strPromocode = strPromoCode
-        
+        vc.calculateDistance = distance
+
         if intDeliveryType == 1 {
             vc.isDelivery = true
         } else {
-            vc.isDelivery = false
+            if deliveryCharges > 0 {
+                vc.isDelivery = false
+
+           
+            } else {
+                vc.isDelivery = true
+
+            }
         }
         
         
@@ -1003,12 +1011,26 @@ extension OrderSummaryViewController :UITableViewDelegate, UITableViewDataSource
                 cell.constValue.constant = 0
                 cell.constTitleTop.constant = 0
             } else {
-                cell.lblDeliveryCharges.isHidden = false
-                cell.lblTitleDelivery.isHidden = false
-                cell.constTitle.constant = 20
-                cell.constValue.constant = 20
-                cell.constTitleTop.constant = 10
+                if deliveryCharges > 0 {
+                    cell.lblDeliveryCharges.isHidden = false
+                    cell.lblTitleDelivery.isHidden = false
+                    cell.constTitle.constant = 20
+                    cell.constValue.constant = 20
+                    cell.constTitleTop.constant = 10
+                    
+               
+                } else {
+                    cell.lblDeliveryCharges.isHidden = true
+                    cell.lblTitleDelivery.isHidden = true
+                    
+                    cell.constTitle.constant = 0
+                    cell.constValue.constant = 0
+                    cell.constTitleTop.constant = 0
+                }
+               
             }
+            
+            
             
             cell.lblSubTotal.text = symboll + "\((CommonFunctions.appendString(data: subTotal)))"
             cell.lblDiscount.text = symboll + "\((CommonFunctions.appendString(data: totalDiscount)))"
@@ -1123,8 +1145,14 @@ extension OrderSummaryViewController :UITableViewDelegate, UITableViewDataSource
             if intDeliveryType == 1 {
                 return 140 - 30
             } else {
-                return 140
+                if deliveryCharges > 0 {
+                    return 140
+                } else {
+                    return 140 - 30
+
+                }
             }
+            
         } else if indexPath.row == 5 {
             return 100
             
